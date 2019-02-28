@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Catatan Keuangan</string>
+    <string name="total_pengeluaran_kamu">Total pengeluaran kamu:</string>
+    <string name="rp_0">Rp.0</string>
+    <string name="total_pemasukan_kamu">Total pemasukan kamu:</string>
+    <string name="masukan_judul">Masukan judul</string>
+    <string name="ex_belanja">ex: Belanja</string>
+    <string name="masukan_jumlah_uang">Masukan jumlah uang</string>
+    <string name="ex_1_000_000">ex: 1.000.000</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="pemasukan_kamu">Pemasukan kamu</string>
+    <string name="pengluaran_kamu">Pengluaran kamu</string>
+    <string name="saldo_kamu">Saldo kamu</string>
+    <string name="saldo">Saldo</string>
+    <string name="reset">Reset</string>
+</resources>
