@@ -2,6 +2,7 @@ package com.nurram.project.catatankeuangan.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,12 @@ import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter.convertAndFormat
 import kotlinx.android.synthetic.main.item_row.view.*
 
-class MainAdapter(
+class RiwayatAdapter(
     private val context: Context,
     private var datas: MutableList<Record>?,
+    private val fromGraph: Boolean,
     private val clickUtils: (Record) -> Unit
-) : RecyclerView.Adapter<MainAdapter.MainHolder>() {
+) : RecyclerView.Adapter<RiwayatAdapter.MainHolder>() {
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MainHolder {
@@ -33,14 +35,14 @@ class MainAdapter(
         }
     }
 
-    fun setData(records: MutableList<Record>) {
-        datas = records
-        notifyDataSetChanged()
-    }
+    fun setData(records: MutableList<Record>?) {
+        if (records == null) {
+            datas?.clear()
+        } else {
+            datas = records
+        }
 
-    fun removeAt(position: Int) {
-        datas?.removeAt(position)
-        notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
     inner class MainHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -54,11 +56,18 @@ class MainAdapter(
             view.item_tanggal.text = record.tanggal
             view.item_delete.setOnClickListener { clickUtils(record) }
 
+            if (!fromGraph) {
+                view.item_delete.setOnClickListener { clickUtils(record) }
+            } else {
+                view.item_delete.visibility = View.GONE
+            }
+
             if (record.keterangan == "pemasukan") {
-                view.item_color.setBackgroundColor(context.resources.getColor(R.color.colorAccent))
-                view.item_uang.setTextColor(context.resources.getColor(R.color.colorAccent))
+                view.item_color.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+                view.item_uang.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             } else {
                 view.item_color.setBackgroundColor(Color.RED)
+                view.item_uang.setTextColor(Color.RED)
             }
         }
     }

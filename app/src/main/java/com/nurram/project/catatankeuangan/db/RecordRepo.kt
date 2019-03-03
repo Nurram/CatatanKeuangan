@@ -12,6 +12,14 @@ class RecordRepo(application: Application) {
         return recordDao?.getAllData()
     }
 
+    fun getAllPemasukan(): LiveData<List<Record>>? {
+        return recordDao?.getAllPemasukan()
+    }
+
+    fun getAllPengeluaran(): LiveData<List<Record>>? {
+        return recordDao?.getAllPengeluaran()
+    }
+
     fun getJumlahPengeluaran(): LiveData<Int>? {
         return recordDao?.getJumlahPengeluaran()
     }
@@ -28,7 +36,7 @@ class RecordRepo(application: Application) {
         recordDao?.let { DeleteAsync(it, "all").execute() }
     }
 
-    fun deleteRecord(record: Record){
+    fun deleteRecord(record: Record) {
         recordDao?.let { DeleteAsync(it, "").execute(record) }
     }
 
@@ -45,9 +53,9 @@ class RecordRepo(application: Application) {
         private val dao = recordDAO
 
         override fun doInBackground(vararg params: Record?): Void? {
-            if (key == "all"){
+            if (key == "all") {
                 dao.deleteAll()
-            }else{
+            } else {
                 params[0]?.let { dao.delete(it) }
             }
 

@@ -2,9 +2,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:elevation="16dp"
         android:foreground="?attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <View android:id="@+id/item_color"
                 android:layout_width="5dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/holo_red_light"/>
+                android:background="@android:color/holo_green_dark"/>
 
         <ImageView
                 android:id="@+id/item_delete"
@@ -52,7 +52,7 @@
         <TextView android:id="@+id/item_uang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@android:color/holo_green_dark"
                 android:maxLines="1"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_graph"
+            android:title="@string/graph"
+            android:icon="@drawable/ic_show_chart_white_24dp"
+            app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/action_saldo"
             android:title="@string/saldo"
             android:icon="@drawable/ic_account_balance_wallet_white_24dp"
@@ -9,5 +15,5 @@
     <item android:id="@+id/action_reset"
             android:title="@string/reset"
             android:icon="@drawable/ic_autorenew_white_24dp"
-            app:showAsAction="always"/>
+            app:showAsAction="ifRoom"/>
 </menu>

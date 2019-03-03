@@ -5,7 +5,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 
-@Database(entities = [Record::class], version = 1)
+@Database(entities = [Record::class, Hutang::class], version = 1)
 abstract class RecordDb : RoomDatabase() {
     abstract val recordDao: RecordDAO
 

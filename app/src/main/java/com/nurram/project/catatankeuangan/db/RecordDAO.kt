@@ -15,12 +15,33 @@ interface RecordDAO {
     @Delete
     fun delete(record: Record)
 
-    @Query("select * from record_table order by tanggal asc")
+    @Query("select * from record_table order by id desc")
     fun getAllData(): LiveData<List<Record>>
+
+    @Query("select * from record_table where keterangan = 'pengeluaran' order by id desc")
+    fun getAllPengeluaran(): LiveData<List<Record>>
+
+    @Query("select * from record_table where keterangan = 'pemasukan' order by id desc")
+    fun getAllPemasukan(): LiveData<List<Record>>
 
     @Query("select sum(jumlah) from record_table where keterangan = 'pengeluaran'")
     fun getJumlahPengeluaran(): LiveData<Int>
 
     @Query("select sum(jumlah) from record_table where keterangan = 'pemasukan'")
     fun getJumlahPemasukan(): LiveData<Int>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertHutang(hutang: Hutang)
+
+    @Query("Delete from hutang_table")
+    fun deleteAllHutang()
+
+    @Delete
+    fun deleteHutang(hutang: Hutang)
+
+    @Query("select * from hutang_table order by id desc")
+    fun getAllDataHutang(): LiveData<List<Hutang>>
+
+    @Query("select sum(jumlah) from hutang_table")
+    fun getJumlahHutang(): LiveData<Int>
 }

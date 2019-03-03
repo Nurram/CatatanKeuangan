@@ -2,17 +2,19 @@ package com.nurram.project.catatankeuangan
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.nurram.project.catatankeuangan.db.Hutang
 import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter
-import com.nurram.project.catatankeuangan.utils.MainAdapter
+import com.nurram.project.catatankeuangan.utils.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
 import kotlinx.android.synthetic.main.saldo_dialog_layout.view.*
@@ -21,10 +23,11 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
+    private lateinit var adapter: PagerAdapter
 
     private var jumlahPengeluaran = 0
-    private var jumlahSaldo = 0
-    private lateinit var adapter: MainAdapter
+    private var jumlahPemasukan = 0
+    private var jumlahHutang = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +36,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = null
 
         if (savedInstanceState != null) {
-            jumlahSaldo = savedInstanceState.getInt("jumlahSaldo")
+            jumlahPemasukan = savedInstanceState.getInt("jumlahPemasukan")
             jumlahPengeluaran = savedInstanceState.getInt("jumlahPengeluaran")
+            jumlahHutang = savedInstanceState.getInt("jumlahHutang")
         }
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        populateRecycler()
         viewModel.getJumlahPengeluaran()?.observe(this, Observer {
             if (it != null) {
                 main_jumlah_pengeluaran.text = CurencyFormatter.convertAndFormat(it)
@@ -51,22 +54,55 @@ class MainActivity : AppCompatActivity() {
         viewModel.getJumlahPemasukan()?.observe(this, Observer {
             if (it != null) {
                 main_jumlah_pemasukan.text = CurencyFormatter.convertAndFormat(it)
-                jumlahSaldo = it
+                jumlahPemasukan = it
             } else {
                 main_jumlah_pemasukan.text = CurencyFormatter.convertAndFormat(0)
             }
         })
 
-        viewModel.getAllDatas()?.observe(this, Observer {
-            it?.let { it1 -> adapter.setData(it1.toMutableList()) }
+        viewModel.getJumlahHutang()?.observe(this, Observer {
+            if (it != null) {
+                jumlahHutang = it
+            }
         })
 
-        main_fab.setOnClickListener { showAddDataDialog() }
+        adapter = PagerAdapter(supportFragmentManager)
+        main_view_pager.adapter = adapter
+        main_view_pager.offscreenPageLimit = 3
+        main_tab_layout.setupWithViewPager(main_view_pager)
+        main_view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(p0: Int) {}
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+                if (p0 == 1) {
+                    riwayat_fab.hide()
+                    hutang_fab.show()
+                } else {
+                    riwayat_fab.show()
+                    hutang_fab.hide()
+                }
+            }
+
+            override fun onPageSelected(p0: Int) {
+                if (p0 == 0) {
+                    riwayat_fab.hide()
+                    hutang_fab.show()
+                } else {
+                    riwayat_fab.show()
+                    hutang_fab.hide()
+                }
+            }
+
+        })
+
+        riwayat_fab.setOnClickListener { showAddDataDialog() }
+        hutang_fab.setOnClickListener { showAddUtangDialog() }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt("jumlahSaldo", jumlahSaldo)
+        outState?.putInt("jumlahPemasukan", jumlahPemasukan)
         outState?.putInt("jumlahPengeluaran", jumlahPengeluaran)
+        outState?.putInt("jumlahHutang", jumlahHutang)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
@@ -77,71 +113,131 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_reset) {
-            viewModel.deleteAll()
-        } else {
+            showDialog(getString(R.string.dialog_title_reset))
+        } else if (item.itemId == R.id.action_saldo) {
             showSaldoDialog()
+        } else {
+            val intent = Intent(this@MainActivity, GraphActivity::class.java)
+            startActivity(intent)
         }
 
         return true
     }
 
-    private fun populateRecycler() {
-        adapter = MainAdapter(this, null) {
-            viewModel.deleteData(it)
-            jumlahSaldo = 0
-            jumlahPengeluaran = 0
-
-            Toast.makeText(this, "Data berhasil dihapus", Toast.LENGTH_SHORT).show()
-        }
-
-        adapter.setHasStableIds(true)
-
-        main_recycler.layoutManager = LinearLayoutManager(this)
-        main_recycler.setHasFixedSize(true)
-        main_recycler.adapter = adapter
+    override fun onBackPressed() {
+        this.showDialog(getString(R.string.dialog_title_keluar))
     }
 
-    private fun showAddDataDialog() {
+    fun reduceValue(key: String, amount: Int) {
+
+        when (key) {
+            "pemasukan" -> jumlahPemasukan -= amount
+            "pengeluaran" -> jumlahPengeluaran -= amount
+            else -> jumlahHutang -= amount
+        }
+    }
+
+    fun showSaldoDialog() {
         val dialog = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
+        val dialogView = layoutInflater.inflate(R.layout.saldo_dialog_layout, null)
 
+        dialogView.dialog_main_pemasukan.text = CurencyFormatter.convertAndFormat(jumlahPemasukan)
+        dialogView.dialog_main_pengeluaran.text = CurencyFormatter.convertAndFormat(jumlahPengeluaran)
+        dialogView.dialog_main_hutang.text = CurencyFormatter.convertAndFormat(jumlahHutang)
+        dialogView.dialog_main_saldo.text =
+            CurencyFormatter.convertAndFormat(jumlahPemasukan - (jumlahPengeluaran + jumlahHutang))
         dialog.setView(dialogView)
+        dialog.setTitle(R.string.dialog_title_saldo)
         dialog.setCancelable(true)
-        dialog.setPositiveButton("Simpan") { innerDialog, _ ->
-            val isPemasukan = if (dialogView.dialog_checkbox_masukan.isChecked) {
-                "pemasukan"
-            } else {
-                "pengeluaran"
-            }
-            val jumlahPemasukan = dialogView.dialog_uang.text.toString()
-            val date = SimpleDateFormat("dd-MM-yyyy HH:mm")
-            val record = Record(
-                0,
-                dialogView.dialog_judul.text.toString(),
-                jumlahPemasukan.toInt(),
-                date.format(Calendar.getInstance().time),
-                isPemasukan
-            )
+        dialog.setPositiveButton("Ya", null)
+        dialog.show()
+    }
 
-            viewModel.insertData(record)
+    fun showDialog(msg: String) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle(msg)
+        dialog.setMessage(R.string.dialog_message)
+        dialog.setCancelable(true)
+        dialog.setPositiveButton("Ya") { _, _ ->
+            if (msg == "Keluar") {
+                finish()
+            } else {
+                viewModel.deleteAllRecord()
+                viewModel.deleteAllHutang()
+
+                jumlahPemasukan = 0
+                jumlahPengeluaran = 0
+                jumlahHutang = 0
+            }
+        }
+        dialog.setNegativeButton("Tidak") { innerDialog, _ ->
             innerDialog.dismiss()
         }
 
         dialog.show()
     }
 
-    private fun showSaldoDialog() {
-        val dialog = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.saldo_dialog_layout, null)
-
-        dialogView.dialog_main_pemasukan.text = CurencyFormatter.convertAndFormat(jumlahSaldo)
-        dialogView.dialog_main_pengeluaran.text = CurencyFormatter.convertAndFormat(jumlahPengeluaran)
-        dialogView.dialog_main_saldo.text = CurencyFormatter.convertAndFormat(jumlahSaldo - jumlahPengeluaran)
+    private fun showAddDataDialog() {
+        val dialog = this.let { AlertDialog.Builder(it) }
+        val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
 
         dialog.setView(dialogView)
-        dialog.setTitle("Jumlah saldo kamu")
         dialog.setCancelable(true)
-        dialog.setPositiveButton("Oke", null)
+        dialog.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
+            val isPemasukan = if (dialogView.dialog_checkbox_masukan.isChecked) {
+                "pemasukan"
+            } else {
+                "pengeluaran"
+            }
+
+            if (!dialogView.dialog_judul.text.isBlank() && !dialogView.dialog_uang.text.isBlank()) {
+
+                val jumlahPemasukan = dialogView.dialog_uang.text.toString()
+                val date = SimpleDateFormat(getString(R.string.date_pattern))
+                val record = Record(
+                    0,
+                    dialogView.dialog_judul.text.toString(),
+                    jumlahPemasukan.toInt(),
+                    date.format(Calendar.getInstance().time),
+                    isPemasukan
+                )
+
+                viewModel.insertRecord(record)
+                innerDialog.dismiss()
+            } else {
+                Toast.makeText(this, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun showAddUtangDialog() {
+        val dialog = this.let { AlertDialog.Builder(it) }
+        val dialogView = layoutInflater.inflate(R.layout.hutang_dialog_layout, null)
+
+        dialog.setView(dialogView)
+        dialog.setCancelable(true)
+        dialog.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
+
+            if (!dialogView.dialog_judul.text.isBlank() && !dialogView.dialog_uang.text.isBlank()) {
+
+                val jumlahPemasukan = dialogView.dialog_uang.text.toString()
+                val date = SimpleDateFormat(getString(R.string.date_pattern))
+                val hutang = Hutang(
+                    0,
+                    dialogView.dialog_judul.text.toString(),
+                    jumlahPemasukan.toInt(),
+                    date.format(Calendar.getInstance().time)
+                )
+
+                viewModel.insertHutang(hutang)
+                innerDialog.dismiss()
+            } else {
+                Toast.makeText(this, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         dialog.show()
     }
 }
