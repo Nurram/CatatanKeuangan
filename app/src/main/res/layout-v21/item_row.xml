@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:elevation="8dp"
+        android:elevation="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true">

@@ -19,7 +19,6 @@ class RiwayatAdapter(
     private val clickUtils: (Record) -> Unit
 ) : RecyclerView.Adapter<RiwayatAdapter.MainHolder>() {
 
-
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MainHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_row, p0, false)
         return MainHolder(view)

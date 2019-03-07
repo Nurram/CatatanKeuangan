@@ -11,12 +11,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.nurram.project.catatankeuangan.db.Hutang
 import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter
 import com.nurram.project.catatankeuangan.utils.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
+import kotlinx.android.synthetic.main.hutang_dialog_layout.view.*
 import kotlinx.android.synthetic.main.saldo_dialog_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,6 +27,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: PagerAdapter
+    private lateinit var adsRequest: AdRequest
 
     private var jumlahPengeluaran = 0
     private var jumlahPemasukan = 0
@@ -34,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         supportActionBar?.title = null
+
+        MobileAds.initialize(this, "ca-app-pub-7752391421212005~2206162997")
+        adsRequest = AdRequest.Builder().build()
 
         if (savedInstanceState != null) {
             jumlahPemasukan = savedInstanceState.getInt("jumlahPemasukan")
@@ -141,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.saldo_dialog_layout, null)
 
+        dialogView.main_adView.loadAd(adsRequest)
         dialogView.dialog_main_pemasukan.text = CurencyFormatter.convertAndFormat(jumlahPemasukan)
         dialogView.dialog_main_pengeluaran.text = CurencyFormatter.convertAndFormat(jumlahPengeluaran)
         dialogView.dialog_main_hutang.text = CurencyFormatter.convertAndFormat(jumlahHutang)
@@ -149,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         dialog.setView(dialogView)
         dialog.setTitle(R.string.dialog_title_saldo)
         dialog.setCancelable(true)
-        dialog.setPositiveButton("Ya", null)
+        dialog.setPositiveButton("Close", null)
         dialog.show()
     }
 
@@ -158,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         dialog.setTitle(msg)
         dialog.setMessage(R.string.dialog_message)
         dialog.setCancelable(true)
-        dialog.setPositiveButton("Ya") { _, _ ->
+        dialog.setPositiveButton("Yes") { _, _ ->
             if (msg == "Keluar") {
                 finish()
             } else {
@@ -170,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                 jumlahHutang = 0
             }
         }
-        dialog.setNegativeButton("Tidak") { innerDialog, _ ->
+        dialog.setNegativeButton("Cancel") { innerDialog, _ ->
             innerDialog.dismiss()
         }
 
@@ -220,13 +228,13 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(true)
         dialog.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
 
-            if (!dialogView.dialog_judul.text.isBlank() && !dialogView.dialog_uang.text.isBlank()) {
+            if (!dialogView.dialog_judul_hutang.text.isBlank() && !dialogView.dialog_uang_hutang.text.isBlank()) {
 
-                val jumlahPemasukan = dialogView.dialog_uang.text.toString()
+                val jumlahPemasukan = dialogView.dialog_uang_hutang.text.toString()
                 val date = SimpleDateFormat(getString(R.string.date_pattern))
                 val hutang = Hutang(
                     0,
-                    dialogView.dialog_judul.text.toString(),
+                    dialogView.dialog_judul_hutang.text.toString(),
                     jumlahPemasukan.toInt(),
                     date.format(Calendar.getInstance().time)
                 )

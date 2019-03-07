@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Financial Records</string>
+    <string name="data_sudah_pernah_dikonversi">Data already converted, please reopen this page to re-convert</string>
+    <string name="dialog_message">Are you sure?</string>
+    <string name="dialog_simpan">Save</string>
+    <string name="dialog_title_keluar">Exit</string>
+    <string name="dialog_title_saldo">Your balance</string>
+    <string name="ex_belanja">ex: Shopping</string>
+    <string name="hutang_kamu">Your debt</string>
+    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph will shown if you already have 2 data or
+        more
+    </string>
+    <string name="konversi_excel_ditolak">Give permission to use excel conversion</string>
+    <string name="konversi_tidak_diijinkan">You cannot use conversion feature</string>
+    <string name="lakukan_konversi">Convert to xls?</string>
+    <string name="masukan_judul">Enter a title</string>
+    <string name="masukan_jumlah_uang">Enter amount of money</string>
+    <string name="mengerti_bawa_kembali">Understand, take me back</string>
+    <string name="mulai_konversi">Starting conversion</string>
+    <string name="pemasukan">Income</string>
+    <string name="pemasukan_kamu">Your income</string>
+    <string name="pengeluaran">Expenditure</string>
+    <string name="pengluaran_kamu">Your expenses</string>
+    <string name="perhatian">Attention</string>
+    <string name="riwayat">History</string>
+    <string name="saldo">Balance</string>
+    <string name="saldo_kamu">Your balance</string>
+    <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
+    <string name="spinner_peringatan_data">Data are less than 2</string>
+    <string name="tidak_ada_iklan">No ads are available</string>
+    <string name="toast_hapus_berhasil">Data successfully deleted</string>
+    <string name="toast_isi_kolom">Fill all collumn</string>
+    <string name="total_pemasukan_kamu">Your total income</string>
+    <string name="total_pengeluaran_kamu">Your total expenses</string>
+    <string name="rp_0">Rp.0</string>
+    <string name="reset">Reset</string>
+    <string name="graph">Graph</string>
+    <string name="ex_1_000_000">ex: 10000</string>
+    <string name="dialog_title_reset">Reset</string>
+    <string name="date_pattern">dd-MM-yyyy</string>
+</resources>

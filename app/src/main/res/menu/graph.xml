@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/convert_excel"
+            android:title="@string/konversi_ke_excel"
+            android:icon="@drawable/ic_restore_page_24dp"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/graph_ad_toolbar"
+            android:title="@string/ads"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_live_tv_white_24dp"/>
+
+</menu>

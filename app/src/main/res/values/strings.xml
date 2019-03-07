@@ -1,5 +1,7 @@
 <resources>
-    <string name="total_pengeluaran_kamu">Total pengeluaran kamu:</string>
+    <string name="total_pengeluaran_kamu"
+    >Total pengeluaran kamu:
+    </string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
     <string name="ex_belanja">ex: Belanja</string>
@@ -23,17 +25,27 @@
 
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
-    <string name="app_name"
-    >Catatan Keuangan
-    </string>
+    <string name="app_name">Catatan Keuangan</string>
     <string name="total_pemasukan_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
     <string name="riwayat">Riwayat</string>
-    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Kamu belum memiliki data dalam 2 hari atau lebih
+    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph akan muncul apabila kamu memiliki 2 data atau
+        lebih
     </string>
 
-    <string-array name="spinner_item">
-        <item>Pengeluaran</item>
-        <item>Pemasukan</item>
-    </string-array>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="spinner_peringatan_data">Jumlah data kurang dari 2</string>
+    <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
+    <string name="tidak_ada_iklan">Belum ada iklan yang tersedia</string>
+    <string name="perhatian">Perhatian!</string>
+    <string name="mengerti_bawa_kembali">Mengerti, bawa saya kembali</string>
+    <string name="lakukan_konversi">Lakukan konversi ke format xls?</string>
+    <string name="data_sudah_pernah_dikonversi">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
+        ulang
+    </string>
+    <string name="konversi_tidak_diijinkan">Kamu tidak bisa menggunakan fitur konversi</string>
+    <string name="mulai_konversi">Memulai konversi</string>
+    <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
+    <string name="konversi_ke_excel">Konversi ke excel</string>
+    <string name="ads">Ads</string>
 </resources>

@@ -20,8 +20,8 @@ class PagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(frag
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> "Riwayat"
-            1 -> "Utang"
+            0 -> "History"
+            1 -> "Debt"
             else -> super.getPageTitle(position)
         }
     }

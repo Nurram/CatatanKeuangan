@@ -16,8 +16,4 @@ class GraphViewModel(application: Application) : AndroidViewModel(application) {
     fun getAllPemasukan(): LiveData<List<Record>>? {
         return recordRepo.getAllPemasukan()
     }
-
-    fun getAllRecords(): LiveData<List<Record>>? {
-        return recordRepo.getAllRecords()
-    }
 }
