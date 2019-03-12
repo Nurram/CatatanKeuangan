@@ -18,8 +18,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.ajts.androidmads.library.SQLiteToExcel
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -57,11 +55,6 @@ class GraphActivity : AppCompatActivity() {
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        val adsRequest = AdRequest.Builder().build()
-
-        MobileAds.initialize(this, "ca-app-pub-7752391421212005~2206162997")
-        graph_adView.loadAd(adsRequest)
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
 

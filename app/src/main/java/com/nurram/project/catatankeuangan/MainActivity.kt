@@ -137,8 +137,7 @@ class MainActivity : AppCompatActivity() {
     private fun showSaldoDialog() {
         val dialog = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.saldo_dialog_layout, null)
-
-        dialogView.main_adView.loadAd(adsRequest)
+        
         dialogView.dialog_main_pemasukan.text = CurencyFormatter.convertAndFormat(jumlahPemasukan)
         dialogView.dialog_main_pengeluaran.text = CurencyFormatter.convertAndFormat(jumlahPengeluaran)
         dialogView.dialog_main_hutang.text = CurencyFormatter.convertAndFormat(jumlahHutang)
