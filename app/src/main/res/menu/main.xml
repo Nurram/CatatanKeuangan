@@ -4,7 +4,7 @@
 
     <item
             android:title="@string/graph"
-            android:icon="@drawable/ic_show_chart_white_24dp"
+            android:icon="@drawable/ic_timeline"
             app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_saldo"

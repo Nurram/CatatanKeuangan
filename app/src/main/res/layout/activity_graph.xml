@@ -49,18 +49,6 @@
                         android:layout_marginLeft="4dp"/>
             </android.support.v7.widget.CardView>
 
-            <com.google.android.gms.ads.AdView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/graph_adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-7752391421212005/9961417989"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp">
-            </com.google.android.gms.ads.AdView>
-
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

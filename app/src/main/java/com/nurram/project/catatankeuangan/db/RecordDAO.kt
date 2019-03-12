@@ -15,6 +15,9 @@ interface RecordDAO {
     @Delete
     fun delete(record: Record)
 
+    @Update
+    fun update(record: Record)
+
     @Query("select * from record_table order by id desc")
     fun getAllData(): LiveData<List<Record>>
 
@@ -38,6 +41,9 @@ interface RecordDAO {
 
     @Delete
     fun deleteHutang(hutang: Hutang)
+
+    @Update
+    fun updateHutang(hutang: Hutang)
 
     @Query("select * from hutang_table order by id desc")
     fun getAllDataHutang(): LiveData<List<Hutang>>

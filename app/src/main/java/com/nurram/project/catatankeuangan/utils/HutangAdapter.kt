@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_row.view.*
 class HutangAdapter(
     private val context: Context,
     private var datas: MutableList<Hutang>?,
-    private val clickUtils: (Hutang) -> Unit
+    private val clickUtils: (Hutang, String) -> Unit
 ) : RecyclerView.Adapter<HutangAdapter.MainHolder>() {
 
 
@@ -40,13 +40,14 @@ class HutangAdapter(
     inner class MainHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private lateinit var hutang: Hutang
 
-        fun bind(hutang: Hutang, clickUtils: (Hutang) -> Unit) {
+        fun bind(hutang: Hutang, clickUtils: (Hutang, String) -> Unit) {
             this.hutang = hutang
 
             view.item_judul.text = this.hutang.judul
             view.item_uang.text = convertAndFormat(this.hutang.jumlah)
             view.item_tanggal.text = this.hutang.tanggal
-            view.item_delete.setOnClickListener { clickUtils(hutang) }
+            view.item_delete.setOnClickListener { clickUtils(hutang, "delete") }
+            view.item_update.setOnClickListener { clickUtils(hutang, "edit") }
         }
     }
 }

@@ -12,6 +12,6 @@
             android:id="@+id/graph_ad_toolbar"
             android:title="@string/ads"
             app:showAsAction="always"
-            android:icon="@drawable/ic_live_tv_white_24dp"/>
+            android:icon="@drawable/ad_icon"/>
 
 </menu>

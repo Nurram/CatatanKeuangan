@@ -21,6 +21,10 @@ class HutangRepo(application: Application) {
         hutangDao?.let { InsertAsync(it).execute(hutang) }
     }
 
+    fun updateHutang(hutang: Hutang) {
+        hutangDao?.let { UpdateAsync(it).execute(hutang) }
+    }
+
     fun deleteAllHutang() {
         hutangDao?.let { DeleteAsync(it, "all").execute() }
     }
@@ -34,6 +38,15 @@ class HutangRepo(application: Application) {
 
         override fun doInBackground(vararg params: Hutang?): Void? {
             params[0]?.let { dao.insertHutang(it) }
+            return null
+        }
+    }
+
+    private class UpdateAsync(hutangDAO: RecordDAO) : AsyncTask<Hutang, Void, Void>() {
+        private val dao = hutangDAO
+
+        override fun doInBackground(vararg params: Hutang?): Void? {
+            params[0]?.let { dao.updateHutang(it) }
             return null
         }
     }

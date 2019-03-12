@@ -36,6 +36,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         recordRepo.insertRecord(record)
     }
 
+    fun updateRecord(record: Record) {
+        recordRepo.updateRecord(record)
+    }
+
     fun insertHutang(hutang: Hutang) {
         return hutangRepo.insertHutang(hutang)
     }
@@ -46,6 +50,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteHutang(hutang: Hutang) {
         hutangRepo.deleteHutang(hutang)
+    }
+
+    fun updateHutang(hutang: Hutang) {
+        hutangRepo.updateHutang(hutang)
     }
 
     fun deleteAllRecord() {

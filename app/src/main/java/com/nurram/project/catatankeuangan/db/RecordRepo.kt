@@ -32,6 +32,10 @@ class RecordRepo(application: Application) {
         recordDao?.let { InsertAsync(it).execute(record) }
     }
 
+    fun updateRecord(record: Record) {
+        recordDao?.let { UpdateAsync(it).execute(record) }
+    }
+
     fun deleteAllRecord() {
         recordDao?.let { DeleteAsync(it, "all").execute() }
     }
@@ -45,6 +49,15 @@ class RecordRepo(application: Application) {
 
         override fun doInBackground(vararg params: Record?): Void? {
             params[0]?.let { dao.insert(it) }
+            return null
+        }
+    }
+
+    private class UpdateAsync(recordDAO: RecordDAO) : AsyncTask<Record, Void, Void>() {
+        private val dao = recordDAO
+
+        override fun doInBackground(vararg params: Record?): Void? {
+            params[0]?.let { dao.update(it) }
             return null
         }
     }

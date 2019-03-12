@@ -10,16 +10,14 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.nurram.project.catatankeuangan.db.Hutang
 import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter
 import com.nurram.project.catatankeuangan.utils.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
-import kotlinx.android.synthetic.main.hutang_dialog_layout.view.*
 import kotlinx.android.synthetic.main.saldo_dialog_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +25,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: PagerAdapter
-    private lateinit var adsRequest: AdRequest
 
     private var jumlahPengeluaran = 0
     private var jumlahPemasukan = 0
@@ -38,9 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         supportActionBar?.title = null
-
-        MobileAds.initialize(this, "ca-app-pub-7752391421212005~2206162997")
-        adsRequest = AdRequest.Builder().build()
 
         if (savedInstanceState != null) {
             jumlahPemasukan = savedInstanceState.getInt("jumlahPemasukan")
@@ -102,8 +96,8 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        riwayat_fab.setOnClickListener { showAddDataDialog() }
-        hutang_fab.setOnClickListener { showAddUtangDialog() }
+        riwayat_fab.setOnClickListener { showAddDataDialog("riwayat") }
+        hutang_fab.setOnClickListener { showAddDataDialog("utang") }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
@@ -119,20 +113,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_reset) {
-            showDialog(getString(R.string.dialog_title_reset))
-        } else if (item.itemId == R.id.action_saldo) {
-            showSaldoDialog()
-        } else {
-            val intent = Intent(this@MainActivity, GraphActivity::class.java)
-            startActivity(intent)
+        when {
+            item.itemId == R.id.action_reset -> showDialog()
+            item.itemId == R.id.action_saldo -> showSaldoDialog()
+            else -> {
+                val intent = Intent(this@MainActivity, GraphActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         return true
-    }
-
-    override fun onBackPressed() {
-        this.showDialog(getString(R.string.dialog_title_keluar))
     }
 
     fun reduceValue(key: String, amount: Int) {
@@ -144,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showSaldoDialog() {
+    private fun showSaldoDialog() {
         val dialog = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.saldo_dialog_layout, null)
 
@@ -161,22 +151,18 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun showDialog(msg: String) {
+    private fun showDialog() {
         val dialog = AlertDialog.Builder(this)
-        dialog.setTitle(msg)
+        dialog.setTitle(getString(R.string.perhatian))
         dialog.setMessage(R.string.dialog_message)
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
-            if (msg == "Keluar") {
-                finish()
-            } else {
-                viewModel.deleteAllRecord()
-                viewModel.deleteAllHutang()
+            viewModel.deleteAllRecord()
+            viewModel.deleteAllHutang()
 
-                jumlahPemasukan = 0
-                jumlahPengeluaran = 0
-                jumlahHutang = 0
-            }
+            jumlahPemasukan = 0
+            jumlahPengeluaran = 0
+            jumlahHutang = 0
         }
         dialog.setNegativeButton("Cancel") { innerDialog, _ ->
             innerDialog.dismiss()
@@ -185,9 +171,13 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showAddDataDialog() {
+    private fun showAddDataDialog(key: String) {
         val dialog = this.let { AlertDialog.Builder(it) }
         val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
+
+        when (key) {
+            "utang" -> dialogView.dialog_checkbox_masukan.visibility = View.GONE
+        }
 
         dialog.setView(dialogView)
         dialog.setCancelable(true)
@@ -199,47 +189,29 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (!dialogView.dialog_judul.text.isBlank() && !dialogView.dialog_uang.text.isBlank()) {
-
                 val jumlahPemasukan = dialogView.dialog_uang.text.toString()
                 val date = SimpleDateFormat(getString(R.string.date_pattern))
-                val record = Record(
-                    0,
-                    dialogView.dialog_judul.text.toString(),
-                    jumlahPemasukan.toInt(),
-                    date.format(Calendar.getInstance().time),
-                    isPemasukan
-                )
+                if (key == "riwayat") {
+                    val record = Record(
+                        0,
+                        dialogView.dialog_judul.text.toString(),
+                        jumlahPemasukan.toInt(),
+                        date.format(Calendar.getInstance().time),
+                        isPemasukan
+                    )
 
-                viewModel.insertRecord(record)
-                innerDialog.dismiss()
-            } else {
-                Toast.makeText(this, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
-            }
-        }
+                    viewModel.insertRecord(record)
+                } else {
+                    val hutang = Hutang(
+                        0,
+                        dialogView.dialog_judul.text.toString(),
+                        jumlahPemasukan.toInt(),
+                        date.format(Calendar.getInstance().time)
+                    )
 
-        dialog.show()
-    }
+                    viewModel.insertHutang(hutang)
+                }
 
-    private fun showAddUtangDialog() {
-        val dialog = this.let { AlertDialog.Builder(it) }
-        val dialogView = layoutInflater.inflate(R.layout.hutang_dialog_layout, null)
-
-        dialog.setView(dialogView)
-        dialog.setCancelable(true)
-        dialog.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
-
-            if (!dialogView.dialog_judul_hutang.text.isBlank() && !dialogView.dialog_uang_hutang.text.isBlank()) {
-
-                val jumlahPemasukan = dialogView.dialog_uang_hutang.text.toString()
-                val date = SimpleDateFormat(getString(R.string.date_pattern))
-                val hutang = Hutang(
-                    0,
-                    dialogView.dialog_judul_hutang.text.toString(),
-                    jumlahPemasukan.toInt(),
-                    date.format(Calendar.getInstance().time)
-                )
-
-                viewModel.insertHutang(hutang)
                 innerDialog.dismiss()
             } else {
                 Toast.makeText(this, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()

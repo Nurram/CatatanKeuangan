@@ -17,15 +17,13 @@
 
     <string name="date_pattern">dd-MM-yyyy</string>
 
-    <string name="dialog_title_keluar">Keluar</string>
-    <string name="dialog_title_reset">Reset</string>
     <string name="dialog_title_saldo">Jumlah saldo kamu</string>
     <string name="dialog_message">Apakah kamu yakin?</string>
     <string name="dialog_simpan">Simpan</string>
 
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
-    <string name="app_name">Catatan Keuangan</string>
+    <string name="app_name">Pencatat Keuangan</string>
     <string name="total_pemasukan_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
     <string name="riwayat">Riwayat</string>
@@ -48,4 +46,7 @@
     <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
     <string name="konversi_ke_excel">Konversi ke excel</string>
     <string name="ads">Ads</string>
+    <string name="sebuah_tombol_gambar_untuk_menghapus_gambar">Sebuah tombol gambar untuk menghapus gambar</string>
+    <string name="total">Total:</string>
+    <string name="sebuah_tombol_gambar_untuk_mengedit_gambar">Sebuah_tombol_gambar_untuk_mengedit_gambar</string>
 </resources>

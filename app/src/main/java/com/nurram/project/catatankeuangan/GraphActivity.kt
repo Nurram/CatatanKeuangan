@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.DataPoint
@@ -28,14 +27,11 @@ import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter
 import com.nurram.project.catatankeuangan.utils.RiwayatAdapter
 import kotlinx.android.synthetic.main.activity_graph.*
-import kotlinx.android.synthetic.main.graph_dialog_layout.view.*
 
 class GraphActivity : AppCompatActivity() {
     private lateinit var viewModel: GraphViewModel
     private lateinit var adapter: RiwayatAdapter
-    private lateinit var adsRequest: AdRequest
     private lateinit var excelConverter: SQLiteToExcel
-    private lateinit var interstitialAd: InterstitialAd
 
     private val directoryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
     private val tableList = arrayListOf("record_table", "hutang_table")
@@ -62,11 +58,7 @@ class GraphActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        adsRequest = AdRequest.Builder().build()
-
-        interstitialAd = InterstitialAd(this)
-        interstitialAd.adUnitId = "ca-app-pub-7752391421212005/8475217550"
-        interstitialAd.loadAd(adsRequest)
+        val adsRequest = AdRequest.Builder().build()
 
         MobileAds.initialize(this, "ca-app-pub-7752391421212005~2206162997")
         graph_adView.loadAd(adsRequest)
@@ -117,7 +109,7 @@ class GraphActivity : AppCompatActivity() {
             it?.let { it1 -> incomeList.addAll(it1) }
         })
 
-        adapter = RiwayatAdapter(this, null, true) {}
+        adapter = RiwayatAdapter(this, null, true) { _, _ -> }
 
         graph_recycler.adapter = adapter
         graph_recycler.layoutManager = LinearLayoutManager(this)
@@ -147,11 +139,6 @@ class GraphActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.convert_excel -> showConvertDialog()
-            R.id.graph_ad_toolbar -> if (interstitialAd.isLoaded) {
-                interstitialAd.show()
-            } else {
-                Toast.makeText(this, getString(R.string.tidak_ada_iklan), Toast.LENGTH_SHORT).show()
-            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -160,7 +147,7 @@ class GraphActivity : AppCompatActivity() {
     private fun initGraph(graphList: List<Record>, whereFrom: String) {
         resetGraph()
         var totalSum = 0
-        graph_total.text = "Total: "
+        graph_total.text = getString(R.string.total)
 
         currentDate = graphList[0].tanggal
         limit = graphList.size
@@ -207,15 +194,15 @@ class GraphActivity : AppCompatActivity() {
 
         series.setOnDataPointTapListener { _, dataPoint1 ->
             totalSum = 0
-            graph_total.text = "Total: "
+            graph_total.text = getString(R.string.total)
 
             records = adapterData[dataPoint1.x.toInt()].records
             date = adapterData[dataPoint1.x.toInt()].date
             datas.clear()
 
             records.forEach {
-                totalSum += it.jumlah
                 if (it.tanggal == date) {
+                    totalSum += it.jumlah
                     datas.add(it)
                 }
             }
@@ -246,8 +233,6 @@ class GraphActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val dialog = AlertDialog.Builder(this)
-        val view = layoutInflater.inflate(R.layout.graph_dialog_layout, null)
-        view.graph_dialog_adView.loadAd(adsRequest)
 
         dialog.setTitle(getString(R.string.perhatian))
         dialog.setMessage(R.string.kamu_belum_memiliki_data_dalam_2_hari_atau_lebih)
@@ -261,8 +246,6 @@ class GraphActivity : AppCompatActivity() {
 
     private fun showConvertDialog() {
         val dialog = AlertDialog.Builder(this)
-        val view = layoutInflater.inflate(R.layout.graph_dialog_layout, null)
-        view.graph_dialog_adView.loadAd(adsRequest)
 
         dialog.setTitle(getString(R.string.perhatian))
         dialog.setMessage(getString(R.string.lakukan_konversi))
