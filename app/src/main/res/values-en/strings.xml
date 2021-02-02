@@ -39,6 +39,9 @@
     <string name="date_pattern">dd-MM-yyyy</string>
     <string name="konversi_ke_excel">Convert to excel</string>
     <string name="ads">Ads</string>
-    <string name="sebuah_tombol_gambar_untuk_menghapus_gambar">An image button to delete data</string>
+    <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
+    <string name="sebuah_tombol_gambar_untuk_merubah_data">An image button to delete data</string>
     <string name="total">Total:</string>
+    <string name="selected_date">No date selected</string>
+    <string name="pilih_tanggal">Select date</string>
 </resources>

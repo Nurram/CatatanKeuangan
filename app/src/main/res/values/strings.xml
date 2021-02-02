@@ -46,7 +46,9 @@
     <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
     <string name="konversi_ke_excel">Konversi ke excel</string>
     <string name="ads">Ads</string>
-    <string name="sebuah_tombol_gambar_untuk_menghapus_gambar">Sebuah tombol gambar untuk menghapus gambar</string>
+    <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
+    <string name="sebuah_tombol_gambar_untuk_merubah_data">Sebuah tombol gambar untuk menrubah data</string>
     <string name="total">Total:</string>
-    <string name="sebuah_tombol_gambar_untuk_mengedit_gambar">Sebuah_tombol_gambar_untuk_mengedit_gambar</string>
+   <string name="selected_date">Tidak ada tanggal yang dipilih</string>
+    <string name="pilih_tanggal">Pilih tanggal</string>
 </resources>

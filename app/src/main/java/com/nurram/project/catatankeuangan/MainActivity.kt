@@ -1,5 +1,6 @@
 package com.nurram.project.catatankeuangan
 
+import android.app.DatePickerDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -15,6 +16,7 @@ import android.widget.Toast
 import com.nurram.project.catatankeuangan.db.Hutang
 import com.nurram.project.catatankeuangan.db.Record
 import com.nurram.project.catatankeuangan.utils.CurencyFormatter
+import com.nurram.project.catatankeuangan.utils.DateUtil
 import com.nurram.project.catatankeuangan.utils.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
@@ -113,9 +115,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when {
-            item.itemId == R.id.action_reset -> showDialog()
-            item.itemId == R.id.action_saldo -> showSaldoDialog()
+        when (item.itemId) {
+            R.id.action_reset -> showDialog()
+            R.id.action_saldo -> showSaldoDialog()
             else -> {
                 val intent = Intent(this@MainActivity, GraphActivity::class.java)
                 startActivity(intent)
@@ -174,28 +176,44 @@ class MainActivity : AppCompatActivity() {
         val dialog = this.let { AlertDialog.Builder(it) }
         val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
 
+        var selectedDate = "";
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
         when (key) {
-            "utang" -> dialogView.dialog_checkbox_masukan.visibility = View.GONE
+            "utang" -> dialogView.dialog_checkbox_income.visibility = View.GONE
         }
 
         dialog.setView(dialogView)
+        dialogView.dialog_show_date.setOnClickListener {
+            DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
+                val date = "$dayOfMonth $monthOfYear $year"
+                dialogView.dialog_date.text = "Transaction date: ${DateUtil.formatDate(date)}"
+                selectedDate = "$dayOfMonth $monthOfYear $year"
+            }, year, month, day).show()
+        }
+
         dialog.setCancelable(true)
         dialog.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
-            val isPemasukan = if (dialogView.dialog_checkbox_masukan.isChecked) {
+            val isPemasukan = if (dialogView.dialog_checkbox_income.isChecked) {
                 "pemasukan"
             } else {
                 "pengeluaran"
             }
 
-            if (!dialogView.dialog_judul.text.isBlank() && !dialogView.dialog_uang.text.isBlank()) {
-                val jumlahPemasukan = dialogView.dialog_uang.text.toString()
-                val date = SimpleDateFormat(getString(R.string.date_pattern))
+            if (!dialogView.dialog_title.text.isBlank() && !dialogView.dialog_amount.text.isBlank()
+                && !selectedDate.isBlank()) {
+
+                val jumlahPemasukan = dialogView.dialog_amount.text.toString()
+
                 if (key == "riwayat") {
                     val record = Record(
                         0,
-                        dialogView.dialog_judul.text.toString(),
+                        dialogView.dialog_title.text.toString(),
                         jumlahPemasukan.toInt(),
-                        date.format(Calendar.getInstance().time),
+                        selectedDate,
                         isPemasukan
                     )
 
@@ -203,9 +221,9 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val hutang = Hutang(
                         0,
-                        dialogView.dialog_judul.text.toString(),
+                        dialogView.dialog_title.text.toString(),
                         jumlahPemasukan.toInt(),
-                        date.format(Calendar.getInstance().time)
+                        selectedDate
                     )
 
                     viewModel.insertHutang(hutang)

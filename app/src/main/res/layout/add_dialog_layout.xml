@@ -13,7 +13,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/masukan_judul"/>
 
-        <EditText android:id="@+id/dialog_judul"
+        <EditText android:id="@+id/dialog_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ex_belanja"
@@ -25,14 +25,28 @@
                 android:text="@string/masukan_jumlah_uang"/>
 
         <EditText
-                android:id="@+id/dialog_uang"
+                android:id="@+id/dialog_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ex_1_000_000"
                 android:inputType="number"
                 android:layout_marginBottom="8dp"/>
 
-        <CheckBox android:id="@+id/dialog_checkbox_masukan"
+        <TextView
+                android:id="@+id/dialog_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/selected_date"
+                android:layout_marginBottom="8dp"/>
+
+        <Button
+                android:id="@+id/dialog_show_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pilih_tanggal"
+                android:layout_marginBottom="8dp"/>
+
+        <CheckBox android:id="@+id/dialog_checkbox_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"

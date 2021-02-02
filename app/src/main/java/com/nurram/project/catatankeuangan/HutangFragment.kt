@@ -55,17 +55,17 @@ class HutangFragment : Fragment() {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
 
-        dialogView.dialog_judul.setText(hutang.judul)
-        dialogView.dialog_uang.setText(hutang.jumlah.toString())
-        dialogView.dialog_checkbox_masukan.visibility = View.GONE
+        dialogView.dialog_title.setText(hutang.judul)
+        dialogView.dialog_amount.setText(hutang.jumlah.toString())
+        dialogView.dialog_checkbox_income.visibility = View.GONE
 
         dialog?.setView(dialogView)
         dialog?.setCancelable(true)
         dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
             val date = SimpleDateFormat(getString(R.string.date_pattern))
             val innerHutang = Hutang(
-                hutang.id, dialogView.dialog_judul.text.toString(),
-                dialogView.dialog_uang.text.toString().toInt(),
+                hutang.id, dialogView.dialog_title.text.toString(),
+                dialogView.dialog_amount.text.toString().toInt(),
                 date.format(Calendar.getInstance().time)
             )
 
