@@ -44,4 +44,9 @@
     <string name="total">Total:</string>
     <string name="selected_date">No date selected</string>
     <string name="pilih_tanggal">Select date</string>
+    <string name="home">Home</string>
+    <string name="discount">Kalkulator Diskon</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="choose_menu_below">Choose menu below:</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.nurram.project.catatankeuangan.db
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface RecordDAO {

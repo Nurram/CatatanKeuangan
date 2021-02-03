@@ -1,12 +1,12 @@
 package com.nurram.project.catatankeuangan
 
 import android.app.DatePickerDialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,6 @@ import com.nurram.project.catatankeuangan.utils.DateUtil
 import com.nurram.project.catatankeuangan.utils.RiwayatAdapter
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -24,7 +23,11 @@ class RiwayatFragment : Fragment() {
     private var viewModel: MainViewModel? = null
     private var adapter: RiwayatAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_riwayat, container, false)
     }
 
@@ -32,24 +35,27 @@ class RiwayatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = activity?.let { ViewModelProviders.of(it).get(MainViewModel::class.java) }
         populateRecycler()
-        viewModel?.getAllRecords()?.observe(this, Observer {
+        viewModel?.getAllRecords()?.observe(viewLifecycleOwner, Observer {
             adapter?.setData(it?.toMutableList())
         })
     }
 
     private fun populateRecycler() {
-        adapter = RiwayatAdapter(context!!, null, false) { it, it1 ->
-            if (it1 == "delete") {
-                (parentFragment as MainFragment).reduceValue(it.keterangan, it.jumlah)
+        adapter = context?.let {
+            RiwayatAdapter(it, null, false) { it, it1 ->
+                if (it1 == "delete") {
+                    (parentFragment?.activity as MainActivity).reduceValue(it.keterangan, it.jumlah)
 
-                viewModel?.deleteRecord(it)
-                Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
-            } else {
-                showAddDataDialog(it)
+                    viewModel?.deleteRecord(it)
+                    Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+                } else {
+                    showAddDataDialog(it)
+                }
             }
         }
 
-        riwayat_recycler.layoutManager = LinearLayoutManager(context)
+        riwayat_recycler.layoutManager =
+            LinearLayoutManager(context)
         riwayat_recycler.setHasFixedSize(true)
         riwayat_recycler.adapter = adapter
     }
@@ -63,7 +69,7 @@ class RiwayatFragment : Fragment() {
         dialogView.dialog_date.text = "Transaction date: ${DateUtil.formatDate(record.tanggal)}"
         dialogView.dialog_checkbox_income.isEnabled = false
 
-        var selectedDate = "";
+        var selectedDate = ""
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)

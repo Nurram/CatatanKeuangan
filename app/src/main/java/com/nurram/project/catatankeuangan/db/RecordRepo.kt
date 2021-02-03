@@ -1,7 +1,7 @@
 package com.nurram.project.catatankeuangan.db
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.os.AsyncTask
 
 class RecordRepo(application: Application) {
@@ -62,7 +62,8 @@ class RecordRepo(application: Application) {
         }
     }
 
-    private class DeleteAsync(recordDAO: RecordDAO, val key: String) : AsyncTask<Record, Void, Void>() {
+    private class DeleteAsync(recordDAO: RecordDAO, val key: String) :
+        AsyncTask<Record, Void, Void>() {
         private val dao = recordDAO
 
         override fun doInBackground(vararg params: Record?): Void? {

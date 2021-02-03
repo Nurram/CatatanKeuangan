@@ -1,7 +1,7 @@
 package com.nurram.project.catatankeuangan.db
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.os.AsyncTask
 
 class HutangRepo(application: Application) {
@@ -51,7 +51,8 @@ class HutangRepo(application: Application) {
         }
     }
 
-    private class DeleteAsync(hutangDAO: RecordDAO, val key: String) : AsyncTask<Hutang, Void, Void>() {
+    private class DeleteAsync(hutangDAO: RecordDAO, val key: String) :
+        AsyncTask<Hutang, Void, Void>() {
         private val dao = hutangDAO
 
         override fun doInBackground(vararg params: Hutang?): Void? {

@@ -1,9 +1,8 @@
 package com.nurram.project.catatankeuangan.utils
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.nurram.project.catatankeuangan.HutangFragment
 import com.nurram.project.catatankeuangan.RiwayatFragment
 

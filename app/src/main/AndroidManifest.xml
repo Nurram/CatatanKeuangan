@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.nurram.project.catatankeuangan">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <supports-screens android:smallScreens="false"/>
+    <supports-screens android:smallScreens="false" />
 
     <application
             android:allowBackup="true"
@@ -15,15 +15,15 @@
             android:roundIcon="@drawable/icon_circle"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
-        <activity android:name=".GraphActivity"
-                android:parentActivityName=".MainActivity">
-        </activity>
+        <activity
+                android:name=".GraphActivity"
+                android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -1,11 +1,11 @@
 package com.nurram.project.catatankeuangan
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +21,11 @@ class HutangFragment : Fragment() {
     private var adapter: HutangAdapter? = null
     private var viewModel: MainViewModel? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_hutang, container, false)
     }
 
@@ -37,7 +41,7 @@ class HutangFragment : Fragment() {
     private fun populateRecycler() {
         adapter = HutangAdapter(context!!, null) { it, it1 ->
             if (it1 == "delete") {
-                (parentFragment as MainFragment).reduceValue("", it.jumlah)
+                (parentFragment?.activity as MainActivity).reduceValue("", it.jumlah)
 
                 viewModel?.deleteHutang(it)
                 Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
@@ -46,7 +50,8 @@ class HutangFragment : Fragment() {
             }
         }
 
-        hutang_recycler.layoutManager = LinearLayoutManager(context)
+        hutang_recycler.layoutManager =
+            LinearLayoutManager(context)
         hutang_recycler.setHasFixedSize(true)
         hutang_recycler.adapter = adapter
     }

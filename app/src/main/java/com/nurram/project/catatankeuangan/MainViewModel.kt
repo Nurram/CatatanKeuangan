@@ -1,8 +1,8 @@
 package com.nurram.project.catatankeuangan
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import com.nurram.project.catatankeuangan.db.Hutang
 import com.nurram.project.catatankeuangan.db.HutangRepo
 import com.nurram.project.catatankeuangan.db.Record

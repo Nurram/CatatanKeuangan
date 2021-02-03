@@ -1,16 +1,16 @@
 package com.nurram.project.catatankeuangan
 
 import android.Manifest
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -31,7 +31,8 @@ class GraphActivity : AppCompatActivity() {
     private lateinit var adapter: RiwayatAdapter
     private lateinit var excelConverter: SQLiteToExcel
 
-    private val directoryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+    private val directoryPath =
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
     private val tableList = arrayListOf("record_table", "hutang_table")
     private var permissionGranted = false
     private var alreadyConverted = false
@@ -56,7 +57,11 @@ class GraphActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1
+        )
 
         excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
         viewModel = ViewModelProviders.of(this).get(GraphViewModel::class.java)
@@ -75,7 +80,12 @@ class GraphActivity : AppCompatActivity() {
         graph_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
 
                 if (position == 0 && outcomeList.size >= 2) {
                     graph_spinner.isClickable = true
@@ -87,7 +97,11 @@ class GraphActivity : AppCompatActivity() {
                 } else if (incomeList.size < 2 && outcomeList.size < 2) {
                     showDialog()
                 } else if (incomeList.size < 2 || outcomeList.size < 2) {
-                    Toast.makeText(this@GraphActivity, getString(R.string.spinner_peringatan_data), Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        this@GraphActivity,
+                        getString(R.string.spinner_peringatan_data),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
@@ -105,16 +119,22 @@ class GraphActivity : AppCompatActivity() {
         adapter = RiwayatAdapter(this, null, true) { _, _ -> }
 
         graph_recycler.adapter = adapter
-        graph_recycler.layoutManager = LinearLayoutManager(this)
+        graph_recycler.layoutManager =
+            LinearLayoutManager(this)
         graph_recycler.setHasFixedSize(true)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionGranted = true
             } else {
-                Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }
@@ -246,12 +266,20 @@ class GraphActivity : AppCompatActivity() {
         dialog.setPositiveButton("Yes") { _, _ ->
             if (permissionGranted) {
                 if (alreadyConverted) {
-                    Toast.makeText(this, getString(R.string.data_sudah_pernah_dikonversi), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.data_sudah_pernah_dikonversi),
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     convertDbToExcel()
                 }
             } else {
-                Toast.makeText(this, getString(R.string.konversi_tidak_diijinkan), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.konversi_tidak_diijinkan),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         dialog.setNegativeButton("Cancel") { dialog1, _ ->
@@ -262,19 +290,30 @@ class GraphActivity : AppCompatActivity() {
     }
 
     private fun convertDbToExcel() {
-        excelConverter.exportSpecificTables(tableList, "Catatan keuangan.xls", object : SQLiteToExcel.ExportListener {
-            override fun onError(e: Exception?) {
-                Toast.makeText(this@GraphActivity, e?.message, Toast.LENGTH_SHORT).show()
-            }
+        excelConverter.exportSpecificTables(
+            tableList,
+            "Catatan keuangan.xls",
+            object : SQLiteToExcel.ExportListener {
+                override fun onError(e: Exception?) {
+                    Toast.makeText(this@GraphActivity, e?.message, Toast.LENGTH_SHORT).show()
+                }
 
-            override fun onStart() {
-                Toast.makeText(this@GraphActivity, getString(R.string.mulai_konversi), Toast.LENGTH_SHORT).show()
-            }
+                override fun onStart() {
+                    Toast.makeText(
+                        this@GraphActivity,
+                        getString(R.string.mulai_konversi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            override fun onCompleted(filePath: String?) {
-                Toast.makeText(this@GraphActivity, getString(R.string.selesai_konversi), Toast.LENGTH_SHORT).show()
-                alreadyConverted = true
-            }
-        })
+                override fun onCompleted(filePath: String?) {
+                    Toast.makeText(
+                        this@GraphActivity,
+                        getString(R.string.selesai_konversi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    alreadyConverted = true
+                }
+            })
     }
 }
