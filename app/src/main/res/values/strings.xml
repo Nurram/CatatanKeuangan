@@ -1,6 +1,5 @@
 <resources>
-    <string name="total_pengeluaran_kamu"
-    >Total pengeluaran kamu:
+    <string name="total_pengeluaran_kamu">Total pengeluaran kamu:
     </string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
@@ -49,6 +48,8 @@
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
     <string name="sebuah_tombol_gambar_untuk_merubah_data">Sebuah tombol gambar untuk menrubah data</string>
     <string name="total">Total:</string>
-   <string name="selected_date">Tidak ada tanggal yang dipilih</string>
+    <string name="selected_date">Tidak ada tanggal yang dipilih</string>
     <string name="pilih_tanggal">Pilih tanggal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

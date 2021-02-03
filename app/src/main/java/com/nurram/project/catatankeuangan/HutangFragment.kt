@@ -37,7 +37,7 @@ class HutangFragment : Fragment() {
     private fun populateRecycler() {
         adapter = HutangAdapter(context!!, null) { it, it1 ->
             if (it1 == "delete") {
-                (activity as MainActivity).reduceValue("", it.jumlah)
+                (parentFragment as MainFragment).reduceValue("", it.jumlah)
 
                 viewModel?.deleteHutang(it)
                 Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
