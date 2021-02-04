@@ -45,8 +45,13 @@
     <string name="selected_date">No date selected</string>
     <string name="pilih_tanggal">Select date</string>
     <string name="home">Home</string>
-    <string name="discount">Kalkulator Diskon</string>
+    <string name="discount">Discount Calculator</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="choose_menu_below">Choose menu below:</string>
+    <string name="current_amount">Amount</string>
+    <string name="discount_total">Discount</string>
+    <string name="price_after_discount">Price after discount:</string>
+    <string name="calculate">Calculate</string>
+    <string name="you_save">You saved:</string>
 </resources>

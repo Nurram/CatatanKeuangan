@@ -41,12 +41,14 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
+                    supportActionBar?.title = null
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, MainFragment()).commit()
                 }
                 R.id.nav_discount -> {
+                    supportActionBar?.title = getString(R.string.discount)
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, MainFragment()).commit()
+                        .replace(R.id.fragment, DiscCalcFragment()).commit()
                 }
             }
 

@@ -51,8 +51,13 @@
     <string name="selected_date">Tidak ada tanggal yang dipilih</string>
     <string name="pilih_tanggal">Pilih tanggal</string>
     <string name="home">Home</string>
-    <string name="discount">Discount Calculator</string>
+    <string name="discount">Kalkulator Diskon</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="choose_menu_below">Pilih menu dibawah:</string>
+    <string name="current_amount">Harga Awal</string>
+    <string name="discount_total">Jumlah Diskon</string>
+    <string name="price_after_discount">Harga setelah diskon:</string>
+    <string name="calculate">Calculate</string>
+    <string name="you_save">Kamu telah menghemat:</string>
 </resources>
