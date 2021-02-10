@@ -1,5 +1,6 @@
 package com.nurram.project.pencatatkeuangan
 
+import android.app.DatePickerDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -11,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.nurram.project.pencatatkeuangan.db.Hutang
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.HutangAdapter
 import kotlinx.android.synthetic.main.add_dialog_layout.view.*
 import kotlinx.android.synthetic.main.fragment_hutang.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HutangFragment : Fragment() {
@@ -33,13 +34,13 @@ class HutangFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = activity?.let { ViewModelProviders.of(it).get(MainViewModel::class.java) }
         populateRecycler()
-        viewModel?.getAllHutang()?.observe(this, Observer {
+        viewModel?.getAllHutang()?.observe(viewLifecycleOwner, Observer {
             adapter?.setData(it?.toMutableList())
         })
     }
 
     private fun populateRecycler() {
-        adapter = HutangAdapter(context!!, null) { it, it1 ->
+        adapter = HutangAdapter(requireContext(), null) { it, it1 ->
             if (it1 == "delete") {
                 (parentFragment?.activity as MainActivity).reduceValue("", it.jumlah)
 
@@ -57,26 +58,49 @@ class HutangFragment : Fragment() {
     }
 
     private fun showAddDataDialog(hutang: Hutang) {
-        val dialog = context?.let { AlertDialog.Builder(it) }
+        val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
 
         dialogView.dialog_title.setText(hutang.judul)
         dialogView.dialog_amount.setText(hutang.jumlah.toString())
+        dialogView.dialog_date.text = "Transaction date: ${DateUtil.formatDate(hutang.tanggal)}"
         dialogView.dialog_checkbox_income.visibility = View.GONE
 
-        dialog?.setView(dialogView)
-        dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
-            val date = SimpleDateFormat(getString(R.string.date_pattern))
-            val innerHutang = Hutang(
-                hutang.id, dialogView.dialog_title.text.toString(),
-                dialogView.dialog_amount.text.toString().toInt(),
-                date.format(Calendar.getInstance().time)
-            )
+        var selectedDate = hutang.tanggal
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
 
-            viewModel?.updateHutang(innerHutang)
+        dialogView.dialog_show_date.setOnClickListener {
+            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                val date = "$dayOfMonth $monthOfYear $year"
+                dialogView.dialog_date.text = "Transaction date: ${DateUtil.formatDate(date)}"
+                selectedDate = "$dayOfMonth $monthOfYear $year"
+            }, year, month, day).show()
         }
 
+        builder?.setView(dialogView)
+        builder?.setCancelable(true)
+        builder?.setPositiveButton(R.string.dialog_simpan, null)
+
+        val dialog = builder?.create()
         dialog?.show()
+        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            if (dialogView.dialog_title.text.isNotBlank() && dialogView.dialog_amount.text.isNotBlank()
+                && selectedDate.isNotBlank()
+            ) {
+                val innerHutang = Hutang(
+                    hutang.id, dialogView.dialog_title.text.toString(),
+                    dialogView.dialog_amount.text.toString().toInt(),
+                    selectedDate
+                )
+
+                viewModel?.updateHutang(innerHutang)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
