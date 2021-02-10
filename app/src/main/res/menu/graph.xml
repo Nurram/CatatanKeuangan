@@ -8,10 +8,10 @@
             android:icon="@drawable/ic_restore_page_24dp"
             app:showAsAction="always"/>
 
-    <item
-            android:id="@+id/graph_ad_toolbar"
-            android:title="@string/ads"
-            app:showAsAction="always"
-            android:icon="@drawable/ad_icon"/>
+<!--    <item-->
+<!--            android:id="@+id/graph_ad_toolbar"-->
+<!--            android:title="@string/ads"-->
+<!--            app:showAsAction="always"-->
+<!--            android:icon="@drawable/ad_icon"/>-->
 
 </menu>

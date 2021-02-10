@@ -154,7 +154,7 @@ class GraphActivity : AppCompatActivity() {
             R.id.convert_excel -> showConvertDialog()
         }
 
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun initGraph(graphList: List<Record>, whereFrom: String) {

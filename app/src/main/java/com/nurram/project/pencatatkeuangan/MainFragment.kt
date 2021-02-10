@@ -81,10 +81,10 @@ class MainFragment : Fragment() {
     }
 
     private fun showAddDataDialog(key: String) {
-        val dialog = context?.let { AlertDialog.Builder(it) }
+        val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = layoutInflater.inflate(R.layout.add_dialog_layout, null)
 
-        var selectedDate = ""
+        var selectedDate = DateUtil.getCurrentDate()
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -94,25 +94,28 @@ class MainFragment : Fragment() {
             "utang" -> dialogView.dialog_checkbox_income.visibility = View.GONE
         }
 
-        dialog?.setView(dialogView)
+        builder?.setView(dialogView)
         dialogView.dialog_show_date.setOnClickListener {
-            DatePickerDialog(context, { _, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val date = "$dayOfMonth $monthOfYear $year"
                 dialogView.dialog_date.text = "Transaction date: ${DateUtil.formatDate(date)}"
                 selectedDate = "$dayOfMonth $monthOfYear $year"
             }, year, month, day).show()
         }
 
-        dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_simpan) { innerDialog, _ ->
+        builder?.setCancelable(true)
+        builder?.setPositiveButton(R.string.dialog_simpan, null)
+        val dialog = builder?.create()
+        dialog?.show()
+        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             val isPemasukan = if (dialogView.dialog_checkbox_income.isChecked) {
                 "pemasukan"
             } else {
                 "pengeluaran"
             }
 
-            if (!dialogView.dialog_title.text.isBlank() && !dialogView.dialog_amount.text.isBlank()
-                && !selectedDate.isBlank()
+            if (dialogView.dialog_title.text.isNotBlank() && dialogView.dialog_amount.text.isNotBlank()
+                && selectedDate.isNotBlank()
             ) {
 
                 val jumlahPemasukan = dialogView.dialog_amount.text.toString()
@@ -138,12 +141,10 @@ class MainFragment : Fragment() {
                     viewModel.insertHutang(hutang)
                 }
 
-                innerDialog.dismiss()
+                dialog.dismiss()
             } else {
                 Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
             }
         }
-
-        dialog?.show()
     }
 }
