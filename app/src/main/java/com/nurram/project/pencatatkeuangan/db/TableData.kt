@@ -14,7 +14,7 @@ class Record(
     @ColumnInfo(name = "judul")
     var judul: String = "None",
     @ColumnInfo(name = "jumlah")
-    var jumlah: Int = 0,
+    var jumlah: Long = 0,
     @ColumnInfo(name = "tanggal")
     var tanggal: String = "27-02-2019",
     @ColumnInfo(name = "keterangan")

@@ -88,7 +88,7 @@ class RiwayatFragment : Fragment() {
         dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
             val innerRecord = Record(
                 record.id, dialogView.dialog_title.text.toString(),
-                dialogView.dialog_amount.text.toString().toInt(),
+                dialogView.dialog_amount.text.toString().toLong(),
                 selectedDate,
                 record.keterangan
             )

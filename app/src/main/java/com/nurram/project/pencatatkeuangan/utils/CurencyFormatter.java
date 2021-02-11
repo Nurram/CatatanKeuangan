@@ -6,7 +6,7 @@ import java.text.DecimalFormatSymbols;
 public class CurencyFormatter {
 
     @SuppressWarnings("UnusedReturnValue")
-    public static String convertAndFormat(int s) {
+    public static String convertAndFormat(long s) {
         DecimalFormat format = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
         formatRp.setCurrencySymbol("Rp.");

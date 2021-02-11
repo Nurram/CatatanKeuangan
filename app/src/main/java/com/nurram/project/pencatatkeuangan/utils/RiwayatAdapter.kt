@@ -50,7 +50,7 @@ class RiwayatAdapter(
             this.record = record
 
             view.item_judul.text = record.judul
-            view.item_uang.text = convertAndFormat(record.jumlah)
+            view.item_uang.text = convertAndFormat(record.jumlah.toLong())
             view.item_tanggal.text = DateUtil.formatDate(record.tanggal)
             view.item_delete.setOnClickListener { clickUtils(record, "delete") }
             view.item_update.setOnClickListener { clickUtils(record, "edit") }

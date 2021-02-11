@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.saldo_dialog_layout.view.*
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
-    private var jumlahPengeluaran = 0
-    private var jumlahPemasukan = 0
-    private var jumlahHutang = 0
+    private var jumlahPengeluaran = 0L
+    private var jumlahPemasukan = 0L
+    private var jumlahHutang = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,19 +57,19 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getJumlahPengeluaran()?.observe(this, androidx.lifecycle.Observer {
             if (it != null) {
-                jumlahPengeluaran = it
+                jumlahPengeluaran = it.toLong()
             }
         })
 
         viewModel.getJumlahPemasukan()?.observe(this, androidx.lifecycle.Observer {
             if (it != null) {
-                jumlahPemasukan = it
+                jumlahPemasukan = it.toLong()
             }
         })
 
         viewModel.getJumlahHutang()?.observe(this, androidx.lifecycle.Observer {
             if (it != null) {
-                jumlahHutang = it
+                jumlahHutang = it.toLong()
             }
         })
     }
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun reduceValue(key: String, amount: Int) {
+    fun reduceValue(key: String, amount: Long) {
         when (key) {
             "pemasukan" -> jumlahPemasukan -= amount
             "pengeluaran" -> jumlahPengeluaran -= amount

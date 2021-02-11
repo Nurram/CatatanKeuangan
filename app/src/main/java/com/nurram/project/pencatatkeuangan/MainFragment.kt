@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getJumlahPengeluaran()?.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it != null) {
-                main_jumlah_pengeluaran.text = CurencyFormatter.convertAndFormat(it)
+                main_jumlah_pengeluaran.text = CurencyFormatter.convertAndFormat(it.toLong())
             } else {
                 main_jumlah_pengeluaran.text = CurencyFormatter.convertAndFormat(0)
             }
@@ -42,7 +42,7 @@ class MainFragment : Fragment() {
 
         viewModel.getJumlahPemasukan()?.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it != null) {
-                main_jumlah_pemasukan.text = CurencyFormatter.convertAndFormat(it)
+                main_jumlah_pemasukan.text = CurencyFormatter.convertAndFormat(it.toLong())
             } else {
                 main_jumlah_pemasukan.text = CurencyFormatter.convertAndFormat(0)
             }
@@ -124,7 +124,7 @@ class MainFragment : Fragment() {
                     val record = Record(
                         0,
                         dialogView.dialog_title.text.toString(),
-                        jumlahPemasukan.toInt(),
+                        jumlahPemasukan.toLong(),
                         selectedDate,
                         isPemasukan
                     )

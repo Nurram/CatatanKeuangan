@@ -21,8 +21,8 @@ class DiscCalcFragment : Fragment() {
         discount_calculate.setOnClickListener {
             val amount = discount_amount.text.toString().toInt()
             val discount = discount_value.text.toString().toInt()
-            val save = (amount*discount)/100
-            val result = amount - save
+            val save = ((amount*discount)/100).toLong()
+            val result = (amount - save).toLong()
 
             discount_result.visibility = View.VISIBLE
             discount_result.text = "${getString(R.string.price_after_discount)} ${CurencyFormatter.convertAndFormat(result)}"

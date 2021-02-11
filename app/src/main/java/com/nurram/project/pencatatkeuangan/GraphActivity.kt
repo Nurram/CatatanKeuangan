@@ -44,7 +44,7 @@ class GraphActivity : AppCompatActivity() {
     private val datas = mutableListOf<Record>()
     private var records = mutableListOf<Record>()
     private var date = ""
-    private var currentSum = 0
+    private var currentSum = 0L
     private var pos = 0
     private var currentDate = ""
     private var limit = 0
@@ -159,7 +159,7 @@ class GraphActivity : AppCompatActivity() {
 
     private fun initGraph(graphList: List<Record>, whereFrom: String) {
         resetGraph()
-        var totalSum = 0
+        var totalSum = 0L
         graph_total.text = getString(R.string.total)
 
         currentDate = graphList[0].tanggal

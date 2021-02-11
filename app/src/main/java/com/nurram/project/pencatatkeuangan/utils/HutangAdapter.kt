@@ -44,7 +44,7 @@ class HutangAdapter(
             this.hutang = hutang
 
             view.item_judul.text = hutang.judul
-            view.item_uang.text = convertAndFormat(hutang.jumlah)
+            view.item_uang.text = convertAndFormat(hutang.jumlah.toLong())
             view.item_tanggal.text = DateUtil.formatDate(hutang.tanggal)
             view.item_delete.setOnClickListener { clickUtils(hutang, "delete") }
             view.item_update.setOnClickListener { clickUtils(hutang, "edit") }
