@@ -32,14 +32,14 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_pengeluaran_kamu"
+                        android:text="@string/total_expenses_kamu"
                         android:textColor="@android:color/white"
                         android:layout_marginStart="16dp"
                         android:gravity="center_horizontal"
                         android:layout_marginEnd="16dp"/>
 
                 <TextView
-                        android:id="@+id/main_jumlah_pengeluaran"
+                        android:id="@+id/main_total_expenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/rp_0"
@@ -54,14 +54,14 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_pemasukan_kamu"
+                        android:text="@string/total_income_kamu"
                         android:textColor="@android:color/white"
                         android:gravity="center_horizontal"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"/>
 
                 <TextView
-                        android:id="@+id/main_jumlah_pemasukan"
+                        android:id="@+id/main_total_income"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/rp_0"
@@ -95,27 +95,26 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/riwayat_fab"
+            android:id="@+id/history_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_add_white_24dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             app:layout_anchor="@+id/main_view_pager"
-            app:layout_anchorGravity="bottom|end"/>
+            app:layout_anchorGravity="bottom|end"
+            android:contentDescription="@string/add_image" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/hutang_fab"
+            android:id="@+id/debt_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_add_white_24dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:backgroundTint="@color/colorPrimary"
             app:layout_anchor="@+id/main_view_pager"
-            app:layout_anchorGravity="bottom|end"/>
+            app:layout_anchorGravity="bottom|end"
+            android:contentDescription="@string/add_image" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

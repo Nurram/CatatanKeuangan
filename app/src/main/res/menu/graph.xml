@@ -5,7 +5,7 @@
     <item
             android:id="@+id/convert_excel"
             android:title="@string/konversi_ke_excel"
-            android:icon="@drawable/ic_restore_page_24dp"
+            android:icon="@drawable/ic_baseline_insert_drive_file"
             app:showAsAction="always"/>
 
 <!--    <item-->

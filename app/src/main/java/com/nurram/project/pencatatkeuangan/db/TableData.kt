@@ -13,24 +13,24 @@ class Record(
     var id: Int = 0,
     @ColumnInfo(name = "judul")
     var judul: String = "None",
-    @ColumnInfo(name = "jumlah")
-    var jumlah: Long = 0,
-    @ColumnInfo(name = "tanggal")
-    var tanggal: String = "27-02-2019",
-    @ColumnInfo(name = "keterangan")
-    var keterangan: String = "pengeluaran"
+    @ColumnInfo(name = "total")
+    var total: Long = 0,
+    @ColumnInfo(name = "date")
+    var date: String = "27-02-2019",
+    @ColumnInfo(name = "description")
+    var description: String = "expenses"
 )
 
-@Entity(tableName = "hutang_table")
-class Hutang(
+@Entity(tableName = "debt_table")
+class Debt(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
     var id: Int = 0,
     @ColumnInfo(name = "judul")
     var judul: String = "None",
-    @ColumnInfo(name = "jumlah")
-    var jumlah: Int = 0,
-    @ColumnInfo(name = "tanggal")
-    var tanggal: String = "27-02-2019"
+    @ColumnInfo(name = "total")
+    var total: Int = 0,
+    @ColumnInfo(name = "date")
+    var date: String = "27-02-2019"
 )

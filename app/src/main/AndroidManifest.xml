@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         package="com.nurram.project.pencatatkeuangan">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+            tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <supports-screens android:smallScreens="false" />
@@ -14,12 +16,13 @@
             android:label="@string/app_name"
             android:roundIcon="@drawable/icon_circle"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:requestLegacyExternalStorage="true">
         <activity
-                android:name="com.nurram.project.pencatatkeuangan.GraphActivity"
-                android:parentActivityName="com.nurram.project.pencatatkeuangan.MainActivity"
+                android:name="com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity"
+                android:parentActivityName="com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity"
                 android:screenOrientation="portrait"/>
-        <activity android:name="com.nurram.project.pencatatkeuangan.MainActivity" android:screenOrientation="portrait">
+        <activity android:name="com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

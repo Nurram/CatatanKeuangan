@@ -1,63 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="total_pengeluaran_kamu">Total pengeluaran kamu:
+    <string name="app_name">Financial Records</string>
+    <string name="data_sudah_pernah_dikonversi">Data already converted, please reopen this page to re-convert</string>
+    <string name="dialog_message">Are you sure?</string>
+    <string name="dialog_simpan">Save</string>
+    <string name="dialog_title_saldo">Your balance</string>
+    <string name="ex_belanja">ex: Shopping</string>
+    <string name="debt_kamu">Your debt</string>
+    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph will shown if you already have 2 data or
+        more
     </string>
+    <string name="konversi_excel_ditolak">Give permission to use excel conversion</string>
+    <string name="konversi_tidak_diijinkan">You cannot use conversion feature</string>
+    <string name="lakukan_konversi">Convert to xls?</string>
+    <string name="masukan_judul">Enter a title</string>
+    <string name="masukan_total_uang">Enter amount of money</string>
+    <string name="mengerti_bawa_kembali">Understand, take me back</string>
+    <string name="mulai_konversi">Starting conversion</string>
+    <string name="income">Income</string>
+    <string name="income_kamu">Your income</string>
+    <string name="expenses">Expenditure</string>
+    <string name="pengluaran_kamu">Your expenses</string>
+    <string name="perhatian">Attention</string>
+    <string name="history">History</string>
+    <string name="saldo">Balance</string>
+    <string name="saldo_kamu">Your balance</string>
+    <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
+    <string name="spinner_peringatan_data">Data are less than 2</string>
+    <string name="tidak_ada_iklan">No ads are available</string>
+    <string name="toast_hapus_berhasil">Data successfully deleted</string>
+    <string name="toast_isi_kolom">Fill all collumn</string>
+    <string name="total_income_kamu">Your total income</string>
+    <string name="total_expenses_kamu">Your total expenses</string>
     <string name="rp_0">Rp.0</string>
-    <string name="masukan_judul">Masukan judul</string>
-    <string name="ex_belanja">ex: Belanja</string>
-    <string name="masukan_jumlah_uang">Masukan jumlah uang</string>
-    <string name="ex_1_000_000">ex: 10000</string>
-    <string name="pemasukan">Pemasukan</string>
-    <string name="pemasukan_kamu">Pemasukan kamu</string>
-    <string name="pengluaran_kamu">Pengeluaran kamu</string>
-    <string name="saldo_kamu">Saldo kamu</string>
-    <string name="saldo">Saldo</string>
     <string name="reset">Reset</string>
-    <string name="hutang_kamu">Hutang kamu</string>
-
-    <string name="date_pattern">dd-MM-yyyy</string>
-
-    <string name="dialog_title_saldo">Jumlah saldo kamu</string>
-    <string name="dialog_message">Apakah kamu yakin?</string>
-    <string name="dialog_simpan">Simpan</string>
-
-    <string name="toast_isi_kolom">Isi semua kolom!</string>
-    <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
-    <string name="app_name">Pencatat Keuangan</string>
-    <string name="total_pemasukan_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
-    <string name="riwayat">Riwayat</string>
-    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph akan muncul apabila kamu memiliki 2 data atau
-        lebih
-    </string>
-
-    <string name="pengeluaran">Pengeluaran</string>
-    <string name="spinner_peringatan_data">Jumlah data kurang dari 2</string>
-    <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
-    <string name="tidak_ada_iklan">Belum ada iklan yang tersedia</string>
-    <string name="perhatian">Perhatian!</string>
-    <string name="mengerti_bawa_kembali">Mengerti, bawa saya kembali</string>
-    <string name="lakukan_konversi">Lakukan konversi ke format xls?</string>
-    <string name="data_sudah_pernah_dikonversi">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
-        ulang
-    </string>
-    <string name="konversi_tidak_diijinkan">Kamu tidak bisa menggunakan fitur konversi</string>
-    <string name="mulai_konversi">Memulai konversi</string>
-    <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
-    <string name="konversi_ke_excel">Konversi ke excel</string>
+    <string name="ex_1_000_000">ex: 10000</string>
+    <string name="date_pattern">dd-MM-yyyy</string>
+    <string name="konversi_ke_excel">Convert to excel</string>
     <string name="ads">Ads</string>
-    <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
-    <string name="sebuah_tombol_gambar_untuk_merubah_data">Sebuah tombol gambar untuk menrubah data</string>
+    <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
+    <string name="sebuah_tombol_gambar_untuk_merubah_data">An image button to delete data</string>
     <string name="total">Total:</string>
-    <string name="selected_date">Tidak ada tanggal yang dipilih</string>
-    <string name="pilih_tanggal">Pilih tanggal</string>
+    <string name="selected_date">No date selected</string>
+    <string name="pilih_date">Select date</string>
     <string name="home">Home</string>
-    <string name="discount">Kalkulator Diskon</string>
+    <string name="discount">Discount Calculator</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="choose_menu_below">Pilih menu dibawah:</string>
-    <string name="current_amount">Harga Awal</string>
-    <string name="discount_total">Jumlah Diskon</string>
-    <string name="price_after_discount">Harga setelah diskon:</string>
+    <string name="choose_menu_below">Choose menu below:</string>
+    <string name="current_amount">Amount</string>
+    <string name="discount_total">Discount</string>
+    <string name="price_after_discount">Price after discount:</string>
     <string name="calculate">Calculate</string>
-    <string name="you_save">Kamu telah menghemat:</string>
+    <string name="you_save">You saved:</string>
+    <string name="add_image">add_image</string>
+    <string name="monthly_report">Monthly report</string>
+    <string name="no_data_found">No data found</string>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>

@@ -2,7 +2,8 @@ package com.nurram.project.pencatatkeuangan.db
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import android.os.AsyncTask
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RecordRepo(application: Application) {
     private val recordDb = RecordDb.getDb(application)
@@ -12,68 +13,51 @@ class RecordRepo(application: Application) {
         return recordDao?.getAllData()
     }
 
-    fun getAllPemasukan(): LiveData<List<Record>>? {
-        return recordDao?.getAllPemasukan()
+    fun getAllIncome(): LiveData<List<Record>>? {
+        return recordDao?.getAllIncome()
     }
 
-    fun getAllPengeluaran(): LiveData<List<Record>>? {
-        return recordDao?.getAllPengeluaran()
+    fun getAllExpenses(): LiveData<List<Record>>? {
+        return recordDao?.getAllExpenses()
     }
 
-    fun getJumlahPengeluaran(): LiveData<Int>? {
-        return recordDao?.getJumlahPengeluaran()
+    fun getTotalExpenses(): LiveData<Int>? {
+        return recordDao?.getTotalExpenses()
     }
 
-    fun getJumlahPemasukan(): LiveData<Int>? {
-        return recordDao?.getJumlahPemasukan()
+    fun getTotalIncome(): LiveData<Int>? {
+        return recordDao?.getTotalIncome()
     }
 
     fun insertRecord(record: Record) {
-        recordDao?.let { InsertAsync(it).execute(record) }
+        recordDao?.let {
+            GlobalScope.launch {
+                recordDao.insert(record)
+            }
+        }
     }
 
     fun updateRecord(record: Record) {
-        recordDao?.let { UpdateAsync(it).execute(record) }
+        recordDao?.let {
+            GlobalScope.launch {
+                recordDao.update(record)
+            }
+        }
     }
 
     fun deleteAllRecord() {
-        recordDao?.let { DeleteAsync(it, "all").execute() }
+        recordDao?.let {
+            GlobalScope.launch {
+                recordDao.deleteAll()
+            }
+        }
     }
 
     fun deleteRecord(record: Record) {
-        recordDao?.let { DeleteAsync(it, "").execute(record) }
-    }
-
-    private class InsertAsync(recordDAO: RecordDAO) : AsyncTask<Record, Void, Void>() {
-        private val dao = recordDAO
-
-        override fun doInBackground(vararg params: Record?): Void? {
-            params[0]?.let { dao.insert(it) }
-            return null
-        }
-    }
-
-    private class UpdateAsync(recordDAO: RecordDAO) : AsyncTask<Record, Void, Void>() {
-        private val dao = recordDAO
-
-        override fun doInBackground(vararg params: Record?): Void? {
-            params[0]?.let { dao.update(it) }
-            return null
-        }
-    }
-
-    private class DeleteAsync(recordDAO: RecordDAO, val key: String) :
-        AsyncTask<Record, Void, Void>() {
-        private val dao = recordDAO
-
-        override fun doInBackground(vararg params: Record?): Void? {
-            if (key == "all") {
-                dao.deleteAll()
-            } else {
-                params[0]?.let { dao.delete(it) }
+        recordDao?.let {
+            GlobalScope.launch {
+                recordDao.delete(record)
             }
-
-            return null
         }
     }
 }

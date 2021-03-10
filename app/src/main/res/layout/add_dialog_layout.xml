@@ -22,7 +22,7 @@
 
         <TextView android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/masukan_jumlah_uang"/>
+                android:text="@string/masukan_total_uang"/>
 
         <EditText
                 android:id="@+id/dialog_amount"
@@ -43,13 +43,13 @@
                 android:id="@+id/dialog_show_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pilih_tanggal"
+                android:text="@string/pilih_date"
                 android:layout_marginBottom="8dp"/>
 
         <CheckBox android:id="@+id/dialog_checkbox_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/pemasukan"/>
+                android:text="@string/income"/>
     </LinearLayout>
 </ScrollView>

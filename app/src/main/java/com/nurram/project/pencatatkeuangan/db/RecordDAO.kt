@@ -21,33 +21,33 @@ interface RecordDAO {
     @Query("select * from record_table order by id desc")
     fun getAllData(): LiveData<List<Record>>
 
-    @Query("select * from record_table where keterangan = 'pengeluaran' order by id desc")
-    fun getAllPengeluaran(): LiveData<List<Record>>
+    @Query("select * from record_table where description = 'expenses' order by id desc")
+    fun getAllExpenses(): LiveData<List<Record>>
 
-    @Query("select * from record_table where keterangan = 'pemasukan' order by id desc")
-    fun getAllPemasukan(): LiveData<List<Record>>
+    @Query("select * from record_table where description = 'income' order by id desc")
+    fun getAllIncome(): LiveData<List<Record>>
 
-    @Query("select sum(jumlah) from record_table where keterangan = 'pengeluaran'")
-    fun getJumlahPengeluaran(): LiveData<Int>
+    @Query("select sum(total) from record_table where description = 'expenses'")
+    fun getTotalExpenses(): LiveData<Int>
 
-    @Query("select sum(jumlah) from record_table where keterangan = 'pemasukan'")
-    fun getJumlahPemasukan(): LiveData<Int>
+    @Query("select sum(total) from record_table where description = 'income'")
+    fun getTotalIncome(): LiveData<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertHutang(hutang: Hutang)
+    fun insertDebt(debt: Debt)
 
-    @Query("Delete from hutang_table")
-    fun deleteAllHutang()
+    @Query("Delete from debt_table")
+    fun deleteAllDebt()
 
     @Delete
-    fun deleteHutang(hutang: Hutang)
+    fun deleteDebt(debt: Debt)
 
     @Update
-    fun updateHutang(hutang: Hutang)
+    fun updateDebt(debt: Debt)
 
-    @Query("select * from hutang_table order by id desc")
-    fun getAllDataHutang(): LiveData<List<Hutang>>
+    @Query("select * from debt_table order by id desc")
+    fun getAllDataDebt(): LiveData<List<Debt>>
 
-    @Query("select sum(jumlah) from hutang_table")
-    fun getJumlahHutang(): LiveData<Int>
+    @Query("select sum(total) from debt_table")
+    fun getTotalDebt(): LiveData<Int>
 }
