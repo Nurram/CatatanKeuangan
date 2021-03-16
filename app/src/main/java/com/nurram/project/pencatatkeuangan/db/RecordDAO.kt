@@ -18,13 +18,13 @@ interface RecordDAO {
     @Update
     fun update(record: Record)
 
-    @Query("select * from record_table order by id desc")
+    @Query("select * from record_table order by date desc")
     fun getAllData(): LiveData<List<Record>>
 
-    @Query("select * from record_table where description = 'expenses' order by id desc")
+    @Query("select * from record_table where description = 'expenses' order by date desc")
     fun getAllExpenses(): LiveData<List<Record>>
 
-    @Query("select * from record_table where description = 'income' order by id desc")
+    @Query("select * from record_table where description = 'income' order by date desc")
     fun getAllIncome(): LiveData<List<Record>>
 
     @Query("select sum(total) from record_table where description = 'expenses'")
@@ -45,7 +45,7 @@ interface RecordDAO {
     @Update
     fun updateDebt(debt: Debt)
 
-    @Query("select * from debt_table order by id desc")
+    @Query("select * from debt_table order by date desc")
     fun getAllDataDebt(): LiveData<List<Debt>>
 
     @Query("select sum(total) from debt_table")

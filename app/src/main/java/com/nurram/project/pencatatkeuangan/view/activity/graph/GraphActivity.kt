@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +26,7 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
 
 class GraphActivity : AppCompatActivity() {
@@ -48,7 +50,7 @@ class GraphActivity : AppCompatActivity() {
     private var date = ""
     private var currentSum = 0L
     private var pos = 0
-    private var currentDate = ""
+    private var currentDateString = ""
     private var limit = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +101,6 @@ class GraphActivity : AppCompatActivity() {
                    position: Int,
                    id: Long
                ) {
-
                    if (position == 0 && outcomeList.size >= 2) {
                        graphSpinner.isClickable = true
                        initGraph(outcomeList, "out")
@@ -166,7 +167,8 @@ class GraphActivity : AppCompatActivity() {
         var totalSum = 0L
         binding.graphTotal.text = getString(R.string.total)
 
-        currentDate = graphList[0].date
+        val currentDate = graphList[0].date
+        currentDateString = DateUtil.formatDate(currentDate!!)
         limit = graphList.size
 
         if (limit > 31) {
@@ -175,20 +177,14 @@ class GraphActivity : AppCompatActivity() {
 
         graphList.asReversed().takeLast(limit).forEach {
             totalSum += it.total
-
-            if (currentDate == it.date) {
-                currentSum += it.total
-                recordListTemp.add(it)
-            } else {
-                recordList.addAll(recordListTemp)
-                adapterData.add(GraphModel(currentDate, recordList))
-                dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
-                currentDate = it.date
-                currentSum = it.total
-                recordListTemp.clear()
-                recordListTemp.add(it)
-                pos++
-            }
+            recordList.addAll(recordListTemp)
+            adapterData.add(GraphModel(it.date!!, recordList))
+            dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
+            currentDateString = DateUtil.formatDate(it.date!!)
+            currentSum = it.total
+            recordListTemp.clear()
+            recordListTemp.add(it)
+            pos++
         }
 
         dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
@@ -214,11 +210,12 @@ class GraphActivity : AppCompatActivity() {
             binding.graphTotal.text = getString(R.string.total)
 
             records = adapterData[dataPoint1.x.toInt()].records
-            date = adapterData[dataPoint1.x.toInt()].date
+            date = DateUtil.formatDate(adapterData[dataPoint1.x.toInt() - 1].date)
             datas.clear()
 
             records.forEach {
-                if (it.date == date) {
+                val txDate = DateUtil.formatDate(it.date!!)
+                if (txDate == date) {
                     totalSum += it.total
                     datas.add(it)
                 }

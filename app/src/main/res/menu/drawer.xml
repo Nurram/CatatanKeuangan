@@ -8,10 +8,11 @@
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_baseline_home_24"
                 android:title="@string/home" />
-        <item
-                android:id="@+id/nav_report"
-                android:icon="@drawable/ic_baseline_article_24"
-                android:title="@string/monthly_report" />
+
+<!--        <item-->
+<!--                android:id="@+id/nav_report"-->
+<!--                android:icon="@drawable/ic_baseline_article_24"-->
+<!--                android:title="@string/monthly_report" />-->
 
         <item
                 android:id="@+id/nav_discount"

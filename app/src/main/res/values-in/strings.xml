@@ -63,6 +63,7 @@
     <string name="add_image">gambar_tambah</string>
     <string name="monthly_report">Laporan Bulanan</string>
     <string name="no_data_found">Data tidak ditemukan</string>
+    <string name="add_debt">Tambah utang</string>
 
     <string-array name="months">
         <item>Januari</item>

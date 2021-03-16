@@ -93,7 +93,7 @@ class MainFragment : Fragment() {
         val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
-        var selectedDate = DateUtil.getCurrentDate()
+        var selectedDate = Date()
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -106,9 +106,10 @@ class MainFragment : Fragment() {
         builder?.setView(dialogView.root)
         dialogView.dialogShowDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                val date = "$dayOfMonth ${monthOfYear + 1} $year"
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(date)}"
-                selectedDate = "$dayOfMonth $monthOfYear $year"
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                selectedDate = calendar.time
             }, year, month, day).show()
         }
 
@@ -124,7 +125,6 @@ class MainFragment : Fragment() {
             }
 
             if (dialogView.dialogTitle.text.isNotBlank() && dialogView.dialogAmount.text.isNotBlank()
-                && selectedDate.isNotBlank()
             ) {
 
                 val totalIncome = dialogView.dialogAmount.text.toString()

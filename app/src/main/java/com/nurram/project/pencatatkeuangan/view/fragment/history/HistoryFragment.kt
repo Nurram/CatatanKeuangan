@@ -3,15 +3,14 @@ package com.nurram.project.pencatatkeuangan.view.fragment.history
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentHistoryBinding
@@ -50,7 +49,10 @@ class HistoryFragment : Fragment() {
         adapter = context?.let {
             HistoryAdapter(it, null, false) { record, it1 ->
                 if (it1 == "delete") {
-                    (parentFragment?.activity as MainActivity).reduceValue(record.description, record.total)
+                    (parentFragment?.activity as MainActivity).reduceValue(
+                        record.description,
+                        record.total
+                    )
 
                     viewModel?.deleteRecord(record)
                     Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
@@ -76,7 +78,7 @@ class HistoryFragment : Fragment() {
         dialogView.apply {
             dialogTitle.setText(record.judul)
             dialogAmount.setText(record.total.toString())
-            dialogDate.text = "Transaction date: ${DateUtil.formatDate(record.date)}"
+            dialogDate.text = "Transaction date: ${record.date?.let { DateUtil.formatDate(it) }}"
             dialogCheckboxIncome.isEnabled = false
         }
 
@@ -88,9 +90,10 @@ class HistoryFragment : Fragment() {
 
         dialogView.dialogShowDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                val date = "$dayOfMonth ${monthOfYear + 1} $year"
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(date)}"
-                selectedDate = "$dayOfMonth $monthOfYear $year"
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                selectedDate = calendar.time
             }, year, month, day).show()
         }
 

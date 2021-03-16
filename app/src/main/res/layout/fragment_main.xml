@@ -104,17 +104,23 @@
             android:layout_alignParentEnd="true"
             app:layout_anchor="@+id/main_view_pager"
             app:layout_anchorGravity="bottom|end"
-            android:contentDescription="@string/add_image" />
+            app:tint="@android:color/white"
+            app:backgroundTint="@color/colorAccent"
+            android:contentDescription="@string/add_image"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/debt_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_add_white_24dp"
+            android:text="@string/add_debt"
+            android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             app:layout_anchor="@+id/main_view_pager"
             app:layout_anchorGravity="bottom|end"
-            android:contentDescription="@string/add_image" />
+            app:icon="@drawable/ic_add_white_24dp"
+            app:iconTint="@android:color/white"
+            app:backgroundTint="@color/colorAccent"
+            android:contentDescription="@string/add_image"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

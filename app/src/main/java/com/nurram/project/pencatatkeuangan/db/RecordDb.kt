@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Record::class, Debt::class], version = 2)
+@Database(entities = [Record::class, Debt::class], version = 3)
 abstract class RecordDb : RoomDatabase() {
     abstract val recordDao: RecordDAO
 

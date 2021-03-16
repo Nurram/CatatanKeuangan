@@ -51,11 +51,11 @@ class HistoryAdapter(
 
         fun bind(record: Record, clickUtils: (Record, String) -> Unit) {
             this.record = record
-            Log.d("TAG", "Adapter")
+
             binding.apply {
                 itemJudul.text = record.judul
                 itemUang.text = convertAndFormat(record.total.toLong())
-                itemDate.text = DateUtil.formatDate(record.date)
+                itemDate.text = DateUtil.formatDate(record.date!!)
                 itemDelete.setOnClickListener { clickUtils(record, "delete") }
                 itemUpdate.setOnClickListener { clickUtils(record, "edit") }
 

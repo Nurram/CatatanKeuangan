@@ -57,6 +57,7 @@
     <string name="add_image">add_image</string>
     <string name="monthly_report">Monthly report</string>
     <string name="no_data_found">No data found</string>
+    <string name="add_debt">Add debt</string>
 
     <string-array name="months">
         <item>January</item>

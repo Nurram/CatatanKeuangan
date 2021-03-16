@@ -71,7 +71,7 @@ class DebtFragment : Fragment() {
        dialogView.apply {
            dialogTitle.setText(debt.judul)
            dialogAmount.setText(debt.total.toString())
-           dialogDate.text = "Transaction date: ${DateUtil.formatDate(debt.date)}"
+           dialogDate.text = "Transaction date: ${debt.date?.let { DateUtil.formatDate(it) }}"
            dialogCheckboxIncome.visibility = View.GONE
        }
 
@@ -83,9 +83,10 @@ class DebtFragment : Fragment() {
 
         dialogView.dialogShowDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                val date = "$dayOfMonth $monthOfYear $year"
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(date)}"
-                selectedDate = "$dayOfMonth $monthOfYear $year"
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                selectedDate = calendar.time
             }, year, month, day).show()
         }
 
@@ -97,7 +98,7 @@ class DebtFragment : Fragment() {
         dialog?.show()
         dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             if (dialogView.dialogTitle.text.isNotBlank() && dialogView.dialogAmount.text.isNotBlank()
-                && selectedDate.isNotBlank()
+                && selectedDate != null
             ) {
                 val innerDebt = Debt(
                     debt.id, dialogView.dialogTitle.text.toString(),
