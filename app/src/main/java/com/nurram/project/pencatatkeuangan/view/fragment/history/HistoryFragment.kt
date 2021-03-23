@@ -54,7 +54,8 @@ class HistoryFragment : Fragment() {
         binding.historySort.setOnClickListener {
             isNewest = !isNewest
 
-            getAllRecords()
+            records = records?.reversed()
+            adapter?.setData(records?.toMutableList())
 
             if(!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
             else binding.historySortText.text = getString(R.string.sort_newest)

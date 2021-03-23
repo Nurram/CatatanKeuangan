@@ -51,7 +51,8 @@ class DebtFragment : Fragment() {
         binding.debtSort.setOnClickListener {
             isNewest = !isNewest
 
-            getAllDebts()
+            debts = debts?.reversed()
+            adapter?.setData(debts?.toMutableList())
 
             if(!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
             else binding.debtSortText.text = getString(R.string.sort_newest)
