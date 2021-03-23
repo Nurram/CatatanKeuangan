@@ -1,10 +1,7 @@
 package com.nurram.project.pencatatkeuangan.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.annotation.NonNull
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.nurram.project.pencatatkeuangan.db.converter.DateConverter
 import java.util.*
 
@@ -22,7 +19,9 @@ class Record(
     @ColumnInfo(name = "date")
     var date: Date? = null,
     @ColumnInfo(name = "description")
-    var description: String = "expenses"
+    var description: String = "expenses",
+    @Ignore
+    var type: Int = 0
 )
 
 @Entity(tableName = "debt_table")
@@ -37,5 +36,7 @@ class Debt(
     @ColumnInfo(name = "total")
     var total: Int = 0,
     @ColumnInfo(name = "date")
-    var date: Date? = null
+    var date: Date? = null,
+    @Ignore
+    var type: Int = 0
 )

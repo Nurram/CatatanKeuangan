@@ -9,8 +9,8 @@ android {
         applicationId "com.nurram.project.pencatatkeuangan"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.34"
+        versionCode 9
+        versionName "1.40"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {

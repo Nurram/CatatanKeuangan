@@ -64,6 +64,12 @@
     <string name="monthly_report">Laporan Bulanan</string>
     <string name="no_data_found">Data tidak ditemukan</string>
     <string name="add_debt">Tambah utang</string>
+    <string name="sort_oldest">Urutkan tanggal (terlama)</string>
+    <string name="sort_newest">Urutkan tanggal (terbaru)</string>
+    <string name="start_date">Tanggal Awal</string>
+    <string name="end_date">Tanggal Akhir</string>
+    <string name="filter">Filter data</string>
+    <string name="remove_filter">Hapus filter</string>
 
     <string-array name="months">
         <item>Januari</item>

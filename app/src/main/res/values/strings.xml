@@ -58,6 +58,12 @@
     <string name="monthly_report">Monthly report</string>
     <string name="no_data_found">No data found</string>
     <string name="add_debt">Add debt</string>
+    <string name="sort_oldest">Sort date (oldest)</string>
+    <string name="sort_newest">Sort date (newest)</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="filter">Filter data</string>
+    <string name="remove_filter">Remove filter</string>
 
     <string-array name="months">
         <item>January</item>

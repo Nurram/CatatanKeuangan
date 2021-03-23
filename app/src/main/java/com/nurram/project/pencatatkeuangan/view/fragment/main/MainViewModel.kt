@@ -7,18 +7,34 @@ import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.RecordRepo
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val recordRepo = RecordRepo(application)
     private val debtRepo = DebtRepo(application)
 
-    fun getAllRecords(): LiveData<List<Record>>? {
-        return recordRepo.getAllRecords()
+    fun getAllRecords(isNewest: Boolean): LiveData<List<Record>>? {
+        return if(isNewest) {
+            recordRepo.getAllRecordsDesc()
+        } else {
+            recordRepo.getAllRecordsAsc()
+        }
     }
 
-    fun getAllDebt(): LiveData<List<Debt>>? {
-        return debtRepo.getAllDebt()
+    fun getFilteredRecord(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Record>>? =
+        recordRepo.getFilteredRecord(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
+
+    fun getAllDebts(isNewest: Boolean): LiveData<List<Debt>>? {
+        return if(isNewest) {
+            debtRepo.getAllDebtDesc()
+        } else {
+            debtRepo.getAllDebtAsc()
+        }
     }
+
+    fun getFilteredDebt(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Debt>>? =
+        debtRepo.getFilteredDebtDesc(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
 
     fun getTotalExpenses(): LiveData<Int>? {
         return recordRepo.getTotalExpenses()

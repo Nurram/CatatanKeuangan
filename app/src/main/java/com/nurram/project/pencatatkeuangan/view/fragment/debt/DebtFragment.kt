@@ -15,6 +15,7 @@ import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
+import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
@@ -24,6 +25,13 @@ class DebtFragment : Fragment() {
     private lateinit var binding: FragmentDebtBinding
     private var adapter: DebtAdapter? = null
     private var viewModel: MainViewModel? = null
+    private var debts: List<Debt>? = null
+
+    private var startDate: Date? = null
+    private var endDate: Date? = null
+
+    private var isNewest = true
+    private var isFiltered = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +46,32 @@ class DebtFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
         populateRecycler()
-        viewModel?.getAllDebt()?.observe(viewLifecycleOwner, {
+        getAllDebts()
+
+        binding.debtSort.setOnClickListener {
+            isNewest = !isNewest
+
+            getAllDebts()
+
+            if(!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
+            else binding.debtSortText.text = getString(R.string.sort_newest)
+        }
+
+        binding.debtFilter.setOnClickListener {
+            if(isFiltered) {
+                binding.debtFilterText.text = getString(R.string.filter)
+                getAllDebts()
+            } else {
+                showFilterDialog()
+            }
+
+            isFiltered = !isFiltered
+        }
+    }
+
+    private fun getAllDebts() {
+        viewModel?.getAllDebts(isNewest)?.observe(viewLifecycleOwner, {
+            debts = it
             adapter?.setData(it?.toMutableList())
         })
     }
@@ -112,5 +145,48 @@ class DebtFragment : Fragment() {
                 Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showFilterDialog() {
+        val dialog = context?.let { AlertDialog.Builder(it) }
+        val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)
+
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        dialogView.filterStartDate.setOnClickListener {
+            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                startDate = calendar.time
+                dialogView.filterStartDate.text = DateUtil.formatDate(calendar.time)
+            }, year, month, day).show()
+        }
+
+        dialogView.filterEndDate.setOnClickListener {
+            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                endDate = calendar.time
+                dialogView.filterEndDate.text = DateUtil.formatDate(calendar.time)
+            }, year, month, day).show()
+        }
+
+        dialog?.setView(dialogView.root)
+        dialog?.setCancelable(true)
+        dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
+            if(startDate != null && endDate != null) {
+                viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)?.observe(viewLifecycleOwner, {
+                    debts = it
+                    adapter?.setData(it?.toMutableList())
+
+                    binding.debtFilterText.text = getString(R.string.remove_filter)
+                })
+            }
+        }
+
+        dialog?.show()
     }
 }

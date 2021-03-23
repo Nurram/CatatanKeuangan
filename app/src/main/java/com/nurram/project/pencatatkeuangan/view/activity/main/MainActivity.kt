@@ -17,7 +17,6 @@ import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
-import com.nurram.project.pencatatkeuangan.view.fragment.report.ReportFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -51,11 +50,6 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, MainFragment()).commit()
                 }
-//                R.id.nav_report -> {
-//                    supportActionBar?.title = getString(R.string.monthly_report)
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fragment, ReportFragment()).commit()
-//                }
                 R.id.nav_discount -> {
                     supportActionBar?.title = getString(R.string.discount)
                     supportFragmentManager.beginTransaction()
@@ -97,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_reset -> showDialog()
-            R.id.action_saldo -> showSaldoDialog()
+            R.id.action_saldo -> showBalanceDialog()
             else -> {
                 val intent = Intent(this, GraphActivity::class.java)
                 startActivity(intent)
@@ -107,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showSaldoDialog() {
+    private fun showBalanceDialog() {
         val dialog = AlertDialog.Builder(this)
         val dialogView = SaldoDialogLayoutBinding.inflate(layoutInflater)
 
