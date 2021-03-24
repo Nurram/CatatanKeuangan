@@ -7,6 +7,7 @@
 
     <color name="toolbarBg">#673ab7</color>
     <color name="headerBg">@color/colorPrimary</color>
+    <color name="discBg">@color/colorPrimary</color>
     <color name="cardText">#0e1111</color>
     <color name="defaultText">#0e1111</color>
 </resources>

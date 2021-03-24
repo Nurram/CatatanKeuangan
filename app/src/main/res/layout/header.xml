@@ -11,6 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/choose_menu_below"
-            android:textColor="@android:color/black"
+            android:textColor="@color/cardText"
             android:textSize="16sp"/>
 </LinearLayout>
