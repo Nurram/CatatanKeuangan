@@ -3,7 +3,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.history
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +55,9 @@ class HistoryFragment : Fragment() {
 
             records = records?.reversed()
             adapter?.setData(records?.toMutableList())
+
+            if(!isNewest) binding.historySortImage.rotationX = 180.0.toFloat()
+            else binding.historySortImage.rotationX = 0.toFloat()
 
             if(!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
             else binding.historySortText.text = getString(R.string.sort_newest)
@@ -131,7 +133,8 @@ class HistoryFragment : Fragment() {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
                 calendar.set(year, monthOfYear, dayOfMonth)
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                dialogView.dialogDate.text =
+                    "Transaction date: ${DateUtil.formatDate(calendar.time)}"
                 selectedDate = calendar.time
             }, year, month, day).show()
         }
@@ -183,12 +186,14 @@ class HistoryFragment : Fragment() {
         dialog?.setCancelable(true)
         dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
            if(startDate != null && endDate != null) {
-               viewModel?.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(viewLifecycleOwner, {
-                   records = it
-                   adapter?.setData(it?.toMutableList())
+               viewModel?.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
+                   viewLifecycleOwner,
+                   {
+                       records = it
+                       adapter?.setData(it?.toMutableList())
 
-                   binding.historyFilterText.text = getString(R.string.remove_filter)
-               })
+                       binding.historyFilterText.text = getString(R.string.remove_filter)
+                   })
            }
         }
 

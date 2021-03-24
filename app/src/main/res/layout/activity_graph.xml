@@ -11,7 +11,7 @@
             android:id="@+id/graph_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/toolbarBg"
             android:theme="@style/ToolbarTheme"
             app:titleTextColor="@android:color/white"/>
 
@@ -36,9 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp">
+                    android:layout_marginStart="4dp">
 
                 <com.jjoe64.graphview.GraphView
                         android:id="@+id/graph_chart"
@@ -46,7 +44,7 @@
                         android:layout_height="200dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="4dp"
-                        android:layout_marginLeft="4dp"/>
+                        android:layout_marginEnd="4dp"/>
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -75,5 +73,5 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:padding="16dp"
-            android:background="@color/colorAccent"/>
+            android:background="@color/toolbarBg"/>
 </LinearLayout>

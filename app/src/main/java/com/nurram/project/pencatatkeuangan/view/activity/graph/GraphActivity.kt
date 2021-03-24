@@ -157,6 +157,7 @@ class GraphActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.convert_excel -> showConvertDialog()
+            android.R.id.home -> onBackPressed()
         }
 
         return true
@@ -197,7 +198,7 @@ class GraphActivity : AppCompatActivity() {
         series.setAnimated(true)
 
         if (whereFrom == "in") {
-            series.color = ContextCompat.getColor(this, R.color.colorPrimary)
+            series.color = ContextCompat.getColor(this, R.color.colorAccent)
             series.title = getString(R.string.income)
         } else {
             series.color = ContextCompat.getColor(this, R.color.colorRed)

@@ -22,7 +22,8 @@
                 android:name="com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity"
                 android:parentActivityName="com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity"
                 android:screenOrientation="portrait"/>
-        <activity android:name="com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity" android:screenOrientation="portrait">
+        <activity android:name="com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

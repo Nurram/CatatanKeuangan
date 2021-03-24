@@ -6,7 +6,7 @@ import java.util.*
 class DateUtil {
     companion object {
         fun formatDate(input: Date): String {
-            val result = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            val result = SimpleDateFormat("EEE, dd MMMM yyyy", Locale.getDefault())
             return result.format(input)
         }
 

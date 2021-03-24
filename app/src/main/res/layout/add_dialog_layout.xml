@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pilih_date"
+                android:textColor="@android:color/white"
                 android:layout_marginBottom="8dp"/>
 
         <CheckBox android:id="@+id/dialog_checkbox_income"

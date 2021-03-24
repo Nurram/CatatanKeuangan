@@ -8,7 +8,7 @@
 
     <TextView
             android:id="@+id/item_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="01 January 2021"
             android:textSize="16sp"

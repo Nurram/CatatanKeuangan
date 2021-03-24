@@ -86,9 +86,9 @@ class DebtAdapter(
             this.debt = debt
 
             binding.apply {
-                itemJudul.text = debt.judul
+                itemTitle.text = debt.judul
                 itemUang.text = convertAndFormat(debt.total.toLong())
-                itemDate.text = DateUtil.formatDate(debt.date!!)
+//                itemDate.text = DateUtil.formatDate(debt.date!!)
                 itemDelete.setOnClickListener { clickUtils(debt, "delete") }
                 itemUpdate.setOnClickListener { clickUtils(debt, "edit") }
                 itemView.setOnClickListener { clickUtils(debt, "edit") }

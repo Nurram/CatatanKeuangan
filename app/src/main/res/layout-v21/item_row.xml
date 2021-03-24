@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="73dp"
         android:elevation="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true"
@@ -38,10 +38,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
 
-        <TextView android:id="@+id/item_judul"
+        <TextView android:id="@+id/item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
+                android:textColor="@color/cardText"
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:layout_marginLeft="8dp"
@@ -50,25 +50,23 @@
                 android:layout_toEndOf="@+id/item_color"
                 android:layout_toStartOf="@+id/item_update"/>
 
-        <TextView android:id="@+id/item_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:layout_marginEnd="8dp"
-                android:layout_below="@+id/item_judul"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/item_color"
-                android:layout_toStartOf="@+id/item_update"/>
+<!--        <TextView android:id="@+id/item_date"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:maxLines="1"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:layout_below="@+id/item_title"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_toEndOf="@+id/item_color"-->
+<!--                android:layout_toStartOf="@+id/item_update"/>-->
 
         <TextView android:id="@+id/item_uang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_green_dark"
                 android:maxLines="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_below="@+id/item_date"
+                android:layout_margin="8dp"
+                android:layout_below="@+id/item_title"
                 android:layout_toEndOf="@+id/item_color"
                 android:layout_toStartOf="@+id/item_update"/>
     </RelativeLayout>

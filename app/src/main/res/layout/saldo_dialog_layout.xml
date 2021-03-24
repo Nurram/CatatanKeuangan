@@ -23,11 +23,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:gravity="end"
-            android:layout_toRightOf="@+id/dialog_main_income_tv"
-            android:layout_toEndOf="@+id/dialog_main_income_tv"
-            android:layout_alignParentRight="true"/>
+            android:layout_toEndOf="@+id/dialog_main_income_tv"/>
 
     <TextView
             android:id="@+id/dialog_main_expenses_tv"
@@ -47,12 +44,9 @@
             android:layout_below="@id/dialog_main_income"
             android:text="@string/rp_0"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:gravity="end"
-            android:layout_toRightOf="@+id/dialog_main_expenses_tv"
-            android:layout_toEndOf="@+id/dialog_main_expenses_tv"
-            android:layout_alignParentRight="true"/>
+            android:layout_toEndOf="@+id/dialog_main_expenses_tv"/>
 
     <TextView
             android:id="@+id/dialog_main_debt_tv"
@@ -70,11 +64,8 @@
             android:text="@string/rp_0"
             android:layout_marginEnd="16dp"
             android:layout_below="@+id/dialog_main_expenses"
-            android:layout_marginRight="16dp"
             android:gravity="end"
-            android:layout_toRightOf="@+id/dialog_main_saldo_tv"
             android:layout_toEndOf="@+id/dialog_main_saldo_tv"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
 
     <TextView
@@ -84,7 +75,7 @@
             android:layout_below="@+id/dialog_main_debt_tv"
             android:text="@string/saldo_kamu"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/defaultText"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"/>
@@ -95,15 +86,12 @@
             android:layout_height="wrap_content"
             android:text="@string/rp_0"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/defaultText"
             android:layout_marginEnd="16dp"
             android:layout_below="@+id/dialog_main_debt"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:gravity="end"
-            android:layout_toRightOf="@+id/dialog_main_debt_tv"
             android:layout_toEndOf="@+id/dialog_main_debt_tv"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
     
 </RelativeLayout>

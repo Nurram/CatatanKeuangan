@@ -92,9 +92,8 @@ class HistoryAdapter(
             this.record = record
 
             binding.apply {
-                itemJudul.text = record.judul
+                itemTitle.text = record.judul
                 itemUang.text = convertAndFormat(record.total.toLong())
-                itemDate.text = DateUtil.formatDate(record.date!!)
                 itemDelete.setOnClickListener { clickUtils(record, "delete") }
                 itemUpdate.setOnClickListener { clickUtils(record, "edit") }
                 itemView.setOnClickListener { clickUtils(record, "edit") }
