@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(entities = [Record::class, Debt::class], version = 3)
 abstract class RecordDb : RoomDatabase() {

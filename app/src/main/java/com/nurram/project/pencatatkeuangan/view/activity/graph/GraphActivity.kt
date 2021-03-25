@@ -4,27 +4,26 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
-import com.nurram.project.pencatatkeuangan.model.GraphModel
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
 import com.nurram.project.pencatatkeuangan.db.Record
+import com.nurram.project.pencatatkeuangan.model.GraphModel
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
@@ -33,13 +32,6 @@ class GraphActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGraphBinding
     private lateinit var viewModel: GraphViewModel
     private lateinit var adapter: HistoryAdapter
-    private lateinit var excelConverter: SQLiteToExcel
-
-    private val directoryPath =
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-    private val tableList = arrayListOf("record_table", "debt_table")
-    private var permissionGranted = false
-    private var alreadyConverted = false
 
     private val dataPoint = mutableListOf<DataPoint>()
     private val recordListTemp = mutableListOf<Record>()
@@ -58,17 +50,8 @@ class GraphActivity : AppCompatActivity() {
         binding = ActivityGraphBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.graphToolbar)
-        supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            1
-        )
-
-        excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
 
         val incomeList = mutableListOf<Record>()
         val outcomeList = mutableListOf<Record>()
@@ -129,38 +112,9 @@ class GraphActivity : AppCompatActivity() {
        }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = true
-            } else {
-                Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
-    }
-
     override fun onStop() {
         super.onStop()
         finish()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.graph, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.convert_excel -> showConvertDialog()
-            android.R.id.home -> onBackPressed()
-        }
-
-        return true
     }
 
     private fun initGraph(graphList: List<Record>, whereFrom: String) {
@@ -259,65 +213,5 @@ class GraphActivity : AppCompatActivity() {
         }
 
         dialog.show()
-    }
-
-    private fun showConvertDialog() {
-        val dialog = AlertDialog.Builder(this)
-
-        dialog.setTitle(getString(R.string.perhatian))
-        dialog.setMessage(getString(R.string.lakukan_konversi))
-        dialog.setCancelable(true)
-        dialog.setPositiveButton("Yes") { _, _ ->
-            if (permissionGranted) {
-                if (alreadyConverted) {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.data_sudah_pernah_dikonversi),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    convertDbToExcel()
-                }
-            } else {
-                Toast.makeText(
-                    this,
-                    getString(R.string.konversi_tidak_diijinkan),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-        dialog.setNegativeButton("Cancel") { dialog1, _ ->
-            dialog1.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun convertDbToExcel() {
-        excelConverter.exportSpecificTables(
-            tableList,
-            "Catatan keuangan.xls",
-            object : SQLiteToExcel.ExportListener {
-                override fun onError(e: Exception?) {
-                    Toast.makeText(this@GraphActivity, e?.message, Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onStart() {
-                    Toast.makeText(
-                        this@GraphActivity,
-                        getString(R.string.mulai_konversi),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                override fun onCompleted(filePath: String?) {
-                    Toast.makeText(
-                        this@GraphActivity,
-                        getString(R.string.selesai_konversi),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    alreadyConverted = true
-                }
-            })
     }
 }

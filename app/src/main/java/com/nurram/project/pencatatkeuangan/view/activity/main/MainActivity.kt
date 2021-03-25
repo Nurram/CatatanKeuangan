@@ -1,26 +1,39 @@
 package com.nurram.project.pencatatkeuangan.view.activity.main
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
-import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
+import com.ajts.androidmads.library.SQLiteToExcel
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
+import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
+import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var excelConverter: SQLiteToExcel
+
+    private val directoryPath =
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+    private val tableList = arrayListOf("record_table", "debt_table")
+    private var permissionGranted = false
+    private var alreadyConverted = false
 
     private var totalExpenses = 0L
     private var totalIncome = 0L
@@ -32,6 +45,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
         supportActionBar?.title = null
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1
+        )
+
+        excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
 
         val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.mainToolbar,
             R.string.open,
@@ -54,6 +75,9 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.title = getString(R.string.discount)
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, DiscCalcFragment()).commit()
+                }
+                R.id.sql_to_xls -> {
+                    showConvertDialog()
                 }
             }
 
@@ -81,6 +105,20 @@ class MainActivity : AppCompatActivity() {
                 totalDebt = it.toLong()
             }
         })
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = true
+            } else {
+                Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -148,5 +186,65 @@ class MainActivity : AppCompatActivity() {
             "expenses" -> totalExpenses -= amount
             else -> totalDebt -= amount
         }
+    }
+
+    private fun showConvertDialog() {
+        val dialog = AlertDialog.Builder(this)
+
+        dialog.setTitle(getString(R.string.perhatian))
+        dialog.setMessage(getString(R.string.lakukan_konversi))
+        dialog.setCancelable(true)
+        dialog.setPositiveButton("Yes") { _, _ ->
+            if (permissionGranted) {
+                if (alreadyConverted) {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.data_sudah_pernah_dikonversi),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    convertDbToExcel()
+                }
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.konversi_tidak_diijinkan),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        dialog.setNegativeButton("Cancel") { dialog1, _ ->
+            dialog1.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun convertDbToExcel() {
+        excelConverter.exportSpecificTables(
+            tableList,
+            "Catatan keuangan.xls",
+            object : SQLiteToExcel.ExportListener {
+                override fun onError(e: Exception?) {
+                    Toast.makeText(this@MainActivity, e?.message, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onStart() {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.mulai_konversi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onCompleted(filePath: String?) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.selesai_konversi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    alreadyConverted = true
+                }
+            })
     }
 }

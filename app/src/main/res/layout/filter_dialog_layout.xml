@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/selected_date"
+                android:textColor="@android:color/white"
                 android:layout_marginBottom="8dp"/>
 
         <TextView android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/selected_date"
+                android:textColor="@android:color/white"
                 android:layout_marginBottom="8dp"/>
     </LinearLayout>
 </ScrollView>

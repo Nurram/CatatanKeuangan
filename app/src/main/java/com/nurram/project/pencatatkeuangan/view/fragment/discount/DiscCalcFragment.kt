@@ -2,10 +2,10 @@ package com.nurram.project.pencatatkeuangan.view.fragment.discount
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter

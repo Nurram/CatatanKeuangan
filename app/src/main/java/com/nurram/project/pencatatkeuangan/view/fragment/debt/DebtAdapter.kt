@@ -1,16 +1,14 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.debt
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.nurram.project.pencatatkeuangan.databinding.ItemDateBinding
 import com.nurram.project.pencatatkeuangan.databinding.ItemRowBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
-import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter.convertAndFormat
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
-import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
 import java.util.*
 
 class DebtAdapter(

@@ -9,14 +9,19 @@
                 android:icon="@drawable/ic_baseline_home_24"
                 android:title="@string/home" />
 
-<!--        <item-->
-<!--                android:id="@+id/nav_report"-->
-<!--                android:icon="@drawable/ic_baseline_article_24"-->
-<!--                android:title="@string/monthly_report" />-->
-
         <item
                 android:id="@+id/nav_discount"
                 android:icon="@drawable/ic_baseline_money_off_24"
                 android:title="@string/discount" />
+    </group>
+    <group android:checkableBehavior="none">
+        <item
+                android:id="@+id/sql_to_xls"
+                android:icon="@drawable/ic_baseline_insert_drive_file"
+                android:title="@string/convert_data_to_xls" />
+<!--        <item-->
+<!--                android:id="@+id/backup"-->
+<!--                android:icon="@drawable/ic_baseline_cloud_upload_24"-->
+<!--                android:title="@string/backup_restore_data" />-->
     </group>
 </menu>
