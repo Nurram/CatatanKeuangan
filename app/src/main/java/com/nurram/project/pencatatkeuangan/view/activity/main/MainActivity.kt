@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,8 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
@@ -40,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     private var totalDebt = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initDarkMode()
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -78,6 +83,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.sql_to_xls -> {
                     showConvertDialog()
+                }
+                R.id.dark_mode -> {
+                    startActivity(DarkOptionsActivity.getIntent(this))
                 }
             }
 
@@ -137,6 +145,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun initDarkMode() {
+        val sharedPref = PrefUtil(this)
+        when(sharedPref.getFromPref("dark")) {
+            0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
 
     private fun showBalanceDialog() {

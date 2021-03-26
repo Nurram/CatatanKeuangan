@@ -35,7 +35,6 @@
     <string name="reset">Reset</string>
     <string name="graph">Graph</string>
     <string name="ex_1_000_000">ex: 10000</string>
-    <string name="konversi_ke_excel">Convert to excel</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
     <string name="total">Total:</string>
     <string name="selected_date">No date selected</string>
@@ -60,6 +59,7 @@
     <string name="filter">Filter data</string>
     <string name="remove_filter">Remove filter</string>
     <string name="convert_data_to_xls">Convert data to xls</string>
+    <string name="dark_mode">Dark Mode</string>
 
     <string-array name="months">
         <item>January</item>
@@ -75,4 +75,8 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
+    <string name="enabled">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="follow_system_default">Follow System Default</string>
 </resources>

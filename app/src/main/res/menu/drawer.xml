@@ -19,9 +19,9 @@
                 android:id="@+id/sql_to_xls"
                 android:icon="@drawable/ic_baseline_insert_drive_file"
                 android:title="@string/convert_data_to_xls" />
-<!--        <item-->
-<!--                android:id="@+id/backup"-->
-<!--                android:icon="@drawable/ic_baseline_cloud_upload_24"-->
-<!--                android:title="@string/backup_restore_data" />-->
+        <item
+                android:id="@+id/dark_mode"
+                android:icon="@drawable/ic_baseline_brightness_4_24"
+                android:title="@string/dark_mode" />
     </group>
 </menu>
