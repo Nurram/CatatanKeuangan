@@ -60,9 +60,9 @@ class HistoryAdapter(
     }
 
     fun setData(records: MutableList<Record>?) {
-        if (records == null || records.isEmpty()) {
-            datas?.clear()
-        } else {
+        datas?.clear()
+
+        if (!records.isNullOrEmpty()) {
             var date = DateUtil.formatDate(records[0].date!!)
             records.add(0, Record(type = 1, date = records[0].date))
 

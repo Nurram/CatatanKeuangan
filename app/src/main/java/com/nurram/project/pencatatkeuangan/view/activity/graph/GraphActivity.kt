@@ -1,6 +1,8 @@
 package com.nurram.project.pencatatkeuangan.view.activity.graph
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -16,7 +18,6 @@ import com.jjoe64.graphview.series.LineGraphSeries
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.model.GraphModel
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
@@ -27,16 +28,10 @@ class GraphActivity : AppCompatActivity() {
     private lateinit var adapter: HistoryAdapter
 
     private val dataPoint = mutableListOf<DataPoint>()
-    private val recordListTemp = mutableListOf<Record>()
-    private val recordList = mutableListOf<Record>()
-    private val adapterData = mutableListOf<GraphModel>()
-    private val datas = mutableListOf<Record>()
     private var records = mutableListOf<Record>()
-    private var date = ""
+    private var dates = mutableListOf<String>()
     private var currentSum = 0L
     private var pos = 0
-    private var currentDateString = ""
-    private var limit = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,35 +105,40 @@ class GraphActivity : AppCompatActivity() {
         finish()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initGraph(graphList: List<Record>, whereFrom: String) {
         resetGraph()
+
         var totalSum = 0L
-        binding.graphTotal.text = getString(R.string.total)
+        var currentDateString = DateUtil.formatDate(graphList[graphList.lastIndex].date!!)
 
-        val currentDate = graphList[0].date
-        currentDateString = DateUtil.formatDate(currentDate!!)
-        limit = graphList.size
-
+        var limit = graphList.size
         if (limit > 31) {
             limit = 31
         }
 
-        graphList.asReversed().takeLast(limit).forEach {
+        records.addAll(graphList.asReversed().takeLast(limit))
+        records.forEach {
+            val recordDate = DateUtil.formatDate(it.date!!)
             totalSum += it.total
-            recordList.addAll(recordListTemp)
-            adapterData.add(GraphModel(it.date!!, recordList))
-            dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
-            currentDateString = DateUtil.formatDate(it.date!!)
-            currentSum = it.total
-            recordListTemp.clear()
-            recordListTemp.add(it)
-            pos++
+
+            if(recordDate !in dates) {
+                dates.add(recordDate)
+            }
+
+            if(recordDate != currentDateString) {
+                currentDateString = recordDate
+                dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
+
+                pos++
+                currentSum = it.total
+            } else {
+                currentSum += it.total
+            }
         }
 
         dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
-        dataPoint.removeAt(0)
-        adapterData.add(GraphModel(currentDate, recordListTemp))
-        binding.graphTotal.append(CurencyFormatter.convertAndFormat(totalSum))
+        binding.graphTotal.text = "Total: ${CurencyFormatter.convertAndFormat(totalSum)}"
 
         val series = LineGraphSeries(dataPoint.toTypedArray())
         series.isDrawDataPoints = true
@@ -154,23 +154,15 @@ class GraphActivity : AppCompatActivity() {
 
 
         series.setOnDataPointTapListener { _, dataPoint1 ->
-            totalSum = 0
-            binding.graphTotal.text = getString(R.string.total)
+            var datas = mutableListOf<Record>()
+            datas.addAll(records)
+            datas = datas.filter {
+                DateUtil.formatDate(it.date!!) == dates[dataPoint1.x.toInt()]
+            }.toMutableList()
 
-            records = adapterData[dataPoint1.x.toInt()].records
-            date = DateUtil.formatDate(adapterData[dataPoint1.x.toInt() - 1].date)
-            datas.clear()
-
-            records.forEach {
-                val txDate = DateUtil.formatDate(it.date!!)
-                if (txDate == date) {
-                    totalSum += it.total
-                    datas.add(it)
-                }
-            }
-
+            Log.d("TAG", "$datas")
             adapter.setData(datas)
-            binding.graphTotal.append(CurencyFormatter.convertAndFormat(totalSum))
+            binding.graphTotal.text = "Total: ${CurencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
         }
 
         binding.graphChart.apply {
@@ -188,9 +180,7 @@ class GraphActivity : AppCompatActivity() {
     private fun resetGraph() {
         binding.graphChart.removeAllSeries()
         dataPoint.clear()
-        recordListTemp.clear()
-        adapterData.clear()
-        recordList.clear()
+        records.clear()
         currentSum = 0
         pos = 0
     }
