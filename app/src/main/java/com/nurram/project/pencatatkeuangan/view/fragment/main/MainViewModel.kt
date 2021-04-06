@@ -15,18 +15,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val debtRepo = DebtRepo(application)
 
     fun getAllRecords(isNewest: Boolean): LiveData<List<Record>>? {
-        return if(isNewest) {
+        return if (isNewest) {
             recordRepo.getAllRecordsDesc()
         } else {
             recordRepo.getAllRecordsAsc()
         }
     }
 
-    fun getFilteredRecord(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Record>>? =
+    fun getFilteredRecord(
+        startDate: Date,
+        endDate: Date,
+        isDesc: Boolean
+    ): LiveData<List<Record>>? =
         recordRepo.getFilteredRecord(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
 
     fun getAllDebts(isNewest: Boolean): LiveData<List<Debt>>? {
-        return if(isNewest) {
+        return if (isNewest) {
             debtRepo.getAllDebtDesc()
         } else {
             debtRepo.getAllDebtAsc()

@@ -23,7 +23,7 @@ class HistoryAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var date: Date? = null
     override fun getItemViewType(position: Int): Int {
-        if(datas != null) {
+        if (datas != null) {
             return datas!![position].type
         }
 
@@ -34,7 +34,7 @@ class HistoryAdapter(
         val inflater = LayoutInflater.from(context)
         val binding: ViewBinding
 
-        if(p1 == 0) {
+        if (p1 == 0) {
             binding = ItemRowBinding.inflate(inflater, p0, false)
             return MainHolder(binding)
         }
@@ -48,8 +48,8 @@ class HistoryAdapter(
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        if(datas != null) {
-            if(p0.itemViewType == 0) {
+        if (datas != null) {
+            if (p0.itemViewType == 0) {
                 p0 as MainHolder
                 p0.bind(datas!![p1], clickUtils)
             } else {
@@ -70,7 +70,7 @@ class HistoryAdapter(
             while (i <= records.size - 1) {
                 val formattedDate = DateUtil.formatDate(records[i].date!!)
 
-                if(date != formattedDate) {
+                if (date != formattedDate) {
                     date = formattedDate
                     records.add(i, Record(type = 1, date = records[i].date))
                 } else {
@@ -84,7 +84,8 @@ class HistoryAdapter(
         notifyDataSetChanged()
     }
 
-    inner class MainHolder(private val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(private val binding: ItemRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private lateinit var record: Record
 
         fun bind(record: Record, clickUtils: (Record, String) -> Unit) {
@@ -126,7 +127,8 @@ class HistoryAdapter(
         }
     }
 
-    inner class DateHolder(private val binding: ItemDateBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DateHolder(private val binding: ItemDateBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(date: Date) {
             binding.itemDate.text = DateUtil.formatDate(date)
         }

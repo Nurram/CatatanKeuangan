@@ -54,15 +54,15 @@ class DebtFragment : Fragment() {
             debts = debts?.reversed()
             adapter?.setData(debts?.toMutableList())
 
-            if(!isNewest) binding.debtSortImage.rotationX = 180.0.toFloat()
+            if (!isNewest) binding.debtSortImage.rotationX = 180.0.toFloat()
             else binding.debtSortImage.rotationX = 0.toFloat()
 
-            if(!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
+            if (!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
             else binding.debtSortText.text = getString(R.string.sort_newest)
         }
 
         binding.debtFilter.setOnClickListener {
-            if(isFiltered) {
+            if (isFiltered) {
                 binding.debtFilterText.text = getString(R.string.filter)
                 getAllDebts()
             } else {
@@ -81,7 +81,7 @@ class DebtFragment : Fragment() {
     }
 
     private fun populateRecycler() {
-        adapter = DebtAdapter( null) { it, it1 ->
+        adapter = DebtAdapter(null) { it, it1 ->
             if (it1 == "delete") {
                 (parentFragment?.activity as MainActivity).reduceValue("", it.total.toLong())
 
@@ -105,12 +105,12 @@ class DebtFragment : Fragment() {
         val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
-       dialogView.apply {
-           dialogTitle.setText(debt.judul)
-           dialogAmount.setText(debt.total.toString())
-           dialogDate.text = "Transaction date: ${debt.date?.let { DateUtil.formatDate(it) }}"
-           dialogCheckboxIncome.visibility = View.GONE
-       }
+        dialogView.apply {
+            dialogTitle.setText(debt.judul)
+            dialogAmount.setText(debt.total.toString())
+            dialogDate.text = "Transaction date: ${debt.date?.let { DateUtil.formatDate(it) }}"
+            dialogCheckboxIncome.visibility = View.GONE
+        }
 
         var selectedDate = debt.date
         val c = Calendar.getInstance()
@@ -122,7 +122,8 @@ class DebtFragment : Fragment() {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
                 calendar.set(year, monthOfYear, dayOfMonth)
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                dialogView.dialogDate.text =
+                    "Transaction date: ${DateUtil.formatDate(calendar.time)}"
                 selectedDate = calendar.time
             }, year, month, day).show()
         }
@@ -181,13 +182,14 @@ class DebtFragment : Fragment() {
         dialog?.setView(dialogView.root)
         dialog?.setCancelable(true)
         dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
-            if(startDate != null && endDate != null) {
-                viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)?.observe(viewLifecycleOwner, {
-                    debts = it
-                    adapter?.setData(it?.toMutableList())
+            if (startDate != null && endDate != null) {
+                viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)
+                    ?.observe(viewLifecycleOwner, {
+                        debts = it
+                        adapter?.setData(it?.toMutableList())
 
-                    binding.debtFilterText.text = getString(R.string.remove_filter)
-                })
+                        binding.debtFilterText.text = getString(R.string.remove_filter)
+                    })
             }
         }
 

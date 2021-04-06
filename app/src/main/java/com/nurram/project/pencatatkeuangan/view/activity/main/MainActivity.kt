@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity() {
 
         excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
 
-        val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.mainToolbar,
+        val toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.mainToolbar,
             R.string.open,
             R.string.close
         )
@@ -114,6 +115,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -149,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initDarkMode() {
         val sharedPref = PrefUtil(this)
-        when(sharedPref.getFromPref("dark")) {
+        when (sharedPref.getFromPref("dark")) {
             0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

@@ -56,15 +56,15 @@ class HistoryFragment : Fragment() {
             records = records?.reversed()
             adapter?.setData(records?.toMutableList())
 
-            if(!isNewest) binding.historySortImage.rotationX = 180.0.toFloat()
+            if (!isNewest) binding.historySortImage.rotationX = 180.0.toFloat()
             else binding.historySortImage.rotationX = 0.toFloat()
 
-            if(!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
+            if (!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
             else binding.historySortText.text = getString(R.string.sort_newest)
         }
 
         binding.historyFilter.setOnClickListener {
-            if(isFiltered) {
+            if (isFiltered) {
                 binding.historyFilterText.text = getString(R.string.filter)
                 getAllRecords()
             } else {
@@ -96,7 +96,7 @@ class HistoryFragment : Fragment() {
         adapter = context?.let {
             HistoryAdapter(it, null, false) { record, it1 ->
                 if (it1 == "delete") {
-                   deleteRecords(record)
+                    deleteRecords(record)
                 } else {
                     showAddDataDialog(record)
                 }
@@ -185,16 +185,16 @@ class HistoryFragment : Fragment() {
         dialog?.setView(dialogView.root)
         dialog?.setCancelable(true)
         dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
-           if(startDate != null && endDate != null) {
-               viewModel?.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
-                   viewLifecycleOwner,
-                   {
-                       records = it
-                       adapter?.setData(it?.toMutableList())
+            if (startDate != null && endDate != null) {
+                viewModel?.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
+                    viewLifecycleOwner,
+                    {
+                        records = it
+                        adapter?.setData(it?.toMutableList())
 
-                       binding.historyFilterText.text = getString(R.string.remove_filter)
-                   })
-           }
+                        binding.historyFilterText.text = getString(R.string.remove_filter)
+                    })
+            }
         }
 
         dialog?.show()

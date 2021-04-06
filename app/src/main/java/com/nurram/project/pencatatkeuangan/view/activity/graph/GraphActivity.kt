@@ -2,7 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.activity.graph
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -61,42 +60,42 @@ class GraphActivity : AppCompatActivity() {
                 )
             )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-       binding.apply {
-           graphSpinner.adapter = spinnerAdapter
-           graphSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-               override fun onNothingSelected(parent: AdapterView<*>?) {}
+        binding.apply {
+            graphSpinner.adapter = spinnerAdapter
+            graphSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-               override fun onItemSelected(
-                   parent: AdapterView<*>?,
-                   view: View?,
-                   position: Int,
-                   id: Long
-               ) {
-                   if (position == 0 && outcomeList.size >= 2) {
-                       initGraph(outcomeList, "out")
-                       adapter.setData(outcomeList.toMutableList())
-                   } else if (position == 1 && incomeList.size >= 2) {
-                       initGraph(incomeList, "in")
-                       adapter.setData(incomeList.toMutableList())
-                   } else if (incomeList.size < 2 && outcomeList.size < 2) {
-                       showDialog()
-                   } else if (incomeList.size < 2 || outcomeList.size < 2) {
-                       Toast.makeText(
-                           this@GraphActivity,
-                           getString(R.string.spinner_peringatan_data),
-                           Toast.LENGTH_SHORT
-                       )
-                           .show()
-                   }
-               }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (position == 0 && outcomeList.size >= 2) {
+                        initGraph(outcomeList, "out")
+                        adapter.setData(outcomeList.toMutableList())
+                    } else if (position == 1 && incomeList.size >= 2) {
+                        initGraph(incomeList, "in")
+                        adapter.setData(incomeList.toMutableList())
+                    } else if (incomeList.size < 2 && outcomeList.size < 2) {
+                        showDialog()
+                    } else if (incomeList.size < 2 || outcomeList.size < 2) {
+                        Toast.makeText(
+                            this@GraphActivity,
+                            getString(R.string.spinner_peringatan_data),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
 
-           }
+            }
 
-           graphRecycler.adapter = adapter
-           graphRecycler.layoutManager =
-               LinearLayoutManager(this@GraphActivity)
-           graphRecycler.setHasFixedSize(true)
-       }
+            graphRecycler.adapter = adapter
+            graphRecycler.layoutManager =
+                LinearLayoutManager(this@GraphActivity)
+            graphRecycler.setHasFixedSize(true)
+        }
     }
 
     override fun onStop() {
@@ -121,11 +120,11 @@ class GraphActivity : AppCompatActivity() {
             val recordDate = DateUtil.formatDate(it.date!!)
             totalSum += it.total
 
-            if(recordDate !in dates) {
+            if (recordDate !in dates) {
                 dates.add(recordDate)
             }
 
-            if(recordDate != currentDateString) {
+            if (recordDate != currentDateString) {
                 currentDateString = recordDate
                 dataPoint.add(DataPoint(pos.toDouble(), currentSum.toDouble()))
 
@@ -159,7 +158,8 @@ class GraphActivity : AppCompatActivity() {
             }.toMutableList()
 
             adapter.setData(datas)
-            binding.graphTotal.text = "Total: ${CurencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
+            binding.graphTotal.text =
+                "Total: ${CurencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
         }
 
         binding.graphChart.apply {

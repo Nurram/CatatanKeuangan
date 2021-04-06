@@ -18,8 +18,12 @@ class RecordRepo(application: Application) {
         return recordDao?.getAllDataAsc()
     }
 
-    fun getFilteredRecord(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Record>>? {
-        return if(isDesc) {
+    fun getFilteredRecord(
+        startDate: Date,
+        endDate: Date,
+        isDesc: Boolean
+    ): LiveData<List<Record>>? {
+        return if (isDesc) {
             recordDao?.getFilteredRecordDesc(startDate, endDate)
         } else {
             recordDao?.getFilteredRecordAsc(startDate, endDate)

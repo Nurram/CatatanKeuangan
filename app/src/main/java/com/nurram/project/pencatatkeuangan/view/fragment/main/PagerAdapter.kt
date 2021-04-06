@@ -6,7 +6,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
 
-class PagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class PagerAdapter(fragmentManager: FragmentManager) :
+    FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val fragments = listOf(HistoryFragment(), DebtFragment())
 

@@ -17,7 +17,7 @@ class DebtAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var date: Date? = null
     override fun getItemViewType(position: Int): Int {
-        if(datas != null) {
+        if (datas != null) {
             return datas!![position].type
         }
 
@@ -28,7 +28,7 @@ class DebtAdapter(
         val inflater = LayoutInflater.from(p0.context)
         val binding: ViewBinding
 
-        if(p1 == 0) {
+        if (p1 == 0) {
             binding = ItemRowBinding.inflate(inflater, p0, false)
             return MainHolder(binding)
         }
@@ -42,8 +42,8 @@ class DebtAdapter(
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        if(datas != null) {
-            if(p0.itemViewType == 0) {
+        if (datas != null) {
+            if (p0.itemViewType == 0) {
                 p0 as DebtAdapter.MainHolder
                 p0.bind(datas!![p1], clickUtils)
             } else {
@@ -64,7 +64,7 @@ class DebtAdapter(
             while (i <= debt.size - 1) {
                 val formattedDate = DateUtil.formatDate(debt[i].date!!)
 
-                if(date != formattedDate) {
+                if (date != formattedDate) {
                     date = formattedDate
                     debt.add(i, Debt(type = 1, date = debt[i].date))
                 } else {
@@ -77,7 +77,8 @@ class DebtAdapter(
         notifyDataSetChanged()
     }
 
-    inner class MainHolder(private val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(private val binding: ItemRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private lateinit var debt: Debt
 
         fun bind(debt: Debt, clickUtils: (Debt, String) -> Unit) {
@@ -94,7 +95,8 @@ class DebtAdapter(
         }
     }
 
-    inner class DateHolder(private val binding: ItemDateBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DateHolder(private val binding: ItemDateBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(date: Date) {
             binding.itemDate.text = DateUtil.formatDate(date)
         }

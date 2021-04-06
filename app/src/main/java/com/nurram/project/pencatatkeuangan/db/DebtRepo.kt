@@ -19,8 +19,12 @@ class DebtRepo(application: Application) {
         return debtDao?.getAllDataDebtAsc()
     }
 
-    fun getFilteredDebtDesc(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Debt>>? {
-        return if(isDesc) {
+    fun getFilteredDebtDesc(
+        startDate: Date,
+        endDate: Date,
+        isDesc: Boolean
+    ): LiveData<List<Debt>>? {
+        return if (isDesc) {
             debtDao?.getFilteredDebtDesc(startDate, endDate)
         } else {
             debtDao?.getFilteredDebtAsc(startDate, endDate)
@@ -32,15 +36,17 @@ class DebtRepo(application: Application) {
     }
 
     fun insertDebt(debt: Debt) {
-        debtDao?.let { GlobalScope.launch {
-            debtDao.insertDebt(debt)
+        debtDao?.let {
+            GlobalScope.launch {
+                debtDao.insertDebt(debt)
             }
         }
     }
 
     fun updateDebt(debt: Debt) {
-        debtDao?.let {  GlobalScope.launch {
-            debtDao.updateDebt(debt)
+        debtDao?.let {
+            GlobalScope.launch {
+                debtDao.updateDebt(debt)
             }
         }
     }

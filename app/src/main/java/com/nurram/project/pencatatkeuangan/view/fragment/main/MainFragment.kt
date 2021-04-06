@@ -108,7 +108,8 @@ class MainFragment : Fragment() {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
                 calendar.set(year, monthOfYear, dayOfMonth)
-                dialogView.dialogDate.text = "Transaction date: ${DateUtil.formatDate(calendar.time)}"
+                dialogView.dialogDate.text =
+                    "Transaction date: ${DateUtil.formatDate(calendar.time)}"
                 selectedDate = calendar.time
             }, year, month, day).show()
         }

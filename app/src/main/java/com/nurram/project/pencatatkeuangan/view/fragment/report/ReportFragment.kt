@@ -26,7 +26,11 @@ class ReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, resources.getStringArray(R.array.months))
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.months)
+        )
         binding.reportMonth.adapter = adapter
 
         viewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }

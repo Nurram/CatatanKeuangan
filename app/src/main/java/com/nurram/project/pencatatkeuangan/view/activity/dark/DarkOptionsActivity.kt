@@ -9,7 +9,7 @@ import com.nurram.project.pencatatkeuangan.databinding.ActivityDarkOptionsBindin
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 
 class DarkOptionsActivity : AppCompatActivity() {
-    companion object{
+    companion object {
         fun getIntent(context: Context) = Intent(context, DarkOptionsActivity::class.java)
     }
 
@@ -24,7 +24,7 @@ class DarkOptionsActivity : AppCompatActivity() {
 
         val sharedPref = PrefUtil(this)
         binding.apply {
-            when(sharedPref.getFromPref("dark")) {
+            when (sharedPref.getFromPref("dark")) {
                 0 -> darkOn.isChecked = true
                 1 -> darkOff.isChecked = true
                 2 -> darkSystem.isChecked = true
