@@ -41,15 +41,15 @@ class GraphActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val incomeList = mutableListOf<Record>()
-        val outcomeList = mutableListOf<Record>()
+        var incomeList = listOf<Record>()
+        var outcomeList = listOf<Record>()
         viewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
         viewModel.getAllExpenses()?.observe(this, {
-            it?.let { it1 -> outcomeList.addAll(it1) }
+            it?.let { it1 -> outcomeList = it1 }
         })
 
         viewModel.getAllIncome()?.observe(this, {
-            it?.let { it1 -> incomeList.addAll(it1) }
+            it?.let { it1 -> incomeList = it1 }
         })
 
         adapter = HistoryAdapter(this, null, true) { _, _ -> }
@@ -73,12 +73,11 @@ class GraphActivity : AppCompatActivity() {
                    id: Long
                ) {
                    if (position == 0 && outcomeList.size >= 2) {
-                       graphSpinner.isClickable = true
                        initGraph(outcomeList, "out")
-                       adapter.setData(outcomeList)
+                       adapter.setData(outcomeList.toMutableList())
                    } else if (position == 1 && incomeList.size >= 2) {
                        initGraph(incomeList, "in")
-                       adapter.setData(incomeList)
+                       adapter.setData(incomeList.toMutableList())
                    } else if (incomeList.size < 2 && outcomeList.size < 2) {
                        showDialog()
                    } else if (incomeList.size < 2 || outcomeList.size < 2) {
@@ -152,7 +151,6 @@ class GraphActivity : AppCompatActivity() {
             series.title = getString(R.string.expenses)
         }
 
-
         series.setOnDataPointTapListener { _, dataPoint1 ->
             var datas = mutableListOf<Record>()
             datas.addAll(records)
@@ -160,7 +158,6 @@ class GraphActivity : AppCompatActivity() {
                 DateUtil.formatDate(it.date!!) == dates[dataPoint1.x.toInt()]
             }.toMutableList()
 
-            Log.d("TAG", "$datas")
             adapter.setData(datas)
             binding.graphTotal.text = "Total: ${CurencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
         }
@@ -181,6 +178,7 @@ class GraphActivity : AppCompatActivity() {
         binding.graphChart.removeAllSeries()
         dataPoint.clear()
         records.clear()
+        dates.clear()
         currentSum = 0
         pos = 0
     }
