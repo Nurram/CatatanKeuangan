@@ -116,7 +116,8 @@ class GraphActivity : AppCompatActivity() {
         }
 
         records.addAll(graphList.asReversed().takeLast(limit))
-        records.forEach {
+        for (i in 0 until records.size) {
+            val it = records[i]
             val recordDate = DateUtil.formatDate(it.date!!)
             totalSum += it.total
 
@@ -132,6 +133,10 @@ class GraphActivity : AppCompatActivity() {
                 currentSum = it.total
             } else {
                 currentSum += it.total
+            }
+
+            if (dataPoint.size == 31) {
+                break
             }
         }
 
