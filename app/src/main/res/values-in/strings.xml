@@ -1,14 +1,14 @@
 <resources>
-    <string name="total_expenses_kamu">Total expenses kamu:
+    <string name="total_expenses_kamu">Total pengeluaran kamu:
     </string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
-    <string name="ex_belanja">ex: Belanja</string>
+    <string name="ex_belanja">contoh: Belanja</string>
     <string name="masukan_total_uang">Masukan total uang</string>
-    <string name="ex_1_000_000">ex: 10000</string>
-    <string name="income">Income</string>
-    <string name="income_kamu">Income kamu</string>
-    <string name="pengluaran_kamu">Expenses kamu</string>
+    <string name="ex_1_000_000">contoh: 10000</string>
+    <string name="income">Pemasukan</string>
+    <string name="income_kamu">Pemasukan kamu</string>
+    <string name="pengluaran_kamu">Pengeluaran kamu</string>
     <string name="saldo_kamu">Saldo kamu</string>
     <string name="saldo">Saldo</string>
     <string name="reset">Reset</string>
@@ -21,14 +21,14 @@
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
     <string name="app_name">Pencatat Keuangan</string>
-    <string name="total_income_kamu">Total income kamu:</string>
+    <string name="total_income_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
     <string name="history">History</string>
     <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph akan muncul apabila kamu memiliki 2 data atau
         lebih
     </string>
 
-    <string name="expenses">Expenses</string>
+    <string name="expenses">Pengeluaran</string>
     <string name="spinner_peringatan_data">Total data kurang dari 2</string>
     <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
     <string name="perhatian">Perhatian!</string>
@@ -41,8 +41,8 @@
     <string name="mulai_konversi">Memulai konversi</string>
     <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
-    <string name="selected_date">Tidak ada date yang dipilih</string>
-    <string name="pilih_date">Pilih date</string>
+    <string name="selected_date">Tidak ada tanggal yang dipilih</string>
+    <string name="pilih_date">Pilih tannggal</string>
     <string name="home">Home</string>
     <string name="discount">Kalkulator Diskon</string>
     <string name="open">open</string>
@@ -51,13 +51,13 @@
     <string name="current_amount">Harga Awal</string>
     <string name="discount_total">Total Diskon</string>
     <string name="price_after_discount">Harga setelah diskon:</string>
-    <string name="calculate">Calculate</string>
+    <string name="calculate">Hitung</string>
     <string name="you_save">Kamu telah menghemat:</string>
     <string name="add_image">gambar_tambah</string>
     <string name="no_data_found">Data tidak ditemukan</string>
     <string name="add_debt">Tambah utang</string>
-    <string name="sort_oldest">Urutkan tanggal (terlama)</string>
-    <string name="sort_newest">Urutkan tanggal (terbaru)</string>
+    <string name="sort_oldest">Urutkan (terlama)</string>
+    <string name="sort_newest">Urutkan (terbaru)</string>
     <string name="start_date">Tanggal Awal</string>
     <string name="end_date">Tanggal Akhir</string>
     <string name="filter">Filter data</string>
