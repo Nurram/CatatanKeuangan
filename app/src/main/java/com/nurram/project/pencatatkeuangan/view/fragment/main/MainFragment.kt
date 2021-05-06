@@ -156,5 +156,6 @@ class MainFragment : Fragment() {
                 Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
             }
         }
+        dialog?.getButton(AlertDialog.BUTTON_NEGATIVE)?.visibility = View.GONE
     }
 }

@@ -4,6 +4,7 @@
     <string name="data_sudah_pernah_dikonversi">Data already converted, please reopen this page to re-convert</string>
     <string name="dialog_message">Are you sure?</string>
     <string name="dialog_simpan">Save</string>
+    <string name="dialog_hapus">Delete</string>
     <string name="dialog_title_saldo">Your balance</string>
     <string name="ex_belanja">ex: Shopping</string>
     <string name="debt_kamu">Your debt</string>
@@ -36,6 +37,7 @@
     <string name="graph">Graph</string>
     <string name="ex_1_000_000">ex: 10000</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
+    <string name="tanggal_transaksi">Transaction date:</string>
     <string name="selected_date">No date selected</string>
     <string name="pilih_date">Select date</string>
     <string name="home">Home</string>

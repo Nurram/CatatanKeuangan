@@ -16,6 +16,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.ajts.androidmads.library.SQLiteToExcel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
@@ -26,6 +31,7 @@ import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -41,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     private var totalExpenses = 0L
     private var totalIncome = 0L
     private var totalDebt = 0L
+
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initDarkMode()
@@ -114,6 +122,25 @@ class MainActivity : AppCompatActivity() {
                 totalDebt = it.toLong()
             }
         })
+
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-5143074224437976/5611287621",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+            })
+
     }
 
     override fun onRequestPermissionsResult(
@@ -257,6 +284,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onCompleted(filePath: String?) {
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd!!.show(this@MainActivity)
+                    }
+
                     Toast.makeText(
                         this@MainActivity,
                         getString(R.string.selesai_konversi),

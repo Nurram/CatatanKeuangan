@@ -116,43 +116,60 @@ class HistoryFragment : Fragment() {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
-        dialogView.apply {
-            dialogTitle.setText(record.judul)
-            dialogAmount.setText(record.total.toString())
-            dialogDate.text = "Transaction date: ${record.date?.let { DateUtil.formatDate(it) }}"
-            dialogCheckboxIncome.isEnabled = false
-        }
-
         var selectedDate = record.date
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        dialogView.dialogShowDate.setOnClickListener {
-            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                val calendar = Calendar.getInstance()
-                calendar.set(year, monthOfYear, dayOfMonth)
-                dialogView.dialogDate.text =
-                    "Transaction date: ${DateUtil.formatDate(calendar.time)}"
-                selectedDate = calendar.time
-            }, year, month, day).show()
+        dialogView.apply {
+            dialogTitle.setText(record.judul)
+            dialogAmount.setText(record.total.toString())
+            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${record.date?.let { DateUtil.formatDate(it) }}"
+            dialogCheckboxIncome.isChecked = when(record.description) {
+                "income" -> true
+                else -> false
+            }
+
+            dialogShowDate.setOnClickListener {
+                DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                    val calendar = Calendar.getInstance()
+                    calendar.set(year, monthOfYear, dayOfMonth)
+                    dialogView.dialogDate.text =
+                        "${getString(R.string.tanggal_transaksi)} ${DateUtil.formatDate(calendar.time)}"
+                    selectedDate = calendar.time
+                }, year, month, day).show()
+            }
         }
 
-        dialog?.setView(dialogView.root)
-        dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
-            val innerRecord = Record(
-                record.id, dialogView.dialogTitle.text.toString(),
-                dialogView.dialogAmount.text.toString().toLong(),
-                selectedDate,
-                record.description
-            )
+        dialog?.apply {
+            setView(dialogView.root)
+            setCancelable(true)
+            setPositiveButton(R.string.dialog_simpan) { _, _ ->
 
-            viewModel?.updateRecord(innerRecord)
+                if(dialogView.dialogCheckboxIncome.isChecked) {
+                    record.description = "income"
+                } else {
+                    record.description = "expenses"
+                }
+
+                val innerRecord = Record(
+                    record.id, dialogView.dialogTitle.text.toString(),
+                    dialogView.dialogAmount.text.toString().toLong(),
+                    selectedDate,
+                    record.description
+                )
+
+                viewModel?.updateRecord(innerRecord)
+            }
+            setNegativeButton(R.string.dialog_hapus) { _, _ ->
+                viewModel?.deleteRecord(record)
+                Toast.makeText(requireContext(),
+                    R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+            }
+
+            show()
         }
-
-        dialog?.show()
     }
 
     private fun showFilterDialog() {

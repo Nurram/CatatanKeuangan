@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -95,6 +97,10 @@ class GraphActivity : AppCompatActivity() {
             graphRecycler.layoutManager =
                 LinearLayoutManager(this@GraphActivity)
             graphRecycler.setHasFixedSize(true)
+
+            MobileAds.initialize(this@GraphActivity) { }
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
         }
     }
 

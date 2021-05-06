@@ -42,7 +42,7 @@
     <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
     <string name="selected_date">Tidak ada tanggal yang dipilih</string>
-    <string name="pilih_date">Pilih tannggal</string>
+    <string name="pilih_date">Pilih tanggal</string>
     <string name="home">Home</string>
     <string name="discount">Kalkulator Diskon</string>
     <string name="open">open</string>
@@ -83,4 +83,6 @@
     <string name="enabled" >Aktif</string>
     <string name="disable">Non-aktif</string>
     <string name="follow_system_default">Ikuti System Default</string>
+    <string name="dialog_hapus">Hapus</string>
+    <string name="tanggal_transaksi">Tanggal transaksi:</string>
 </resources>
