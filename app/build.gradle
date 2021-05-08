@@ -7,7 +7,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.nurram.project.pencatatkeuangan"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 13
         versionName "1.5"
@@ -60,4 +60,12 @@ dependencies {
     implementation 'com.ajts.androidmads.SQLite2Excel:library:1.0.4'
     //Admob component
     implementation 'com.google.android.gms:play-services-ads:20.1.0'
+    //Circle imageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //Drive api
+    implementation "com.google.android.gms:play-services-auth:19.0.0"
+    implementation 'com.google.http-client:google-http-client-gson:1.26.0'
+    implementation'com.google.api-client:google-api-client-android:1.26.0'
+    implementation "com.google.apis:google-api-services-drive:v3-rev136-1.25.0"
+
 }

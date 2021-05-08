@@ -12,7 +12,7 @@
     <string name="saldo_kamu">Saldo kamu</string>
     <string name="saldo">Saldo</string>
     <string name="reset">Reset</string>
-    <string name="debt_kamu">Debt kamu</string>
+    <string name="debt_kamu">Utang kamu</string>
 
     <string name="dialog_title_saldo">Total saldo kamu</string>
     <string name="dialog_message">Apakah kamu yakin?</string>
@@ -47,7 +47,6 @@
     <string name="discount">Kalkulator Diskon</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="choose_menu_below">Pilih menu dibawah:</string>
     <string name="current_amount">Harga Awal</string>
     <string name="discount_total">Total Diskon</string>
     <string name="price_after_discount">Harga setelah diskon:</string>
@@ -62,7 +61,7 @@
     <string name="end_date">Tanggal Akhir</string>
     <string name="filter">Filter data</string>
     <string name="remove_filter">Hapus filter</string>
-    <string name="convert_data_to_xls">Convert data ke xls</string>
+    <string name="convert_data_to_xls">Konversi data ke xls</string>
     <string name="dark_mode">Dark Mode</string>
 
     <string-array name="months">
@@ -85,4 +84,7 @@
     <string name="follow_system_default">Ikuti System Default</string>
     <string name="dialog_hapus">Hapus</string>
     <string name="tanggal_transaksi">Tanggal transaksi:</string>
+    <string name="backup_to_google_drive">Backup ke google drive</string>
+    <string name="choose_menu_below">Pilih menu dibawah</string>
+    <string name="upload_now">Upload datamu ke google drive?</string>
 </resources>
