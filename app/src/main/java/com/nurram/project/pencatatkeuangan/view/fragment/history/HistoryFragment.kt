@@ -125,8 +125,12 @@ class HistoryFragment : Fragment() {
         dialogView.apply {
             dialogTitle.setText(record.judul)
             dialogAmount.setText(record.total.toString())
-            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${record.date?.let { DateUtil.formatDate(it) }}"
-            dialogCheckboxIncome.isChecked = when(record.description) {
+            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${
+                record.date?.let {
+                    DateUtil.formatDate(it)
+                }
+            }"
+            dialogCheckboxIncome.isChecked = when (record.description) {
                 "income" -> true
                 else -> false
             }
@@ -147,7 +151,7 @@ class HistoryFragment : Fragment() {
             setCancelable(true)
             setPositiveButton(R.string.dialog_simpan) { _, _ ->
 
-                if(dialogView.dialogCheckboxIncome.isChecked) {
+                if (dialogView.dialogCheckboxIncome.isChecked) {
                     record.description = "income"
                 } else {
                     record.description = "expenses"
@@ -164,8 +168,10 @@ class HistoryFragment : Fragment() {
             }
             setNegativeButton(R.string.dialog_hapus) { _, _ ->
                 viewModel?.deleteRecord(record)
-                Toast.makeText(requireContext(),
-                    R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT
+                ).show()
             }
 
             show()

@@ -41,7 +41,7 @@ class DriveServiceHelper(driveService: Drive) {
                 .setName("Untitled file")
             val googleFile: File = mDriveService.files().create(metadata).execute()
                 ?: throw IOException("Null result when requesting file creation.")
-            googleFile.getId()
+            googleFile.id
         })
     }
 
@@ -54,7 +54,7 @@ class DriveServiceHelper(driveService: Drive) {
 
             // Retrieve the metadata as a File object.
             val metadata: File = mDriveService.files().get(fileId).execute()
-            val name: String = metadata.getName()
+            val name: String = metadata.name
             mDriveService.files().get(fileId).executeMediaAsInputStream().use { `is` ->
                 BufferedReader(InputStreamReader(`is`)).use { reader ->
                     val stringBuilder = StringBuilder()

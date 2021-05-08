@@ -100,11 +100,15 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, DiscCalcFragment()).commit()
                 }
-                R.id.sql_to_xls -> { showConvertDialog() }
+                R.id.sql_to_xls -> {
+                    showConvertDialog()
+                }
                 R.id.dark_mode -> {
                     startActivity(DarkOptionsActivity.getIntent(this))
                 }
-                R.id.nav_upload -> { showUploadDialog() }
+                R.id.nav_upload -> {
+                    showUploadDialog()
+                }
             }
 
             binding.drawerLayout.closeDrawers()
@@ -327,8 +331,11 @@ class MainActivity : AppCompatActivity() {
             requestUserSignIn()
         } else {
             serviceHelper =
-                DriveServiceHelper(getGoogleDriveService(
-                    this, account, getString(R.string.app_name)))
+                DriveServiceHelper(
+                    getGoogleDriveService(
+                        this, account, getString(R.string.app_name)
+                    )
+                )
         }
     }
 
