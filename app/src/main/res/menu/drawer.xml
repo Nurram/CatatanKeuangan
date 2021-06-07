@@ -23,9 +23,5 @@
                 android:id="@+id/dark_mode"
                 android:icon="@drawable/ic_baseline_brightness_4_24"
                 android:title="@string/dark_mode" />
-        <item
-            android:id="@+id/nav_upload"
-            android:title="@string/backup_to_google_drive"
-            android:icon="@drawable/ic_baseline_cloud_upload_24"/>
     </group>
 </menu>

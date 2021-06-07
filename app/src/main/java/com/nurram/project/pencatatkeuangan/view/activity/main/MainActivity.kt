@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -22,14 +21,9 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
-import com.nurram.project.pencatatkeuangan.drive.DriveServiceHelper
-import com.nurram.project.pencatatkeuangan.drive.DriveServiceHelper.Companion.getGoogleDriveService
 import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
@@ -44,8 +38,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var excelConverter: SQLiteToExcel
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var serviceHelper: DriveServiceHelper
 
     private val directoryPath =
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
@@ -105,9 +97,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.dark_mode -> {
                     startActivity(DarkOptionsActivity.getIntent(this))
-                }
-                R.id.nav_upload -> {
-                    showUploadDialog()
                 }
             }
 
@@ -222,7 +211,7 @@ class MainActivity : AppCompatActivity() {
     private fun showDialog() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle(getString(R.string.perhatian))
-        dialog.setMessage(R.string.dialog_message)
+        dialog.setMessage(R.string.delete_all)
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
             viewModel.deleteAllRecord()
@@ -309,71 +298,5 @@ class MainActivity : AppCompatActivity() {
                     alreadyConverted = true
                 }
             })
-    }
-
-    private fun showUploadDialog() {
-        val dialog = AlertDialog.Builder(this)
-        dialog.apply {
-            setTitle(getString(R.string.perhatian))
-            setMessage(getString(R.string.upload_now))
-            setCancelable(true)
-            setPositiveButton("Yes") { _, _ -> uploadDb() }
-            setNegativeButton("Cancel") { dialog1, _ -> dialog1.dismiss() }
-
-            show()
-        }
-    }
-
-    private fun uploadDb() {
-        val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
-
-        if (account == null) {
-            requestUserSignIn()
-        } else {
-            serviceHelper =
-                DriveServiceHelper(
-                    getGoogleDriveService(
-                        this, account, getString(R.string.app_name)
-                    )
-                )
-        }
-    }
-
-    private fun requestUserSignIn() {
-        googleSignInClient = buildGoogleSignInClient()
-        startActivityForResult(googleSignInClient.signInIntent, 201)
-    }
-
-    private fun buildGoogleSignInClient(): GoogleSignInClient {
-        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-        return GoogleSignIn.getClient(applicationContext, signInOptions)
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        when (requestCode) {
-            201 -> if (resultCode == RESULT_OK && resultData != null) {
-                handleSignInResult(resultData)
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, resultData)
-    }
-
-    private fun handleSignInResult(result: Intent) {
-        GoogleSignIn.getSignedInAccountFromIntent(result)
-            .addOnSuccessListener { googleSignInAccount ->
-                Log.d("TAG", "Signed in as " + googleSignInAccount.email)
-                serviceHelper = DriveServiceHelper(
-                    getGoogleDriveService(
-                        applicationContext,
-                        googleSignInAccount,
-                        getString(R.string.app_name)
-                    )
-                )
-                Log.d("TAG", "handleSignInResult: $serviceHelper")
-            }
-            .addOnFailureListener { e -> Log.e("TAG", "Unable to sign in.", e) }
     }
 }

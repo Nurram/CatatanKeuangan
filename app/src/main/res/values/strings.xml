@@ -23,6 +23,7 @@
     <string name="expenses">Expenditure</string>
     <string name="pengluaran_kamu">Your expenses</string>
     <string name="perhatian">Attention</string>
+    <string name="delete_all">Are you sure to delete all data?</string>
     <string name="history">History</string>
     <string name="saldo">Balance</string>
     <string name="saldo_kamu">Your balance</string>

@@ -87,4 +87,5 @@
     <string name="backup_to_google_drive">Backup ke google drive</string>
     <string name="choose_menu_below">Pilih menu dibawah</string>
     <string name="upload_now">Upload datamu ke google drive?</string>
+    <string name="delete_all">Apakah anda ingin menghapus semua data?</string>
 </resources>
