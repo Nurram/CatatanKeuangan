@@ -73,7 +73,12 @@ class GraphActivity : AppCompatActivity() {
 
             MobileAds.initialize(this@GraphActivity) { }
             val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
+
+            viewModel.getAllRecordCount()?.observe(this@GraphActivity, {
+                if(it > 3) {
+                    binding.adView.loadAd(adRequest)
+                }
+            })
         }
     }
 

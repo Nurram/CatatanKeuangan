@@ -18,6 +18,8 @@ class GraphViewModel(application: Application) : AndroidViewModel(application) {
     private var pos = 0
     private var totalSum = 0L
 
+    fun getAllRecordCount() = recordRepo.getAllRecordCount()
+
     fun getAllExpenses(): LiveData<List<Record>>? {
         return recordRepo.getAllExpenses()
     }

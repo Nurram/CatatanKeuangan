@@ -14,6 +14,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val recordRepo = RecordRepo(application)
     private val debtRepo = DebtRepo(application)
 
+    fun getAllRecordCount() = recordRepo.getAllRecordCount()
+
     fun getAllRecords(isNewest: Boolean): LiveData<List<Record>>? {
         return if (isNewest) {
             recordRepo.getAllRecordsDesc()

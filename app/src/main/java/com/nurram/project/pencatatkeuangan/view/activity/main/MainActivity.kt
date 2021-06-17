@@ -127,7 +127,12 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this) { }
         val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
+
+        viewModel.getAllRecordCount()?.observe(this, {
+            if(it > 3) {
+                binding.adView.loadAd(adRequest)
+            }
+        })
 
         InterstitialAd.load(
             this,
@@ -158,6 +163,8 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
         }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

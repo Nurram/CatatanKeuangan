@@ -65,4 +65,5 @@
     <string name="dialog_delete">Hapus</string>
     <string name="tanggal_transaksi">Tanggal transaksi:</string>
     <string name="delete_all">Apakah anda ingin menghapus semua data?</string>
+    <string name="delete_record_confirmation">Hapus data ini?</string>
 </resources>

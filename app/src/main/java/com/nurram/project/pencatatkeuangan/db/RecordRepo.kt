@@ -10,6 +10,8 @@ class RecordRepo(application: Application) {
     private val recordDb = RecordDb.getDb(application)
     private val recordDao = recordDb?.recordDao
 
+    fun getAllRecordCount() = recordDao?.getAllDataCount()
+
     fun getAllRecordsDesc(): LiveData<List<Record>>? {
         return recordDao?.getAllDataDesc()
     }

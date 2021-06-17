@@ -20,6 +20,9 @@ interface RecordDAO {
     @Update
     fun update(record: Record)
 
+    @Query("select count(*) from record_table")
+    fun getAllDataCount(): LiveData<Int>
+
     @Query("select * from record_table order by date desc")
     fun getAllDataDesc(): LiveData<List<Record>>
 

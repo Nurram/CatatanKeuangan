@@ -61,4 +61,6 @@
     <string name="enabled">Enable</string>
     <string name="disable">Disable</string>
     <string name="follow_system_default">Follow System Default</string>
+
+    <string name="delete_record_confirmation">Delete this record?</string>
 </resources>

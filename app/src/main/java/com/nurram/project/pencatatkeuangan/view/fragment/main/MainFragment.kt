@@ -18,6 +18,7 @@ import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
 import java.util.*
 
 class MainFragment : Fragment() {
@@ -138,6 +139,9 @@ class MainFragment : Fragment() {
                         selectedDate,
                         isIncome
                     )
+
+                    val fragment = adapter.getItem(0) as HistoryFragment
+                    fragment.resetOrderIcon()
 
                     viewModel.insertRecord(record)
                 } else {

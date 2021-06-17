@@ -56,11 +56,7 @@ class HistoryFragment : Fragment() {
             records = records?.reversed()
             adapter?.setData(records?.toMutableList())
 
-            if (!isNewest) binding.historySortImage.rotationX = 180.0.toFloat()
-            else binding.historySortImage.rotationX = 0.toFloat()
-
-            if (!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
-            else binding.historySortText.text = getString(R.string.sort_newest)
+            setOrderIcon()
         }
 
         binding.historyFilter.setOnClickListener {
@@ -73,6 +69,14 @@ class HistoryFragment : Fragment() {
 
             isFiltered = !isFiltered
         }
+    }
+
+    private fun setOrderIcon() {
+        if (!isNewest) binding.historySortImage.rotationX = 180.0.toFloat()
+        else binding.historySortImage.rotationX = 0.toFloat()
+
+        if (!isNewest) binding.historySortText.text = getString(R.string.sort_oldest)
+        else binding.historySortText.text = getString(R.string.sort_newest)
     }
 
     private fun getAllRecords() {
@@ -88,8 +92,19 @@ class HistoryFragment : Fragment() {
             record.total
         )
 
-        viewModel?.deleteRecord(record)
-        Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(getString(R.string.perhatian))
+        dialog.setMessage(R.string.delete_record_confirmation)
+        dialog.setCancelable(true)
+        dialog.setPositiveButton("Yes") { _, _ ->
+            viewModel?.deleteRecord(record)
+            Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+        }
+        dialog.setNegativeButton("Cancel") { innerDialog, _ ->
+            innerDialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun populateRecycler() {
@@ -165,6 +180,8 @@ class HistoryFragment : Fragment() {
                 )
 
                 viewModel?.updateRecord(innerRecord)
+
+                resetOrderIcon()
             }
             setNegativeButton(R.string.dialog_delete) { _, _ ->
                 viewModel?.deleteRecord(record)
@@ -176,6 +193,11 @@ class HistoryFragment : Fragment() {
 
             show()
         }
+    }
+
+    fun resetOrderIcon() {
+        isNewest = true
+        setOrderIcon()
     }
 
     private fun showFilterDialog() {
