@@ -9,20 +9,23 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp">
 
-        <TextView android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/masukan_judul"/>
-
-        <EditText android:id="@+id/dialog_title"
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/ex_belanja"
-                android:inputType="text"
-                android:layout_marginBottom="8dp"/>
+                android:text="@string/masukan_judul" />
 
-        <TextView android:layout_width="match_parent"
+        <EditText
+                android:id="@+id/dialog_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/masukan_total_uang"/>
+                android:hint="@string/ex_shopping"
+                android:inputType="text"
+                android:layout_marginBottom="8dp" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/masukan_total_uang" />
 
         <EditText
                 android:id="@+id/dialog_amount"
@@ -30,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/ex_1_000_000"
                 android:inputType="number"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
         <TextView
                 android:id="@+id/dialog_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/selected_date"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
         <Button
                 android:id="@+id/dialog_show_date"
@@ -45,12 +48,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pilih_date"
                 android:textColor="@android:color/white"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
-        <CheckBox android:id="@+id/dialog_checkbox_income"
+        <CheckBox
+                android:id="@+id/dialog_checkbox_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/income"/>
+                android:text="@string/income" />
     </LinearLayout>
 </ScrollView>

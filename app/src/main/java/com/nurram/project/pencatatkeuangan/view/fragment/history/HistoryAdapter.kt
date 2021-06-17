@@ -11,7 +11,7 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ItemDateBinding
 import com.nurram.project.pencatatkeuangan.databinding.ItemRowBinding
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter.convertAndFormat
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFormat
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
-import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 
 class DiscCalcFragment : Fragment() {
     private lateinit var binding: FragmentDiscCalcBinding
@@ -35,14 +35,14 @@ class DiscCalcFragment : Fragment() {
                 discountResult.apply {
                     visibility = View.VISIBLE
                     text = "${getString(R.string.price_after_discount)} ${
-                        CurencyFormatter.convertAndFormat(result)
+                        CurrencyFormatter.convertAndFormat(result)
                     }"
                 }
 
                 discountSave.apply {
                     visibility = View.VISIBLE
                     text =
-                        "${getString(R.string.you_save)} ${CurencyFormatter.convertAndFormat(save)}"
+                        "${getString(R.string.you_save)} ${CurrencyFormatter.convertAndFormat(save)}"
                 }
             }
         }

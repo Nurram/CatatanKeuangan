@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +35,7 @@
                         android:textColor="@android:color/white"
                         android:layout_marginStart="16dp"
                         android:gravity="center_horizontal"
-                        android:layout_marginEnd="16dp"/>
+                        android:layout_marginEnd="16dp" />
 
                 <TextView
                         android:id="@+id/main_total_expenses"
@@ -49,7 +48,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="center_horizontal"
-                        android:layout_marginStart="16dp"/>
+                        android:layout_marginStart="16dp" />
 
                 <TextView
                         android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                         android:textColor="@android:color/white"
                         android:gravity="center_horizontal"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"/>
+                        android:layout_marginEnd="16dp" />
 
                 <TextView
                         android:id="@+id/main_total_income"
@@ -70,7 +69,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="center_horizontal"
-                        android:layout_marginStart="16dp"/>
+                        android:layout_marginStart="16dp" />
             </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout
@@ -83,7 +82,7 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:tabTextColor="@android:color/darker_gray"
-                    app:tabIndicatorColor="@android:color/white"/>
+                    app:tabIndicatorColor="@android:color/white" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -91,7 +90,7 @@
             android:id="@+id/main_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -106,7 +105,7 @@
             app:layout_anchorGravity="bottom|end"
             app:tint="@android:color/white"
             app:backgroundTint="@color/colorAccent"
-            android:contentDescription="@string/add_image"/>
+            android:contentDescription="@string/add_image" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/debt_fab"
@@ -122,5 +121,5 @@
             app:icon="@drawable/ic_add_white_24dp"
             app:iconTint="@android:color/white"
             app:backgroundTint="@color/colorAccent"
-            android:contentDescription="@string/add_image"/>
+            android:contentDescription="@string/add_image" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

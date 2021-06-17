@@ -24,7 +24,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
-import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
@@ -192,17 +192,17 @@ class MainActivity : AppCompatActivity() {
         val dialogView = SaldoDialogLayoutBinding.inflate(layoutInflater)
 
         dialogView.apply {
-            dialogMainIncome.text = CurencyFormatter.convertAndFormat(totalIncome)
-            dialogMainExpenses.text = CurencyFormatter.convertAndFormat(
+            dialogMainIncome.text = CurrencyFormatter.convertAndFormat(totalIncome)
+            dialogMainExpenses.text = CurrencyFormatter.convertAndFormat(
                 totalExpenses
             )
-            dialogMainDebt.text = CurencyFormatter.convertAndFormat(totalDebt)
+            dialogMainDebt.text = CurrencyFormatter.convertAndFormat(totalDebt)
             dialogMainSaldo.text =
-                CurencyFormatter.convertAndFormat(totalIncome - (totalExpenses + totalDebt))
+                CurrencyFormatter.convertAndFormat(totalIncome - (totalExpenses + totalDebt))
         }
 
         dialog.setView(dialogView.root)
-        dialog.setTitle(R.string.dialog_title_saldo)
+        dialog.setTitle(R.string.dialog_title_balance)
         dialog.setCancelable(true)
         dialog.setPositiveButton("Close", null)
         dialog.show()
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
                 if (alreadyConverted) {
                     Toast.makeText(
                         this,
-                        getString(R.string.data_sudah_pernah_dikonversi),
+                        getString(R.string.data_converted),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {

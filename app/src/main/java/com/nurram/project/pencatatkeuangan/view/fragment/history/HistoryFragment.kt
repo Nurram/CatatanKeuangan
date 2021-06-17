@@ -149,7 +149,7 @@ class HistoryFragment : Fragment() {
         dialog?.apply {
             setView(dialogView.root)
             setCancelable(true)
-            setPositiveButton(R.string.dialog_simpan) { _, _ ->
+            setPositiveButton(R.string.dialog_save) { _, _ ->
 
                 if (dialogView.dialogCheckboxIncome.isChecked) {
                     record.description = "income"
@@ -166,7 +166,7 @@ class HistoryFragment : Fragment() {
 
                 viewModel?.updateRecord(innerRecord)
             }
-            setNegativeButton(R.string.dialog_hapus) { _, _ ->
+            setNegativeButton(R.string.dialog_delete) { _, _ ->
                 viewModel?.deleteRecord(record)
                 Toast.makeText(
                     requireContext(),
@@ -207,7 +207,7 @@ class HistoryFragment : Fragment() {
 
         dialog?.setView(dialogView.root)
         dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
+        dialog?.setPositiveButton(R.string.dialog_save) { _, _ ->
             if (startDate != null && endDate != null) {
                 viewModel?.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
                     viewLifecycleOwner,

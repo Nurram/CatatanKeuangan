@@ -130,7 +130,7 @@ class DebtFragment : Fragment() {
 
         builder?.setView(dialogView.root)
         builder?.setCancelable(true)
-        builder?.setPositiveButton(R.string.dialog_simpan, null)
+        builder?.setPositiveButton(R.string.dialog_save, null)
 
         val dialog = builder?.create()
         dialog?.show()
@@ -181,7 +181,7 @@ class DebtFragment : Fragment() {
 
         dialog?.setView(dialogView.root)
         dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_simpan) { _, _ ->
+        dialog?.setPositiveButton(R.string.dialog_save) { _, _ ->
             if (startDate != null && endDate != null) {
                 viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)
                     ?.observe(viewLifecycleOwner, {

@@ -62,7 +62,7 @@ dependencies {
     //Excel converter
     implementation 'com.ajts.androidmads.SQLite2Excel:library:1.0.4'
     //Admob component
-    implementation 'com.google.android.gms:play-services-ads:20.1.0'
+    implementation 'com.google.android.gms:play-services-ads:20.2.0'
     //Circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -22,13 +22,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sort_newest"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp" />
 
             <ImageView
                     android:id="@+id/debt_sort_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_sort_24"/>
+                    android:src="@drawable/ic_baseline_sort_24" />
         </LinearLayout>
 
         <LinearLayout
@@ -38,24 +38,25 @@
                 android:layout_weight="1"
                 android:padding="16dp"
                 android:gravity="center">
+
             <TextView
                     android:id="@+id/debt_filter_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/filter"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp" />
 
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_filter_alt"/>
+                    android:src="@drawable/ic_baseline_filter_alt" />
         </LinearLayout>
     </LinearLayout>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#e5e5e5"/>
+            android:background="#e5e5e5" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -65,5 +66,5 @@
             android:layout_weight="1"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp" />
 </LinearLayout>

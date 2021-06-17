@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Financial Records</string>
-    <string name="data_sudah_pernah_dikonversi">Data already converted, please reopen this page to re-convert</string>
-    <string name="dialog_message">Are you sure?</string>
-    <string name="dialog_simpan">Save</string>
-    <string name="dialog_hapus">Delete</string>
-    <string name="dialog_title_saldo">Your balance</string>
-    <string name="ex_belanja">ex: Shopping</string>
-    <string name="debt_kamu">Your debt</string>
-    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph will shown if you already have 2 data or
-        more
-    </string>
-    <string name="konversi_excel_ditolak">Give permission to use excel conversion</string>
+    <string name="data_converted">Data already converted, please reopen this page to re-convert</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="dialog_title_balance">Your balance</string>
+    <string name="ex_shopping">ex: Shopping</string>
+    <string name="your_debt">Your debt</string>
+
+    <string name="konversi_excel_ditolak">Give permission to use xls conversion</string>
     <string name="konversi_tidak_diijinkan">You cannot use conversion feature</string>
     <string name="lakukan_konversi">Convert to xls?</string>
     <string name="masukan_judul">Enter a title</string>
     <string name="masukan_total_uang">Enter amount of money</string>
-    <string name="mengerti_bawa_kembali">Understand, take me back</string>
     <string name="mulai_konversi">Starting conversion</string>
     <string name="income">Income</string>
     <string name="income_kamu">Your income</string>
-    <string name="expenses">Expenditure</string>
+    <string name="expenses">Expenses</string>
     <string name="pengluaran_kamu">Your expenses</string>
     <string name="perhatian">Attention</string>
     <string name="delete_all">Are you sure to delete all data?</string>
@@ -28,9 +24,9 @@
     <string name="saldo">Balance</string>
     <string name="saldo_kamu">Your balance</string>
     <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
-    <string name="spinner_peringatan_data">Data are less than 2</string>
+    <string name="data_empty">Data not found</string>
     <string name="toast_hapus_berhasil">Data successfully deleted</string>
-    <string name="toast_isi_kolom">Fill all collumn</string>
+    <string name="toast_isi_kolom">Fill all column</string>
     <string name="total_income_kamu">Your total income</string>
     <string name="total_expenses_kamu">Your total expenses</string>
     <string name="rp_0">Rp.0</string>
@@ -51,7 +47,6 @@
     <string name="calculate">Calculate</string>
     <string name="you_save">You saved:</string>
     <string name="add_image">add_image</string>
-    <string name="no_data_found">No data found</string>
     <string name="add_debt">Add debt</string>
     <string name="sort_oldest">Sort date (oldest)</string>
     <string name="sort_newest">Sort date (newest)</string>
@@ -62,27 +57,8 @@
     <string name="convert_data_to_xls">Convert data to xls</string>
     <string name="dark_mode">Dark Mode</string>
 
-    <string-array name="months">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
-    </string-array>
-
+    <string name="choose_menu_below">Choose Menu Below:</string>
     <string name="enabled">Enable</string>
     <string name="disable">Disable</string>
     <string name="follow_system_default">Follow System Default</string>
-    <string name="email" translatable="false">Email</string>
-    <string name="password" translatable="false">Password</string>
-    <string name="backup_to_google_drive">Backup to google drive</string>
-    <string name="choose_menu_below">Choose menu below:</string>
-    <string name="upload_now">Upload your data to google drive?</string>
 </resources>

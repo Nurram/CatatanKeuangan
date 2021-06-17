@@ -3,7 +3,7 @@
     </string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
-    <string name="ex_belanja">contoh: Belanja</string>
+    <string name="ex_shopping">contoh: Belanja</string>
     <string name="masukan_total_uang">Masukan total uang</string>
     <string name="ex_1_000_000">contoh: 10000</string>
     <string name="income">Pemasukan</string>
@@ -12,11 +12,10 @@
     <string name="saldo_kamu">Saldo kamu</string>
     <string name="saldo">Saldo</string>
     <string name="reset">Reset</string>
-    <string name="debt_kamu">Utang kamu</string>
+    <string name="your_debt">Utang kamu</string>
 
-    <string name="dialog_title_saldo">Total saldo kamu</string>
-    <string name="dialog_message">Apakah kamu yakin?</string>
-    <string name="dialog_simpan">Simpan</string>
+    <string name="dialog_title_balance">Total saldo kamu</string>
+    <string name="dialog_save">Simpan</string>
 
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
@@ -24,17 +23,13 @@
     <string name="total_income_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
     <string name="history">History</string>
-    <string name="kamu_belum_memiliki_data_dalam_2_hari_atau_lebih">Graph akan muncul apabila kamu memiliki 2 data atau
-        lebih
-    </string>
 
     <string name="expenses">Pengeluaran</string>
-    <string name="spinner_peringatan_data">Total data kurang dari 2</string>
+    <string name="data_empty">Data tidak ditemukan</string>
     <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
     <string name="perhatian">Perhatian!</string>
-    <string name="mengerti_bawa_kembali">Mengerti, bawa saya kembali</string>
     <string name="lakukan_konversi">Lakukan konversi ke format xls?</string>
-    <string name="data_sudah_pernah_dikonversi">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
+    <string name="data_converted">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
         ulang
     </string>
     <string name="konversi_tidak_diijinkan">Kamu tidak bisa menggunakan fitur konversi</string>
@@ -53,7 +48,6 @@
     <string name="calculate">Hitung</string>
     <string name="you_save">Kamu telah menghemat:</string>
     <string name="add_image">gambar_tambah</string>
-    <string name="no_data_found">Data tidak ditemukan</string>
     <string name="add_debt">Tambah utang</string>
     <string name="sort_oldest">Urutkan (terlama)</string>
     <string name="sort_newest">Urutkan (terbaru)</string>
@@ -64,28 +58,11 @@
     <string name="convert_data_to_xls">Konversi data ke xls</string>
     <string name="dark_mode">Dark Mode</string>
 
-    <string-array name="months">
-        <item>Januari</item>
-        <item>Februari</item>
-        <item>Maret</item>
-        <item>April</item>
-        <item>Mei</item>
-        <item>Juni</item>
-        <item>Juli</item>
-        <item>Agustus</item>
-        <item>September</item>
-        <item>Oktober</item>
-        <item>November</item>
-        <item>Desember</item>
-    </string-array>
-
-    <string name="enabled" >Aktif</string>
+    <string name="choose_menu_below">Pilih Menu Dibawah:</string>
+    <string name="enabled">Aktif</string>
     <string name="disable">Non-aktif</string>
     <string name="follow_system_default">Ikuti System Default</string>
-    <string name="dialog_hapus">Hapus</string>
+    <string name="dialog_delete">Hapus</string>
     <string name="tanggal_transaksi">Tanggal transaksi:</string>
-    <string name="backup_to_google_drive">Backup ke google drive</string>
-    <string name="choose_menu_below">Pilih menu dibawah</string>
-    <string name="upload_now">Upload datamu ke google drive?</string>
     <string name="delete_all">Apakah anda ingin menghapus semua data?</string>
 </resources>

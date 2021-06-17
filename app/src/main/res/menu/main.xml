@@ -5,15 +5,17 @@
     <item
             android:title="@string/graph"
             android:icon="@drawable/ic_timeline"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_saldo"
+    <item
+            android:id="@+id/action_saldo"
             android:title="@string/saldo"
             android:icon="@drawable/ic_account_balance_wallet_white_24dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_reset"
+    <item
+            android:id="@+id/action_reset"
             android:title="@string/reset"
             android:icon="@drawable/ic_autorenew_white_24dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom" />
 </menu>

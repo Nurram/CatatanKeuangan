@@ -9,9 +9,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp">
 
-        <TextView android:layout_width="match_parent"
+        <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/start_date"/>
+                android:text="@string/start_date" />
 
         <Button
                 android:id="@+id/filter_start_date"
@@ -19,11 +20,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/selected_date"
                 android:textColor="@android:color/white"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
-        <TextView android:layout_width="match_parent"
+        <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/end_date"/>
+                android:text="@string/end_date" />
 
         <Button
                 android:id="@+id/filter_end_date"
@@ -31,6 +33,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/selected_date"
                 android:textColor="@android:color/white"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
     </LinearLayout>
 </ScrollView>

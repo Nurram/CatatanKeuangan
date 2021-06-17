@@ -16,7 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentMainBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.utils.CurencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
@@ -39,17 +39,17 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getTotalExpenses()?.observe(viewLifecycleOwner, {
             if (it != null) {
-                binding.mainTotalExpenses.text = CurencyFormatter.convertAndFormat(it.toLong())
+                binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
-                binding.mainTotalExpenses.text = CurencyFormatter.convertAndFormat(0)
+                binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
 
         viewModel.getTotalIncome()?.observe(viewLifecycleOwner, {
             if (it != null) {
-                binding.mainTotalIncome.text = CurencyFormatter.convertAndFormat(it.toLong())
+                binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
-                binding.mainTotalIncome.text = CurencyFormatter.convertAndFormat(0)
+                binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
 
@@ -115,7 +115,7 @@ class MainFragment : Fragment() {
         }
 
         builder?.setCancelable(true)
-        builder?.setPositiveButton(R.string.dialog_simpan, null)
+        builder?.setPositiveButton(R.string.dialog_save, null)
         val dialog = builder?.create()
         dialog?.show()
         dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {

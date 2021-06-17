@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = "record_table")
 @TypeConverters(DateConverter::class)
-class Record(
+data class Record(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -26,7 +26,7 @@ class Record(
 
 @Entity(tableName = "debt_table")
 @TypeConverters(DateConverter::class)
-class Debt(
+data class Debt(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
