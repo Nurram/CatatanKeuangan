@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val dialog = AlertDialog.Builder(this)
-        dialog.setTitle(getString(R.string.perhatian))
+        dialog.setTitle(getString(R.string.attention))
         dialog.setMessage(R.string.delete_all)
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity() {
     private fun showConvertDialog() {
         val dialog = AlertDialog.Builder(this)
 
-        dialog.setTitle(getString(R.string.perhatian))
+        dialog.setTitle(getString(R.string.attention))
         dialog.setMessage(getString(R.string.lakukan_konversi))
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->

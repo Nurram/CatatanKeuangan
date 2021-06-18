@@ -93,12 +93,12 @@ class HistoryFragment : Fragment() {
         )
 
         val dialog = AlertDialog.Builder(requireContext())
-        dialog.setTitle(getString(R.string.perhatian))
+        dialog.setTitle(getString(R.string.attention))
         dialog.setMessage(R.string.delete_record_confirmation)
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
             viewModel?.deleteRecord(record)
-            Toast.makeText(context, R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
         }
         dialog.setNegativeButton("Cancel") { innerDialog, _ ->
             innerDialog.dismiss()
@@ -187,7 +187,7 @@ class HistoryFragment : Fragment() {
                 viewModel?.deleteRecord(record)
                 Toast.makeText(
                     requireContext(),
-                    R.string.toast_hapus_berhasil, Toast.LENGTH_SHORT
+                    R.string.data_success_delete, Toast.LENGTH_SHORT
                 ).show()
             }
 

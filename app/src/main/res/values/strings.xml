@@ -18,14 +18,14 @@
     <string name="income_kamu">Your income</string>
     <string name="expenses">Expenses</string>
     <string name="pengluaran_kamu">Your expenses</string>
-    <string name="perhatian">Attention</string>
+    <string name="attention">Attention</string>
     <string name="delete_all">Are you sure to delete all data?</string>
     <string name="history">History</string>
     <string name="saldo">Balance</string>
     <string name="saldo_kamu">Your balance</string>
     <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
     <string name="data_empty">Data not found</string>
-    <string name="toast_hapus_berhasil">Data successfully deleted</string>
+    <string name="data_success_delete">Data successfully deleted</string>
     <string name="toast_isi_kolom">Fill all column</string>
     <string name="total_income_kamu">Your total income</string>
     <string name="total_expenses_kamu">Your total expenses</string>

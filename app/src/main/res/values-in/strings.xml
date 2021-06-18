@@ -18,7 +18,7 @@
     <string name="dialog_save">Simpan</string>
 
     <string name="toast_isi_kolom">Isi semua kolom!</string>
-    <string name="toast_hapus_berhasil">Data berhasil dihapus</string>
+    <string name="data_success_delete">Data berhasil dihapus</string>
     <string name="app_name">Pencatat Keuangan</string>
     <string name="total_income_kamu">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
@@ -27,7 +27,7 @@
     <string name="expenses">Pengeluaran</string>
     <string name="data_empty">Data tidak ditemukan</string>
     <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
-    <string name="perhatian">Perhatian!</string>
+    <string name="attention">Perhatian!</string>
     <string name="lakukan_konversi">Lakukan konversi ke format xls?</string>
     <string name="data_converted">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
         ulang
