@@ -18,6 +18,7 @@ import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
 import java.util.*
 
@@ -151,6 +152,9 @@ class MainFragment : Fragment() {
                         totalIncome.toInt(),
                         selectedDate
                     )
+
+                    val fragment = adapter.getItem(0) as DebtFragment
+                    fragment.resetOrderIcon()
 
                     viewModel.insertDebt(debt)
                 }

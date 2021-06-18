@@ -54,11 +54,7 @@ class DebtFragment : Fragment() {
             debts = debts?.reversed()
             adapter?.setData(debts?.toMutableList())
 
-            if (!isNewest) binding.debtSortImage.rotationX = 180.0.toFloat()
-            else binding.debtSortImage.rotationX = 0.toFloat()
-
-            if (!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
-            else binding.debtSortText.text = getString(R.string.sort_newest)
+            setOrderIcon()
         }
 
         binding.debtFilter.setOnClickListener {
@@ -145,11 +141,26 @@ class DebtFragment : Fragment() {
                 )
 
                 viewModel?.updateDebt(innerDebt)
+                resetOrderIcon()
+
                 dialog.dismiss()
             } else {
                 Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setOrderIcon() {
+        if (!isNewest) binding.debtSortImage.rotationX = 180.0.toFloat()
+        else binding.debtSortImage.rotationX = 0.toFloat()
+
+        if (!isNewest) binding.debtSortText.text = getString(R.string.sort_oldest)
+        else binding.debtSortText.text = getString(R.string.sort_newest)
+    }
+
+    fun resetOrderIcon() {
+        isNewest = true
+        setOrderIcon()
     }
 
     private fun showFilterDialog() {
