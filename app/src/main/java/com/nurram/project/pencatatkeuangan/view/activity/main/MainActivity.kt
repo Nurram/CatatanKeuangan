@@ -29,6 +29,7 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
@@ -44,20 +45,14 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var excelConverter: SQLiteToExcel
 
-    private val directoryPath =
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-    private val tableList = arrayListOf("record_table", "debt_table")
     private var permissionGranted = false
-    private var alreadyConverted = false
 
     private var totalExpenses = 0L
     private var totalIncome = 0L
     private var totalDebt = 0L
 
     private var mInterstitialAd: InterstitialAd? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initDarkMode()
@@ -67,14 +62,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
         supportActionBar?.title = null
-
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            1
-        )
-
-        excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
 
         val pref = PrefUtil(this)
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
@@ -127,7 +114,6 @@ class MainActivity : AppCompatActivity() {
                     mInterstitialAd = null
                 }
             })
-
     }
 
     override fun onRequestPermissionsResult(
@@ -138,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionGranted = true
+                showConvertDialog()
             } else {
                 Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG)
                     .show()
@@ -191,7 +178,11 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.fragment, DiscCalcFragment()).commit()
                 }
                 R.id.sql_to_xls -> {
-                    showConvertDialog()
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        1
+                    )
                 }
                 R.id.dark_mode -> {
                     startActivity(DarkOptionsActivity.getIntent(this))
@@ -283,15 +274,7 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
             if (permissionGranted) {
-                if (alreadyConverted) {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.data_converted),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    convertDbToExcel()
-                }
+                convertDbToExcel()
             } else {
                 Toast.makeText(
                     this,
@@ -308,6 +291,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convertDbToExcel() {
+        val directoryPath =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+        val excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
+        val tableList = arrayListOf("record_table", "debt_table", "wallet_table")
+
+        excelConverter.setExcludeColumns(arrayListOf("type"))
+        excelConverter.setPrettyNameMapping(
+            hashMapOf("judul" to "title", "total" to "amount", "wallet_id" to "wallet id")
+        )
+        excelConverter.setCustomFormatter { columnName, value ->
+            if (value != null) {
+                when (columnName) {
+                    "date" -> {
+                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = value.toLong()
+
+                        DateUtil.formatDate(calendar.time)
+                    }
+                    "total" -> {
+                        CurrencyFormatter.convertAndFormat(value.toLong())
+                    }
+                    else -> {
+                        value
+                    }
+                }
+            } else {
+                ""
+            }
+        }
+
         excelConverter.exportSpecificTables(
             tableList,
             "Catatan keuangan.xls",
@@ -334,7 +347,6 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.selesai_konversi),
                         Toast.LENGTH_SHORT
                     ).show()
-                    alreadyConverted = true
                 }
             })
     }
