@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -18,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.ajts.androidmads.library.SQLiteToExcel
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -28,6 +30,7 @@ import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
@@ -105,8 +108,9 @@ class MainActivity : AppCompatActivity() {
         val adRequest = AdRequest.Builder().build()
 
         viewModel.getAllRecordCount()?.observe(this, {
-            if (it > 3) {
+            if (it >= 3) {
                 binding.adView.loadAd(adRequest)
+                binding.adView.VISIBLE()
             }
         })
 

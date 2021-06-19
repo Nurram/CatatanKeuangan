@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
@@ -20,6 +21,7 @@ import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
@@ -82,8 +84,9 @@ class GraphActivity : AppCompatActivity() {
             val adRequest = AdRequest.Builder().build()
 
             viewModel.getAllRecordCount()?.observe(this@GraphActivity, {
-                if (it > 3) {
+                if (it >= 3) {
                     binding.adView.loadAd(adRequest)
+                    binding.adView.VISIBLE()
                 }
             })
         }

@@ -85,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:visibility="gone"
                 ads:adSize="BANNER"
                 ads:adUnitId="ca-app-pub-2987316684275669/7132649632" />
     </FrameLayout>
