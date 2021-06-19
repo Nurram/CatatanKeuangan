@@ -20,6 +20,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".view.activity.wallet.WalletActivity"
+                android:parentActivityName=".view.activity.main.MainActivity"
+                android:screenOrientation="portrait" />
+        <activity
                 android:name=".view.activity.dark.DarkOptionsActivity"
                 android:parentActivityName=".view.activity.main.MainActivity"
                 android:screenOrientation="portrait" />
@@ -41,7 +45,6 @@
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="ca-app-pub-2987316684275669~6011139654" />
-
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
@@ -55,7 +58,6 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

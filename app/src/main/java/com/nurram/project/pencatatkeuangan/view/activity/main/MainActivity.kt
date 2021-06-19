@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -26,8 +28,10 @@ import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
@@ -69,44 +73,16 @@ class MainActivity : AppCompatActivity() {
 
         excelConverter = SQLiteToExcel(this, "record_db", directoryPath)
 
-        val toggle = ActionBarDrawerToggle(
-            this, binding.drawerLayout, binding.mainToolbar,
-            R.string.open,
-            R.string.close
-        )
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        toggle.isDrawerIndicatorEnabled = true
-        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, android.R.color.white)
+        val pref = PrefUtil(this)
+        val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val factory = ViewModelFactory(application, walletId)
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
-        binding.navView.menu.getItem(0).isChecked = true
-        binding.navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_home -> {
-                    supportActionBar?.title = null
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, MainFragment()).commit()
-                }
-                R.id.nav_discount -> {
-                    supportActionBar?.title = getString(R.string.discount)
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, DiscCalcFragment()).commit()
-                }
-                R.id.sql_to_xls -> {
-                    showConvertDialog()
-                }
-                R.id.dark_mode -> {
-                    startActivity(DarkOptionsActivity.getIntent(this))
-                }
-            }
-
-            binding.drawerLayout.closeDrawers()
-            true
-        }
+        initDrawer()
+        initHeaderUi(walletId)
 
         supportFragmentManager.beginTransaction().replace(R.id.fragment, MainFragment()).commit()
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getTotalExpenses()?.observe(this, {
             if (it != null) {
                 totalExpenses = it.toLong()
@@ -129,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         val adRequest = AdRequest.Builder().build()
 
         viewModel.getAllRecordCount()?.observe(this, {
-            if(it > 3) {
+            if (it > 3) {
                 binding.adView.loadAd(adRequest)
             }
         })
@@ -174,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_reset -> showDialog()
+            R.id.action_reset -> showDeleteDialog()
             R.id.action_saldo -> showBalanceDialog()
             else -> {
                 val intent = Intent(this, GraphActivity::class.java)
@@ -185,9 +161,61 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun initDrawer() {
+        val toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.mainToolbar,
+            R.string.open,
+            R.string.close
+        )
+
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        toggle.isDrawerIndicatorEnabled = true
+        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, android.R.color.white)
+
+        binding.navView.menu.getItem(0).isChecked = true
+        binding.navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    supportActionBar?.title = null
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, MainFragment()).commit()
+                }
+                R.id.nav_discount -> {
+                    supportActionBar?.title = getString(R.string.discount)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, DiscCalcFragment()).commit()
+                }
+                R.id.sql_to_xls -> {
+                    showConvertDialog()
+                }
+                R.id.dark_mode -> {
+                    startActivity(DarkOptionsActivity.getIntent(this))
+                }
+            }
+
+            binding.drawerLayout.closeDrawers()
+            true
+        }
+    }
+
+    private fun initHeaderUi(walletId: String) {
+        val header = binding.navView.getHeaderView(0)
+        val headerWalletName = header.findViewById<TextView>(R.id.wallet_name)
+        val headerButton = header.findViewById<Button>(R.id.wallet_change)
+        headerButton.setOnClickListener {
+            val i = WalletActivity.getIntent(this)
+            startActivity(i)
+        }
+
+        viewModel.getWalletById(walletId)?.observe(this) {
+            headerWalletName.text = it.name
+        }
+    }
+
     private fun initDarkMode() {
         val sharedPref = PrefUtil(this)
-        when (sharedPref.getFromPref("dark")) {
+        when (sharedPref.getIntFromPref("dark")) {
             0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -215,7 +243,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showDialog() {
+    private fun showDeleteDialog() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle(getString(R.string.attention))
         dialog.setMessage(R.string.delete_all)

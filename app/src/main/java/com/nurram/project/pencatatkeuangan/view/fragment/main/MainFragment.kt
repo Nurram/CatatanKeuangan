@@ -18,6 +18,9 @@ import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
 import java.util.*
@@ -26,6 +29,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: PagerAdapter
+    private lateinit var walletId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +42,11 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val pref = PrefUtil(requireContext())
+        walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val factory = ViewModelFactory(requireActivity().application, walletId)
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+
         viewModel.getTotalExpenses()?.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(it.toLong())
@@ -138,6 +146,7 @@ class MainFragment : Fragment() {
                         dialogView.dialogTitle.text.toString(),
                         totalIncome.toLong(),
                         selectedDate,
+                        walletId,
                         isIncome
                     )
 
@@ -150,10 +159,11 @@ class MainFragment : Fragment() {
                         0,
                         dialogView.dialogTitle.text.toString(),
                         totalIncome.toInt(),
-                        selectedDate
+                        selectedDate,
+                        walletId
                     )
 
-                    val fragment = adapter.getItem(0) as DebtFragment
+                    val fragment = adapter.getItem(1) as DebtFragment
                     fragment.resetOrderIcon()
 
                     viewModel.insertDebt(debt)

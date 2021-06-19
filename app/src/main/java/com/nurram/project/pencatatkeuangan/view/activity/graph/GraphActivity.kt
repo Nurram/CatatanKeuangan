@@ -19,6 +19,9 @@ import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
 
 class GraphActivity : AppCompatActivity() {
@@ -34,7 +37,11 @@ class GraphActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        viewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
+        val pref = PrefUtil(this)
+        val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val factory = ViewModelFactory(application, walletId!!)
+        viewModel = ViewModelProvider(this, factory).get(GraphViewModel::class.java)
+
         adapter = HistoryAdapter(this, null, true) { _, _ -> }
 
         val spinnerAdapter =
@@ -75,7 +82,7 @@ class GraphActivity : AppCompatActivity() {
             val adRequest = AdRequest.Builder().build()
 
             viewModel.getAllRecordCount()?.observe(this@GraphActivity, {
-                if(it > 3) {
+                if (it > 3) {
                     binding.adView.loadAd(adRequest)
                 }
             })

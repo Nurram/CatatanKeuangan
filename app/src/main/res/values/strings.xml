@@ -57,10 +57,16 @@
     <string name="convert_data_to_xls">Convert data to xls</string>
     <string name="dark_mode">Dark Mode</string>
 
-    <string name="choose_menu_below">Choose Menu Below:</string>
     <string name="enabled">Enable</string>
     <string name="disable">Disable</string>
     <string name="follow_system_default">Follow System Default</string>
 
     <string name="delete_record_confirmation">Delete this record?</string>
+    <string name="current_wallet">Current wallet</string>
+    <string name="default_text" translatable="false">Default</string>
+    <string name="change_wallet">Change wallet</string>
+    <string name="your_wallet">Your Wallets</string>
+    <string name="enter_wallet_name">Enter wallet name</string>
+    <string name="delete_wallet_confirmation">Delete this wallet?</string>
+    <string name="ex_credit_card">Ex: Credit card</string>
 </resources>

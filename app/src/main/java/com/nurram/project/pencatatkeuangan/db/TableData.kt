@@ -18,6 +18,8 @@ data class Record(
     var total: Long = 0,
     @ColumnInfo(name = "date")
     var date: Date? = null,
+    @ColumnInfo(name = "wallet_id")
+    var walletId: String = "def",
     @ColumnInfo(name = "description")
     var description: String = "expenses",
     @Ignore
@@ -37,6 +39,18 @@ data class Debt(
     var total: Int = 0,
     @ColumnInfo(name = "date")
     var date: Date? = null,
+    @ColumnInfo(name = "wallet_id")
+    var walletId: String = "def",
     @Ignore
     var type: Int = 0
+)
+
+@Entity(tableName = "wallet_table")
+data class Wallet(
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
+    @ColumnInfo(name = "id")
+    var id: String = "def",
+    @ColumnInfo(name = "name")
+    var name: String = ""
 )

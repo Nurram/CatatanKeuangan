@@ -24,7 +24,7 @@ class DarkOptionsActivity : AppCompatActivity() {
 
         val sharedPref = PrefUtil(this)
         binding.apply {
-            when (sharedPref.getFromPref("dark")) {
+            when (sharedPref.getIntFromPref("dark")) {
                 0 -> darkOn.isChecked = true
                 1 -> darkOff.isChecked = true
                 2 -> darkSystem.isChecked = true

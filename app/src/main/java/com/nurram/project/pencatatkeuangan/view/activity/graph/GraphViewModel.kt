@@ -1,16 +1,14 @@
 package com.nurram.project.pencatatkeuangan.view.activity.graph
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.jjoe64.graphview.series.DataPoint
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.db.RecordRepo
+import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 
-class GraphViewModel(application: Application) : AndroidViewModel(application) {
-    private val recordRepo = RecordRepo(application)
+class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private val dataPoint = mutableListOf<DataPoint>()
     private var records = mutableListOf<Record>()
     private var dates = mutableListOf<String>()

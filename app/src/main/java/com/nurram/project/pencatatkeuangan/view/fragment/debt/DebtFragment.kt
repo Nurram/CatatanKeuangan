@@ -17,12 +17,17 @@ import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import java.util.*
 
 class DebtFragment : Fragment() {
     private lateinit var binding: FragmentDebtBinding
+    private lateinit var walletId: String
+
     private var adapter: DebtAdapter? = null
     private var viewModel: MainViewModel? = null
     private var debts: List<Debt>? = null
@@ -44,7 +49,14 @@ class DebtFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
+
+        viewModel = activity?.let {
+            val pref = PrefUtil(requireContext())
+            walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+            val factory = ViewModelFactory(it.application, walletId)
+            ViewModelProvider(it, factory).get(MainViewModel::class.java)
+        }
+
         populateRecycler()
         getAllDebts()
 
@@ -95,7 +107,7 @@ class DebtFragment : Fragment() {
 
                 dialog.show()
             } else {
-                showAddDataDialog(it)
+                showUpdateDataDialog(it)
             }
         }
 
@@ -108,7 +120,7 @@ class DebtFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showAddDataDialog(debt: Debt) {
+    private fun showUpdateDataDialog(debt: Debt) {
         val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
@@ -148,7 +160,8 @@ class DebtFragment : Fragment() {
                 val innerDebt = Debt(
                     debt.id, dialogView.dialogTitle.text.toString(),
                     dialogView.dialogAmount.text.toString().toInt(),
-                    selectedDate
+                    selectedDate,
+                    walletId
                 )
 
                 viewModel?.updateDebt(innerDebt)

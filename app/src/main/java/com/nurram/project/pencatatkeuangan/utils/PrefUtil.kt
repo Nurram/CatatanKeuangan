@@ -14,5 +14,11 @@ class PrefUtil(val context: Context) {
         sharedPref.edit().putInt(key, value).apply()
     }
 
-    fun getFromPref(key: String) = sharedPref.getInt(key, 2)
+    fun saveToPref(key: String, value: String) {
+        sharedPref.edit().putString(key, value).apply()
+    }
+
+    fun getIntFromPref(key: String): Int = sharedPref.getInt(key, 2)
+    fun getStringFromPref(key: String, default: String): String =
+        sharedPref.getString(key, default)!!
 }

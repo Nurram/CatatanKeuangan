@@ -4,10 +4,15 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.nurram.project.pencatatkeuangan.db.daos.RecordDAO
+import com.nurram.project.pencatatkeuangan.db.daos.WalletDao
 
-@Database(entities = [Record::class, Debt::class], version = 3)
+@Database(entities = [Record::class, Debt::class, Wallet::class], version = 6)
 abstract class RecordDb : RoomDatabase() {
     abstract val recordDao: RecordDAO
+    abstract val walletDao: WalletDao
 
     companion object {
         @Volatile
@@ -21,6 +26,7 @@ abstract class RecordDb : RoomDatabase() {
                             application.applicationContext,
                             RecordDb::class.java, "record_db"
                         )
+                            .addMigrations(MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                             .fallbackToDestructiveMigration()
                             .build()
                     }
@@ -28,6 +34,31 @@ abstract class RecordDb : RoomDatabase() {
             }
 
             return db
+        }
+
+        private val MIGRATION_3_4: Migration = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE record_table ADD COLUMN wallet_id TEXT NOT NULL DEFAULT 'def'"
+                )
+            }
+        }
+
+        private val MIGRATION_4_5: Migration = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `wallet_table` (`id` TEXT NOT NULL, " +
+                            "`name` TEXT NOT NULL, PRIMARY KEY(`id`))"
+                )
+            }
+        }
+
+        private val MIGRATION_5_6: Migration = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE debt_table ADD COLUMN wallet_id TEXT NOT NULL DEFAULT 'def'"
+                )
+            }
         }
     }
 }

@@ -17,13 +17,17 @@ import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentHistoryBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import java.util.*
 
 
 class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
+    private lateinit var walletId: String
 
     private var viewModel: MainViewModel? = null
     private var adapter: HistoryAdapter? = null
@@ -46,7 +50,14 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
+
+        viewModel = activity?.let {
+            val pref = PrefUtil(requireContext())
+            walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+            val factory = ViewModelFactory(it.application, walletId)
+            ViewModelProvider(it, factory).get(MainViewModel::class.java)
+        }
+
         populateRecycler()
         getAllRecords()
 
@@ -113,7 +124,7 @@ class HistoryFragment : Fragment() {
                 if (it1 == "delete") {
                     deleteRecords(record)
                 } else {
-                    showAddDataDialog(record)
+                    showUpdateDataDialog(record)
                 }
             }
         }
@@ -127,7 +138,7 @@ class HistoryFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showAddDataDialog(record: Record) {
+    private fun showUpdateDataDialog(record: Record) {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
@@ -176,6 +187,7 @@ class HistoryFragment : Fragment() {
                     record.id, dialogView.dialogTitle.text.toString(),
                     dialogView.dialogAmount.text.toString().toLong(),
                     selectedDate,
+                    walletId,
                     record.description
                 )
 

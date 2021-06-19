@@ -1,23 +1,28 @@
-package com.nurram.project.pencatatkeuangan.db
+package com.nurram.project.pencatatkeuangan.db.repos
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.nurram.project.pencatatkeuangan.db.Record
+import com.nurram.project.pencatatkeuangan.db.RecordDb
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class RecordRepo(application: Application) {
+class RecordRepo(
+    application: Application,
+    private val walletId: String
+) {
     private val recordDb = RecordDb.getDb(application)
     private val recordDao = recordDb?.recordDao
 
-    fun getAllRecordCount() = recordDao?.getAllDataCount()
+    fun getAllRecordCount() = recordDao?.getAllDataCount(walletId)
 
     fun getAllRecordsDesc(): LiveData<List<Record>>? {
-        return recordDao?.getAllDataDesc()
+        return recordDao?.getAllDataDesc(walletId)
     }
 
     fun getAllRecordsAsc(): LiveData<List<Record>>? {
-        return recordDao?.getAllDataAsc()
+        return recordDao?.getAllDataAsc(walletId)
     }
 
     fun getFilteredRecord(
@@ -26,26 +31,26 @@ class RecordRepo(application: Application) {
         isDesc: Boolean
     ): LiveData<List<Record>>? {
         return if (isDesc) {
-            recordDao?.getFilteredRecordDesc(startDate, endDate)
+            recordDao?.getFilteredRecordDesc(walletId, startDate, endDate)
         } else {
-            recordDao?.getFilteredRecordAsc(startDate, endDate)
+            recordDao?.getFilteredRecordAsc(walletId, startDate, endDate)
         }
     }
 
     fun getAllIncome(): LiveData<List<Record>>? {
-        return recordDao?.getAllIncome()
+        return recordDao?.getAllIncome(walletId)
     }
 
     fun getAllExpenses(): LiveData<List<Record>>? {
-        return recordDao?.getAllExpenses()
+        return recordDao?.getAllExpenses(walletId)
     }
 
     fun getTotalExpenses(): LiveData<Int>? {
-        return recordDao?.getTotalExpenses()
+        return recordDao?.getTotalExpenses(walletId)
     }
 
     fun getTotalIncome(): LiveData<Int>? {
-        return recordDao?.getTotalIncome()
+        return recordDao?.getTotalIncome(walletId)
     }
 
     fun insertRecord(record: Record) {
@@ -67,7 +72,7 @@ class RecordRepo(application: Application) {
     fun deleteAllRecord() {
         recordDao?.let {
             GlobalScope.launch {
-                recordDao.deleteAll()
+                recordDao.deleteAll(walletId)
             }
         }
     }
