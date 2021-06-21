@@ -56,7 +56,7 @@ class WalletActivity : AppCompatActivity() {
         }
 
         val pref = PrefUtil(this)
-        val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val walletId = pref.getStringFromPref(prefKey, "def")
         val factory = ViewModelFactory(application, walletId)
         viewModel = ViewModelProvider(this, factory).get(WalletViewModel::class.java)
 

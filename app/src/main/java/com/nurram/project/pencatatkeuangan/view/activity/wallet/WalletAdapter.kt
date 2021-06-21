@@ -1,5 +1,6 @@
 package com.nurram.project.pencatatkeuangan.view.activity.wallet
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -27,14 +28,15 @@ class WalletAdapter(
     inner class WalletHolder(val binding: ItemWalletBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(wallet: Wallet) {
+        @SuppressLint("SetTextI18n")
+        fun bind(wallet: Wallet, position: Int) {
             binding.apply {
 
                 if (wallet.id == "def") {
                     walletDelete.GONE()
                 }
 
-                walletNameItem.text = wallet.name
+                walletNameItem.text = "${position + 1}. ${wallet.name}"
                 walletDelete.setOnClickListener { onItemClick(wallet, 0) }
             }
 
@@ -48,5 +50,5 @@ class WalletAdapter(
     }
 
     override fun onBindViewHolder(holder: WalletHolder, position: Int) =
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
 }
