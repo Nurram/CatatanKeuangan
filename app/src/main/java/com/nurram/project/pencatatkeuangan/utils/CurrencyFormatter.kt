@@ -1,20 +1,50 @@
-package com.nurram.project.pencatatkeuangan.utils;
+package com.nurram.project.pencatatkeuangan.utils
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import android.content.Context
+import android.widget.Toast
+import com.nurram.project.pencatatkeuangan.R
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
-public class CurrencyFormatter {
+object CurrencyFormatter {
+    fun convertAndFormat(s: Long): String {
+        val format = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        val formatRp = DecimalFormatSymbols()
+        formatRp.currencySymbol = "Rp"
+        formatRp.monetaryDecimalSeparator = ','
+        formatRp.groupingSeparator = '.'
+        format.decimalFormatSymbols = formatRp
+        val result = format.format(s)
+        return result.substring(0, result.length - 3)
+    }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public static String convertAndFormat(long s) {
-        DecimalFormat format = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-        formatRp.setCurrencySymbol("Rp");
-        formatRp.setMonetaryDecimalSeparator(',');
-        formatRp.setGroupingSeparator('.');
+    fun isAmountValid(context: Context,amount: String): Int {
+        return try {
+            val value = amount.toInt()
 
-        format.setDecimalFormatSymbols(formatRp);
-        String result = format.format(s);
-        return result.substring(0, result.length() - 3);
+            if (value > 1000000000) {
+                throw Exception()
+            }
+
+            value
+        } catch (e: Exception) {
+            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+            0
+        }
+    }
+
+    fun isAmountValidLong(context: Context, amount: String): Long {
+        return try {
+            val value = amount.toLong()
+
+            if (value > 1000000000) {
+                throw Exception()
+            }
+
+            value
+        } catch (e: Exception) {
+            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+            0
+        }
     }
 }

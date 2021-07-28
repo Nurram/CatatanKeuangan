@@ -16,6 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
@@ -124,8 +125,14 @@ class DebtFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showUpdateDataDialog(debt: Debt) {
-        val builder = context?.let { AlertDialog.Builder(it) }
+        val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
+
+        var selectedDate = debt.date
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
 
         dialogView.apply {
             dialogTitle.setText(debt.judul)
@@ -133,12 +140,6 @@ class DebtFragment : Fragment() {
             dialogDate.text = "Transaction date: ${debt.date?.let { DateUtil.formatDate(it) }}"
             dialogCheckboxIncome.visibility = View.GONE
         }
-
-        var selectedDate = debt.date
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
 
         dialogView.dialogShowDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
@@ -150,30 +151,33 @@ class DebtFragment : Fragment() {
             }, year, month, day).show()
         }
 
-        builder?.setView(dialogView.root)
-        builder?.setCancelable(true)
-        builder?.setPositiveButton(R.string.dialog_save, null)
+        dialog?.apply {
+            setView(dialogView.root)
+            setCancelable(true)
+            setPositiveButton(R.string.dialog_save) {_, _ ->
+                if (dialogView.dialogTitle.text.isNotBlank() &&
+                    dialogView.dialogAmount.text.isNotBlank() &&
+                    dialogView.dialogAmount.text.toString().toLong() > 0
+                ) {
+                    val totalIncomeString = dialogView.dialogAmount.text.toString()
+                    val totalIncome = CurrencyFormatter.isAmountValid(requireContext(),
+                        totalIncomeString)
+                    val innerRecord = Debt(
+                        debt.id,
+                        dialogView.dialogTitle.text.toString(),
+                        totalIncome,
+                        selectedDate,
+                        walletId
+                    )
 
-        val dialog = builder?.create()
-        dialog?.show()
-        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            if (dialogView.dialogTitle.text.isNotBlank() && dialogView.dialogAmount.text.isNotBlank()
-                && selectedDate != null
-            ) {
-                val innerDebt = Debt(
-                    debt.id, dialogView.dialogTitle.text.toString(),
-                    dialogView.dialogAmount.text.toString().toInt(),
-                    selectedDate,
-                    walletId
-                )
+                    viewModel?.updateDebt(innerRecord)
 
-                viewModel?.updateDebt(innerDebt)
-                resetOrderIcon()
-
-                dialog.dismiss()
-            } else {
-                Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+                    resetOrderIcon()
+                } else {
+                    Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+                }
             }
+            show()
         }
     }
 

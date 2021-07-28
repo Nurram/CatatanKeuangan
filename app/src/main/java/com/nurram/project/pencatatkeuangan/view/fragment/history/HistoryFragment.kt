@@ -15,14 +15,13 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentHistoryBinding
-import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
+import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
-import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import java.util.*
 
 
@@ -154,11 +153,7 @@ class HistoryFragment : Fragment() {
         dialogView.apply {
             dialogTitle.setText(record.judul)
             dialogAmount.setText(record.total.toString())
-            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${
-                record.date?.let {
-                    DateUtil.formatDate(it)
-                }
-            }"
+            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${record.date?.let { DateUtil.formatDate(it) }}"
             dialogCheckboxIncome.isChecked = when (record.description) {
                 "income" -> true
                 else -> false
@@ -180,23 +175,33 @@ class HistoryFragment : Fragment() {
             setCancelable(true)
             setPositiveButton(R.string.dialog_save) { _, _ ->
 
-                if (dialogView.dialogCheckboxIncome.isChecked) {
-                    record.description = "income"
+                if (dialogView.dialogTitle.text.isNotBlank() &&
+                    dialogView.dialogAmount.text.isNotBlank() &&
+                    dialogView.dialogAmount.text.toString().toLong() > 0
+                ) {
+                    if (dialogView.dialogCheckboxIncome.isChecked) {
+                        record.description = "income"
+                    } else {
+                        record.description = "expenses"
+                    }
+
+                    val totalIncomeString = dialogView.dialogAmount.text.toString()
+                    val totalIncome = CurrencyFormatter.isAmountValidLong(requireContext(),
+                        totalIncomeString)
+                    val innerRecord = Record(
+                        record.id, dialogView.dialogTitle.text.toString(),
+                        totalIncome,
+                        selectedDate,
+                        walletId,
+                        record.description
+                    )
+
+                    viewModel?.updateRecord(innerRecord)
+
+                    resetOrderIcon()
                 } else {
-                    record.description = "expenses"
+                    Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
                 }
-
-                val innerRecord = Record(
-                    record.id, dialogView.dialogTitle.text.toString(),
-                    dialogView.dialogAmount.text.toString().toLong(),
-                    selectedDate,
-                    walletId,
-                    record.description
-                )
-
-                viewModel?.updateRecord(innerRecord)
-
-                resetOrderIcon()
             }
             setNegativeButton(R.string.dialog_delete) { _, _ ->
                 viewModel?.deleteRecord(record)

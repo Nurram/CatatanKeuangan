@@ -135,16 +135,20 @@ class MainFragment : Fragment() {
                 "expenses"
             }
 
-            if (dialogView.dialogTitle.text.isNotBlank() && dialogView.dialogAmount.text.isNotBlank()
+            if (dialogView.dialogTitle.text.isNotBlank() &&
+                dialogView.dialogAmount.text.isNotBlank() &&
+                dialogView.dialogAmount.text.toString().toLong() > 0
             ) {
 
-                val totalIncome = dialogView.dialogAmount.text.toString()
+                val totalIncomeString = dialogView.dialogAmount.text.toString()
 
                 if (key == "history") {
+                    val totalIncome = CurrencyFormatter.isAmountValidLong(requireContext(),
+                        totalIncomeString)
                     val record = Record(
                         0,
                         dialogView.dialogTitle.text.toString(),
-                        totalIncome.toLong(),
+                        totalIncome,
                         selectedDate,
                         walletId,
                         isIncome
@@ -153,12 +157,15 @@ class MainFragment : Fragment() {
                     val fragment = adapter.getItem(0) as HistoryFragment
                     fragment.resetOrderIcon()
 
-                    viewModel.insertRecord(record)
+                    if (totalIncome > 0) viewModel.insertRecord(record)
                 } else {
+                    val totalIncome = CurrencyFormatter.isAmountValid(requireContext(),
+                        totalIncomeString)
+
                     val debt = Debt(
                         0,
                         dialogView.dialogTitle.text.toString(),
-                        totalIncome.toInt(),
+                        totalIncome,
                         selectedDate,
                         walletId
                     )
@@ -166,7 +173,7 @@ class MainFragment : Fragment() {
                     val fragment = adapter.getItem(1) as DebtFragment
                     fragment.resetOrderIcon()
 
-                    viewModel.insertDebt(debt)
+                    if(totalIncome > 0) viewModel.insertDebt(debt)
                 }
 
                 dialog.dismiss()
