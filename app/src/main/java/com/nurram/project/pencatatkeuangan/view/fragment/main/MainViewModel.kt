@@ -20,7 +20,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     init {
-        walletRepo.insert(Wallet("def", "Default"))
+        viewModelScope.launch { walletRepo.insert(Wallet("def", "Default")) }
     }
 
     fun getWalletById(id: String) = walletRepo.getWalletById(id)

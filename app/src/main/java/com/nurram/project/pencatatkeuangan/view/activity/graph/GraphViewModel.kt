@@ -1,5 +1,6 @@
 package com.nurram.project.pencatatkeuangan.view.activity.graph
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.jjoe64.graphview.series.DataPoint
@@ -72,21 +73,18 @@ class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun mapData(records: ArrayList<Record>): List<Record> =
         if (!records.isNullOrEmpty()) {
+            Log.d("TAG2", "${records.size} ${records[0].judul}")
             var date = DateUtil.formatDate(records[0].date!!)
             records.add(0, Record(type = 1, date = records[0].date))
 
-            var i = 0
-            while (i <= records.size - 1) {
+            for (i in 0 until records.size) {
                 val formattedDate = DateUtil.formatDate(records[i].date!!)
 
                 if (date != formattedDate) {
                     date = formattedDate
                     records.add(i, Record(type = 1, date = records[i].date))
-                } else {
-                    i++
                 }
             }
-
             records
         } else {
             listOf()

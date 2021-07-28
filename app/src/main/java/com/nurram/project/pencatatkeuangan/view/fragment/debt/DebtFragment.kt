@@ -16,6 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
+import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
@@ -62,7 +63,10 @@ class DebtFragment : Fragment() {
             isNewest = !isNewest
 
             debts = debts?.reversed()
-            debts?.let { it1 -> submitList(it1) }
+            debts?.let { it1 ->
+                binding.debtRecycler.adapter = adapter
+                submitList(it1)
+            }
 
             setOrderIcon()
         }
@@ -118,9 +122,10 @@ class DebtFragment : Fragment() {
         binding.debtRecycler.adapter = adapter
     }
 
-    private fun submitList(debts: List<Debt>) {
-        adapter?.currentList?.clear()
-        adapter?.submitList(viewModel!!.mapData(debts as ArrayList<Debt>))
+    private fun submitList(records: List<Debt>) {
+        val data = records.dropWhile { it.type == 1 }
+        val mappedData = viewModel!!.mapData(data as ArrayList<Debt>)
+        adapter?.submitList(mappedData)
     }
 
     @SuppressLint("SetTextI18n")

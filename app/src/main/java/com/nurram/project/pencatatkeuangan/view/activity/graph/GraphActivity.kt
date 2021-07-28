@@ -2,6 +2,7 @@ package com.nurram.project.pencatatkeuangan.view.activity.graph
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,7 +31,7 @@ import java.util.ArrayList
 class GraphActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGraphBinding
     private lateinit var viewModel: GraphViewModel
-    private lateinit var adapter: HistoryAdapter
+    private lateinit var adapter: GraphAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,7 @@ class GraphActivity : AppCompatActivity() {
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
         val factory = ViewModelFactory(application, walletId)
 
-        adapter = HistoryAdapter(this, true) { _, _ -> }
+        adapter = GraphAdapter(this) { _, _ -> }
         val spinnerAdapter = ArrayAdapter(this,
             android.R.layout.simple_spinner_item, arrayOf(getString(R.string.expenses), getString(R.string.income)))
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -95,8 +96,8 @@ class GraphActivity : AppCompatActivity() {
     }
 
     private fun submitList(records: List<Record>) {
-        adapter.currentList.clear()
-        adapter.submitList(viewModel.mapData(records as ArrayList<Record>))
+        val mappedData = viewModel.mapData(records as ArrayList<Record>)
+        adapter.setData(mappedData)
     }
 
     private fun setData(data: List<Record>, whereFrom: String) {
@@ -129,10 +130,9 @@ class GraphActivity : AppCompatActivity() {
         }
 
         series.setOnDataPointTapListener { _, dataPoint1 ->
-            val datas = mutableListOf<Record>()
-            datas.addAll(viewModel.getRecords(dataPoint1.x.toInt()))
-
+            val datas = viewModel.getRecords(dataPoint1.x.toInt())
             submitList(datas)
+
             binding.graphTotal.text =
                 "Total: ${CurrencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
         }

@@ -1,12 +1,10 @@
-package com.nurram.project.pencatatkeuangan.view.fragment.history
+package com.nurram.project.pencatatkeuangan.view.activity.graph
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.nurram.project.pencatatkeuangan.R
@@ -17,28 +15,19 @@ import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFor
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
-class HistoryAdapter(
+class GraphAdapter(
     private val context: Context,
     private val clickUtils: (Record, String) -> Unit,
-) : ListAdapter<Record, RecyclerView.ViewHolder>(DIFF_UTIL) {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var datas = arrayListOf<Record>()
     var date: Date? = null
 
-    companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Record>() {
-            override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean =
-                oldItem == newItem
-
-        }
-    }
     override fun getItemViewType(position: Int): Int {
-        if (getItem(position) != null) {
-            return getItem(position).type
+        if (datas.isNullOrEmpty()) {
+            return 0
         }
 
-        return 0
+        return datas[position].type
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
@@ -47,7 +36,7 @@ class HistoryAdapter(
 
         if (p1 == 0) {
             binding = ItemRowBinding.inflate(inflater, p0, false)
-            return MainHolder(binding)
+            return GraphHolder(binding)
         }
 
         binding = ItemDateBinding.inflate(inflater, p0, false)
@@ -55,20 +44,18 @@ class HistoryAdapter(
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        val data = getItem(p1)
+        val data = datas[p1]
 
-        if (data != null) {
-            if (p0.itemViewType == 0) {
-                p0 as MainHolder
-                p0.bind(data, clickUtils)
-            } else {
-                p0 as DateHolder
-                p0.bind(data.date!!)
-            }
+        if (p0.itemViewType == 0) {
+            p0 as GraphHolder
+            p0.bind(data, clickUtils)
+        } else {
+            p0 as DateHolder
+            p0.bind(data.date!!)
         }
     }
 
-    inner class MainHolder(private val binding: ItemRowBinding) :
+    inner class GraphHolder(private val binding: ItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var record: Record
 
@@ -77,13 +64,13 @@ class HistoryAdapter(
 
             binding.apply {
                 itemTitle.text = record.judul
-                itemUang.text = convertAndFormat(record.total.toLong())
+                itemUang.text = convertAndFormat(record.total)
                 itemDelete.setOnClickListener { clickUtils(record, "delete") }
                 itemUpdate.setOnClickListener { clickUtils(record, "edit") }
                 itemView.setOnClickListener { clickUtils(record, "edit") }
 
-                itemDelete.setOnClickListener { clickUtils(record, "delete") }
-                itemUpdate.setOnClickListener { clickUtils(record, "edit") }
+                itemDelete.visibility = View.GONE
+                itemUpdate.visibility = View.GONE
 
                 if (record.description == "income") {
                     itemColor.setBackgroundColor(
@@ -111,5 +98,13 @@ class HistoryAdapter(
         fun bind(date: Date) {
             binding.itemDate.text = DateUtil.formatDate(date)
         }
+    }
+
+    override fun getItemCount(): Int = datas.size
+
+    fun setData(datas: List<Record>) {
+        this.datas.clear()
+        this.datas.addAll(datas)
+        notifyDataSetChanged()
     }
 }

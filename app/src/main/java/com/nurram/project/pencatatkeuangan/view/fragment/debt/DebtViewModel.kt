@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurram.project.pencatatkeuangan.db.Debt
+import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
@@ -31,15 +32,12 @@ class DebtViewModel(private val debtRepo: DebtRepo,): ViewModel() {
             var date = DateUtil.formatDate(debts[0].date!!)
             debts.add(0, Debt(type = 1, date = debts[0].date))
 
-            var i = 0
-            while (i <= debts.size - 1) {
+            for (i in 0 until debts.size) {
                 val formattedDate = DateUtil.formatDate(debts[i].date!!)
 
                 if (date != formattedDate) {
                     date = formattedDate
                     debts.add(i, Debt(type = 1, date = debts[i].date))
-                } else {
-                    i++
                 }
             }
 

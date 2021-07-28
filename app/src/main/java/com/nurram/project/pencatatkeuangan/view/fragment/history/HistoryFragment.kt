@@ -23,6 +23,7 @@ import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HistoryFragment : Fragment() {
@@ -61,7 +62,9 @@ class HistoryFragment : Fragment() {
             isNewest = !isNewest
 
             records = records?.reversed()
-            records?.let { it1 -> submitList(it1) }
+            records?.let { it1 ->
+                submitList(it1)
+            }
 
             setOrderIcon()
         }
@@ -117,7 +120,7 @@ class HistoryFragment : Fragment() {
 
     private fun populateRecycler() {
         adapter = context?.let {
-            HistoryAdapter(it, false) { record, it1 ->
+            HistoryAdapter(it) { record, it1 ->
                 if (it1 == "delete") {
                     deleteRecords(record)
                 } else {
@@ -135,8 +138,9 @@ class HistoryFragment : Fragment() {
     }
 
     private fun submitList(records: List<Record>) {
-        adapter?.currentList?.clear()
-        adapter?.submitList(viewModel!!.mapData(records as ArrayList<Record>))
+        val data = records.dropWhile { it.type == 1 }
+        val mappedData = viewModel!!.mapData(data as ArrayList<Record>)
+        adapter?.submitList(mappedData)
     }
 
     @SuppressLint("SetTextI18n")

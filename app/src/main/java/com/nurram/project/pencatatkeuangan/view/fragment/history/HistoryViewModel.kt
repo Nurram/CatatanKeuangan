@@ -32,15 +32,12 @@ class HistoryViewModel(private val recordRepo: RecordRepo): ViewModel() {
             var date = DateUtil.formatDate(records[0].date!!)
             records.add(0, Record(type = 1, date = records[0].date))
 
-            var i = 0
-            while (i <= records.size - 1) {
+            for (i in 0 until records.size) {
                 val formattedDate = DateUtil.formatDate(records[i].date!!)
 
                 if (date != formattedDate) {
                     date = formattedDate
                     records.add(i, Record(type = 1, date = records[i].date))
-                } else {
-                    i++
                 }
             }
 
