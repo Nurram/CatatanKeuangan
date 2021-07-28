@@ -26,20 +26,19 @@ class WalletActivity : AppCompatActivity() {
         const val prefDefault = "def"
     }
 
-    private lateinit var binding: ActivityWalletBinding
     private lateinit var viewModel: WalletViewModel
-    private lateinit var adapter: WalletAdapter
     private lateinit var pref: PrefUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWalletBinding.inflate(layoutInflater)
+
+        val binding = ActivityWalletBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.walletToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         pref = PrefUtil(this)
-        adapter = WalletAdapter { wallet, code ->
+        val adapter = WalletAdapter { wallet, code ->
             when (code) {
                 0 -> showDeleteDialog(wallet)
                 else -> {

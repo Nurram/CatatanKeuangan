@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.nurram.project.pencatatkeuangan.R
@@ -17,14 +19,24 @@ import java.util.*
 
 class HistoryAdapter(
     private val context: Context,
-    private var datas: MutableList<Record>?,
     private val fromGraph: Boolean,
     private val clickUtils: (Record, String) -> Unit,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<Record, RecyclerView.ViewHolder>(DIFF_UTIL) {
     var date: Date? = null
+
+    companion object {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Record>() {
+            override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean =
+                oldItem == newItem
+
+        }
+    }
     override fun getItemViewType(position: Int): Int {
-        if (datas != null) {
-            return datas!![position].type
+        if (getItem(position) != null) {
+            return getItem(position).type
         }
 
         return 0
@@ -43,45 +55,18 @@ class HistoryAdapter(
         return DateHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return datas?.size ?: 0
-    }
-
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        if (datas != null) {
+        val data = getItem(p1)
+
+        if (data != null) {
             if (p0.itemViewType == 0) {
                 p0 as MainHolder
-                p0.bind(datas!![p1], clickUtils)
+                p0.bind(data, clickUtils)
             } else {
                 p0 as DateHolder
-                p0.bind(datas!![p1].date!!)
+                p0.bind(data.date!!)
             }
         }
-    }
-
-    fun setData(records: MutableList<Record>?) {
-        datas?.clear()
-
-        if (!records.isNullOrEmpty()) {
-            var date = DateUtil.formatDate(records[0].date!!)
-            records.add(0, Record(type = 1, date = records[0].date))
-
-            var i = 0
-            while (i <= records.size - 1) {
-                val formattedDate = DateUtil.formatDate(records[i].date!!)
-
-                if (date != formattedDate) {
-                    date = formattedDate
-                    records.add(i, Record(type = 1, date = records[i].date))
-                } else {
-                    i++
-                }
-            }
-
-            datas = records
-        }
-
-        notifyDataSetChanged()
     }
 
     inner class MainHolder(private val binding: ItemRowBinding) :

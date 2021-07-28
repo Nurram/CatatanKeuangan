@@ -7,6 +7,7 @@ import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import java.util.ArrayList
 
 class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private val dataPoint = mutableListOf<DataPoint>()
@@ -18,13 +19,9 @@ class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun getAllRecordCount() = recordRepo.getAllRecordCount()
 
-    fun getAllExpenses(): LiveData<List<Record>>? {
-        return recordRepo.getAllExpenses()
-    }
+    fun getAllExpenses(): LiveData<List<Record>>? = recordRepo.getAllExpenses()
 
-    fun getAllIncome(): LiveData<List<Record>>? {
-        return recordRepo.getAllIncome()
-    }
+    fun getAllIncome(): LiveData<List<Record>>? = recordRepo.getAllIncome()
 
     fun setGraphData(graphList: List<Record>) {
         resetGraph()
@@ -64,7 +61,34 @@ class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     }
 
     fun getTotalSum(): String = CurrencyFormatter.convertAndFormat(totalSum)
+
     fun getDataPoint() = dataPoint.toTypedArray()
-    fun getRecords() = records
-    fun getDates() = dates
+
+    fun getRecords(position: Int) = records.filter {
+        DateUtil.formatDate(it.date!!) == getDates()[position]
+    }.toMutableList()
+
+    private fun getDates() = dates
+
+    fun mapData(records: ArrayList<Record>): List<Record> =
+        if (!records.isNullOrEmpty()) {
+            var date = DateUtil.formatDate(records[0].date!!)
+            records.add(0, Record(type = 1, date = records[0].date))
+
+            var i = 0
+            while (i <= records.size - 1) {
+                val formattedDate = DateUtil.formatDate(records[i].date!!)
+
+                if (date != formattedDate) {
+                    date = formattedDate
+                    records.add(i, Record(type = 1, date = records[i].date))
+                } else {
+                    i++
+                }
+            }
+
+            records
+        } else {
+            listOf()
+        }
 }

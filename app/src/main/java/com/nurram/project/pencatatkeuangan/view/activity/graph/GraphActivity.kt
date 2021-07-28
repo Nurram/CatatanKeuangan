@@ -25,6 +25,7 @@ import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
+import java.util.ArrayList
 
 class GraphActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGraphBinding
@@ -36,23 +37,20 @@ class GraphActivity : AppCompatActivity() {
         binding = ActivityGraphBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.graphToolbar)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val pref = PrefUtil(this)
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
-        val factory = ViewModelFactory(application, walletId!!)
-        viewModel = ViewModelProvider(this, factory).get(GraphViewModel::class.java)
+        val factory = ViewModelFactory(application, walletId)
 
-        adapter = HistoryAdapter(this, null, true) { _, _ -> }
-
-        val spinnerAdapter =
-            ArrayAdapter(
-                this, android.R.layout.simple_spinner_item,
-                arrayOf(getString(R.string.expenses), getString(R.string.income))
-            )
-
+        adapter = HistoryAdapter(this, true) { _, _ -> }
+        val spinnerAdapter = ArrayAdapter(this,
+            android.R.layout.simple_spinner_item, arrayOf(getString(R.string.expenses), getString(R.string.income)))
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        viewModel = ViewModelProvider(this, factory).get(GraphViewModel::class.java)
         binding.apply {
             graphSpinner.adapter = spinnerAdapter
             graphSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -76,8 +74,7 @@ class GraphActivity : AppCompatActivity() {
             }
 
             graphRecycler.adapter = adapter
-            graphRecycler.layoutManager =
-                LinearLayoutManager(this@GraphActivity)
+            graphRecycler.layoutManager = LinearLayoutManager(this@GraphActivity)
             graphRecycler.setHasFixedSize(true)
 
             MobileAds.initialize(this@GraphActivity) { }
@@ -97,10 +94,15 @@ class GraphActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun submitList(records: List<Record>) {
+        adapter.currentList.clear()
+        adapter.submitList(viewModel.mapData(records as ArrayList<Record>))
+    }
+
     private fun setData(data: List<Record>, whereFrom: String) {
         if (data.isNotEmpty()) {
             initGraph(data, whereFrom)
-            adapter.setData(data.toMutableList())
+            submitList(data)
         } else {
             Toast.makeText(
                 this@GraphActivity, getString(R.string.data_empty),
@@ -127,13 +129,10 @@ class GraphActivity : AppCompatActivity() {
         }
 
         series.setOnDataPointTapListener { _, dataPoint1 ->
-            var datas = mutableListOf<Record>()
-            datas.addAll(viewModel.getRecords())
-            datas = datas.filter {
-                DateUtil.formatDate(it.date!!) == viewModel.getDates()[dataPoint1.x.toInt()]
-            }.toMutableList()
+            val datas = mutableListOf<Record>()
+            datas.addAll(viewModel.getRecords(dataPoint1.x.toInt()))
 
-            adapter.setData(datas)
+            submitList(datas)
             binding.graphTotal.text =
                 "Total: ${CurrencyFormatter.convertAndFormat(dataPoint1.y.toLong())}"
         }

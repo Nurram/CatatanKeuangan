@@ -9,6 +9,7 @@ import com.nurram.project.pencatatkeuangan.databinding.ActivityDarkOptionsBindin
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 
 class DarkOptionsActivity : AppCompatActivity() {
+
     companion object {
         fun getIntent(context: Context) = Intent(context, DarkOptionsActivity::class.java)
     }

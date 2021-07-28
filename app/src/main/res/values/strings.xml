@@ -69,4 +69,6 @@
     <string name="enter_wallet_name">Enter wallet name</string>
     <string name="delete_wallet_confirmation">Delete this wallet?</string>
     <string name="ex_credit_card">Ex: Credit card</string>
+    <string name="max_amount">Maximum amount is 1 Billion!</string>
+    <string name="max_discount">Maximum amount is 100!</string>
 </resources>

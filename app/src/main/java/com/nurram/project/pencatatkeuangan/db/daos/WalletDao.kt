@@ -8,7 +8,7 @@ import com.nurram.project.pencatatkeuangan.db.Wallet
 interface WalletDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(wallet: Wallet)
+    suspend fun insert(wallet: Wallet)
 
     @Query("SELECT * FROM wallet_table")
     fun getWallets(): LiveData<List<Wallet>>
@@ -17,5 +17,5 @@ interface WalletDao {
     fun getWalletById(id: String): LiveData<Wallet>
 
     @Delete
-    fun deleteWallet(wallet: Wallet)
+    suspend fun deleteWallet(wallet: Wallet)
 }

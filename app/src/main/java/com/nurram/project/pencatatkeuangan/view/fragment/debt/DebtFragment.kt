@@ -23,20 +23,17 @@ import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DebtFragment : Fragment() {
     private lateinit var binding: FragmentDebtBinding
     private lateinit var walletId: String
 
     private var adapter: DebtAdapter? = null
-    private var viewModel: MainViewModel? = null
+    private var viewModel: DebtViewModel? = null
     private var debts: List<Debt>? = null
 
-    private var startDate: Date? = null
-    private var endDate: Date? = null
-
     private var isNewest = true
-    private var isFiltered = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +51,7 @@ class DebtFragment : Fragment() {
             val pref = PrefUtil(requireContext())
             walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
             val factory = ViewModelFactory(it.application, walletId)
-            ViewModelProvider(it, factory).get(MainViewModel::class.java)
+            ViewModelProvider(it, factory).get(DebtViewModel::class.java)
         }
 
         populateRecycler()
@@ -64,11 +61,12 @@ class DebtFragment : Fragment() {
             isNewest = !isNewest
 
             debts = debts?.reversed()
-            adapter?.setData(debts?.toMutableList())
+            debts?.let { it1 -> submitList(it1) }
 
             setOrderIcon()
         }
 
+        var isFiltered = false
         binding.debtFilter.setOnClickListener {
             if (isFiltered) {
                 binding.debtFilterText.text = getString(R.string.filter)
@@ -84,12 +82,12 @@ class DebtFragment : Fragment() {
     private fun getAllDebts() {
         viewModel?.getAllDebts(isNewest)?.observe(viewLifecycleOwner, {
             debts = it
-            adapter?.setData(it?.toMutableList())
+            submitList(it)
         })
     }
 
     private fun populateRecycler() {
-        adapter = DebtAdapter(null) { it, it1 ->
+        adapter = DebtAdapter() { it, it1 ->
             if (it1 == "delete") {
                 (parentFragment?.activity as MainActivity).reduceValue("", it.total.toLong())
 
@@ -117,6 +115,11 @@ class DebtFragment : Fragment() {
         }
 
         binding.debtRecycler.adapter = adapter
+    }
+
+    private fun submitList(debts: List<Debt>) {
+        adapter?.currentList?.clear()
+        adapter?.submitList(viewModel!!.mapData(debts as ArrayList<Debt>))
     }
 
     @SuppressLint("SetTextI18n")
@@ -196,6 +199,9 @@ class DebtFragment : Fragment() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
+        var startDate: Date? = null
+        var endDate: Date? = null
+
         dialogView.filterStartDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
@@ -221,7 +227,7 @@ class DebtFragment : Fragment() {
                 viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)
                     ?.observe(viewLifecycleOwner, {
                         debts = it
-                        adapter?.setData(it?.toMutableList())
+                        submitList(it)
 
                         binding.debtFilterText.text = getString(R.string.remove_filter)
                     })

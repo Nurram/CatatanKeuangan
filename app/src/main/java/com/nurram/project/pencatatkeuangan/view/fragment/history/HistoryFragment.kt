@@ -15,6 +15,7 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentHistoryBinding
+import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
@@ -29,15 +30,11 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var walletId: String
 
-    private var viewModel: MainViewModel? = null
+    private var viewModel: HistoryViewModel? = null
     private var adapter: HistoryAdapter? = null
     private var records: List<Record>? = null
 
-    private var startDate: Date? = null
-    private var endDate: Date? = null
-
     private var isNewest = true
-    private var isFiltered = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +52,7 @@ class HistoryFragment : Fragment() {
             val pref = PrefUtil(requireContext())
             walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
             val factory = ViewModelFactory(it.application, walletId)
-            ViewModelProvider(it, factory).get(MainViewModel::class.java)
+            ViewModelProvider(it, factory).get(HistoryViewModel::class.java)
         }
 
         populateRecycler()
@@ -65,11 +62,12 @@ class HistoryFragment : Fragment() {
             isNewest = !isNewest
 
             records = records?.reversed()
-            adapter?.setData(records?.toMutableList())
+            records?.let { it1 -> submitList(it1) }
 
             setOrderIcon()
         }
 
+        var isFiltered = false
         binding.historyFilter.setOnClickListener {
             if (isFiltered) {
                 binding.historyFilterText.text = getString(R.string.filter)
@@ -93,7 +91,7 @@ class HistoryFragment : Fragment() {
     private fun getAllRecords() {
         viewModel?.getAllRecords(isNewest)?.observe(viewLifecycleOwner, {
             records = it
-            adapter?.setData(it?.toMutableList())
+            submitList(it)
         })
     }
 
@@ -120,7 +118,7 @@ class HistoryFragment : Fragment() {
 
     private fun populateRecycler() {
         adapter = context?.let {
-            HistoryAdapter(it, null, false) { record, it1 ->
+            HistoryAdapter(it, false) { record, it1 ->
                 if (it1 == "delete") {
                     deleteRecords(record)
                 } else {
@@ -135,6 +133,11 @@ class HistoryFragment : Fragment() {
         }
 
         binding.historyRecycler.adapter = adapter
+    }
+
+    private fun submitList(records: List<Record>) {
+        adapter?.currentList?.clear()
+        adapter?.submitList(viewModel!!.mapData(records as ArrayList<Record>))
     }
 
     @SuppressLint("SetTextI18n")
@@ -221,6 +224,9 @@ class HistoryFragment : Fragment() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
+        var startDate: Date? = null
+        var endDate: Date? = null
+
         dialogView.filterStartDate.setOnClickListener {
             DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
@@ -247,7 +253,7 @@ class HistoryFragment : Fragment() {
                     viewLifecycleOwner,
                     {
                         records = it
-                        adapter?.setData(it?.toMutableList())
+                        submitList(it)
 
                         binding.historyFilterText.text = getString(R.string.remove_filter)
                     })

@@ -8,6 +8,8 @@ import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
 import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphViewModel
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletViewModel
+import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtViewModel
+import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 
 class ViewModelFactory(
@@ -23,6 +25,12 @@ class ViewModelFactory(
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(recordRepo, debtRepo, walletRepo) as T
+            }
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                HistoryViewModel(recordRepo) as T
+            }
+            modelClass.isAssignableFrom(DebtViewModel::class.java) -> {
+                DebtViewModel(debtRepo) as T
             }
             modelClass.isAssignableFrom(GraphViewModel::class.java) -> {
                 GraphViewModel(recordRepo) as T

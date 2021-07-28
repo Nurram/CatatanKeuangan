@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
@@ -25,25 +27,37 @@ class DiscCalcFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val viewModel = ViewModelProvider(this).get(DiscCalcViewModel::class.java)
         binding.apply {
             discountCalculate.setOnClickListener {
-                val amount = discountAmount.text.toString().toInt()
-                val discount = discountValue.text.toString().toInt()
-                val save = ((amount * discount) / 100).toLong()
-                val result = (amount - save).toLong()
+                val discount = discountAmount.text.toString().toInt()
+                val price = discountValue.text.toString().toLong()
 
-                discountResult.apply {
-                    visibility = View.VISIBLE
-                    text = "${getString(R.string.price_after_discount)} ${
-                        CurrencyFormatter.convertAndFormat(result)
-                    }"
+                if(price > 1000000000) {
+                    if (discount > 100) {
+                        val data = viewModel.calculateDiscount(price, discount)
+                        val result = data["result"]!!
+                        val save = data["save"]!!
+
+                        discountResult.apply {
+                            visibility = View.VISIBLE
+                            text = "${getString(R.string.price_after_discount)} ${
+                                CurrencyFormatter.convertAndFormat(result)
+                            }"
+                        }
+
+                        discountSave.apply {
+                            visibility = View.VISIBLE
+                            text =
+                                "${getString(R.string.you_save)} ${CurrencyFormatter.convertAndFormat(save)}"
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
                 }
 
-                discountSave.apply {
-                    visibility = View.VISIBLE
-                    text =
-                        "${getString(R.string.you_save)} ${CurrencyFormatter.convertAndFormat(save)}"
-                }
             }
         }
     }
