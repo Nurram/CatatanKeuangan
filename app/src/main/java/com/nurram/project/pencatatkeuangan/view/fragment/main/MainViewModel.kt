@@ -9,9 +9,7 @@ import com.nurram.project.pencatatkeuangan.db.Wallet
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
-import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
-import java.util.*
 
 class MainViewModel(
     private val recordRepo: RecordRepo,

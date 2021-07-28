@@ -2,7 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.activity.graph
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
@@ -20,13 +18,11 @@ import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
-import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
-import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryAdapter
-import java.util.ArrayList
+import java.util.*
 
 class GraphActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGraphBinding
@@ -47,8 +43,11 @@ class GraphActivity : AppCompatActivity() {
         val factory = ViewModelFactory(application, walletId)
 
         adapter = GraphAdapter(this) { _, _ -> }
-        val spinnerAdapter = ArrayAdapter(this,
-            android.R.layout.simple_spinner_item, arrayOf(getString(R.string.expenses), getString(R.string.income)))
+        val spinnerAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            arrayOf(getString(R.string.expenses), getString(R.string.income))
+        )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         viewModel = ViewModelProvider(this, factory).get(GraphViewModel::class.java)

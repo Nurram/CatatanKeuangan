@@ -23,7 +23,6 @@ import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HistoryFragment : Fragment() {
@@ -157,7 +156,11 @@ class HistoryFragment : Fragment() {
         dialogView.apply {
             dialogTitle.setText(record.judul)
             dialogAmount.setText(record.total.toString())
-            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${record.date?.let { DateUtil.formatDate(it) }}"
+            dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${
+                record.date?.let {
+                    DateUtil.formatDate(it)
+                }
+            }"
             dialogCheckboxIncome.isChecked = when (record.description) {
                 "income" -> true
                 else -> false
@@ -190,8 +193,10 @@ class HistoryFragment : Fragment() {
                     }
 
                     val totalIncomeString = dialogView.dialogAmount.text.toString()
-                    val totalIncome = CurrencyFormatter.isAmountValidLong(requireContext(),
-                        totalIncomeString)
+                    val totalIncome = CurrencyFormatter.isAmountValidLong(
+                        requireContext(),
+                        totalIncomeString
+                    )
                     val innerRecord = Record(
                         record.id, dialogView.dialogTitle.text.toString(),
                         totalIncome,

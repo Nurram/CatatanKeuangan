@@ -4,9 +4,6 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.RecordDb
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 class DebtRepo(

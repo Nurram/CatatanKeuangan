@@ -13,7 +13,8 @@ import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFor
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
-class DebtAdapter(private val clickUtils: (Debt, String) -> Unit
+class DebtAdapter(
+    private val clickUtils: (Debt, String) -> Unit
 ) : ListAdapter<Debt, RecyclerView.ViewHolder>(DIFF_UTIL) {
     var date: Date? = null
 

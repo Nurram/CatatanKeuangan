@@ -16,16 +16,13 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
-import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
-import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DebtFragment : Fragment() {
     private lateinit var binding: FragmentDebtBinding
@@ -159,14 +156,16 @@ class DebtFragment : Fragment() {
         dialog?.apply {
             setView(dialogView.root)
             setCancelable(true)
-            setPositiveButton(R.string.dialog_save) {_, _ ->
+            setPositiveButton(R.string.dialog_save) { _, _ ->
                 if (dialogView.dialogTitle.text.isNotBlank() &&
                     dialogView.dialogAmount.text.isNotBlank() &&
                     dialogView.dialogAmount.text.toString().toLong() > 0
                 ) {
                     val totalIncomeString = dialogView.dialogAmount.text.toString()
-                    val totalIncome = CurrencyFormatter.isAmountValid(requireContext(),
-                        totalIncomeString)
+                    val totalIncome = CurrencyFormatter.isAmountValid(
+                        requireContext(),
+                        totalIncomeString
+                    )
                     val innerRecord = Debt(
                         debt.id,
                         dialogView.dialogTitle.text.toString(),

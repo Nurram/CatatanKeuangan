@@ -2,7 +2,7 @@ package com.nurram.project.pencatatkeuangan.view.fragment.discount
 
 import androidx.lifecycle.ViewModel
 
-class DiscCalcViewModel: ViewModel() {
+class DiscCalcViewModel : ViewModel() {
 
     fun calculateDiscount(price: Long, amount: Int): Map<String, Long> {
         val save = ((price * amount) / 100)

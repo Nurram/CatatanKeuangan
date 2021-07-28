@@ -18,7 +18,7 @@ object CurrencyFormatter {
         return result.substring(0, result.length - 3)
     }
 
-    fun isAmountValid(context: Context,amount: String): Int {
+    fun isAmountValid(context: Context, amount: String): Int {
         return try {
             val value = amount.toInt()
 
@@ -28,7 +28,8 @@ object CurrencyFormatter {
 
             value
         } catch (e: Exception) {
-            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT)
+                .show()
             0
         }
     }
@@ -43,7 +44,8 @@ object CurrencyFormatter {
 
             value
         } catch (e: Exception) {
-            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT)
+                .show()
             0
         }
     }

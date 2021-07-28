@@ -2,7 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.history
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -33,6 +32,7 @@ class HistoryAdapter(
 
         }
     }
+
     override fun getItemViewType(position: Int): Int {
         if (getItem(position) != null) {
             return getItem(position).type

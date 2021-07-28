@@ -143,8 +143,10 @@ class MainFragment : Fragment() {
                 val totalIncomeString = dialogView.dialogAmount.text.toString()
 
                 if (key == "history") {
-                    val totalIncome = CurrencyFormatter.isAmountValidLong(requireContext(),
-                        totalIncomeString)
+                    val totalIncome = CurrencyFormatter.isAmountValidLong(
+                        requireContext(),
+                        totalIncomeString
+                    )
                     val record = Record(
                         0,
                         dialogView.dialogTitle.text.toString(),
@@ -159,8 +161,10 @@ class MainFragment : Fragment() {
 
                     if (totalIncome > 0) viewModel.insertRecord(record)
                 } else {
-                    val totalIncome = CurrencyFormatter.isAmountValid(requireContext(),
-                        totalIncomeString)
+                    val totalIncome = CurrencyFormatter.isAmountValid(
+                        requireContext(),
+                        totalIncomeString
+                    )
 
                     val debt = Debt(
                         0,
@@ -173,7 +177,7 @@ class MainFragment : Fragment() {
                     val fragment = adapter.getItem(1) as DebtFragment
                     fragment.resetOrderIcon()
 
-                    if(totalIncome > 0) viewModel.insertDebt(debt)
+                    if (totalIncome > 0) viewModel.insertDebt(debt)
                 }
 
                 dialog.dismiss()

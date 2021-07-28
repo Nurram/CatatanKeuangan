@@ -3,14 +3,13 @@ package com.nurram.project.pencatatkeuangan.view.fragment.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
 import java.util.*
 
-class HistoryViewModel(private val recordRepo: RecordRepo): ViewModel() {
+class HistoryViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun getAllRecords(isNewest: Boolean): LiveData<List<Record>>? =
         if (isNewest) {
@@ -19,7 +18,8 @@ class HistoryViewModel(private val recordRepo: RecordRepo): ViewModel() {
             recordRepo.getAllRecordsAsc()
         }
 
-    fun getFilteredRecord(startDate: Date, endDate: Date, isDesc: Boolean
+    fun getFilteredRecord(
+        startDate: Date, endDate: Date, isDesc: Boolean
     ): LiveData<List<Record>>? =
         recordRepo.getFilteredRecord(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
 

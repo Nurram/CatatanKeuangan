@@ -4,14 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurram.project.pencatatkeuangan.db.Debt
-import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
-class DebtViewModel(private val debtRepo: DebtRepo,): ViewModel() {
+class DebtViewModel(private val debtRepo: DebtRepo) : ViewModel() {
 
     fun getAllDebts(isNewest: Boolean): LiveData<List<Debt>>? =
         if (isNewest) {

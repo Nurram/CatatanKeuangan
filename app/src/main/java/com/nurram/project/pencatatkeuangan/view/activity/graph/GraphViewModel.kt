@@ -8,7 +8,7 @@ import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
-import java.util.ArrayList
+import java.util.*
 
 class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private val dataPoint = mutableListOf<DataPoint>()

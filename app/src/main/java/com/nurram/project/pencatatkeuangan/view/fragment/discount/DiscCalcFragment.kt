@@ -33,7 +33,7 @@ class DiscCalcFragment : Fragment() {
                 val discount = discountAmount.text.toString().toInt()
                 val price = discountValue.text.toString().toLong()
 
-                if(price > 1000000000) {
+                if (price > 1000000000) {
                     if (discount > 100) {
                         val data = viewModel.calculateDiscount(price, discount)
                         val result = data["result"]!!
@@ -49,13 +49,25 @@ class DiscCalcFragment : Fragment() {
                         discountSave.apply {
                             visibility = View.VISIBLE
                             text =
-                                "${getString(R.string.you_save)} ${CurrencyFormatter.convertAndFormat(save)}"
+                                "${getString(R.string.you_save)} ${
+                                    CurrencyFormatter.convertAndFormat(
+                                        save
+                                    )
+                                }"
                         }
                     } else {
-                        Toast.makeText(requireContext(), getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.max_amount),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), getString(R.string.max_amount), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.max_amount),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }
