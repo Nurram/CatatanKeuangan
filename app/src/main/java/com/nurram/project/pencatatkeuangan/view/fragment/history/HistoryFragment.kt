@@ -206,6 +206,10 @@ class HistoryFragment : Fragment() {
                     )
 
                     viewModel?.updateRecord(innerRecord)
+                    adapter?.currentList?.filterIndexed { index, record ->
+                        if (record.id == innerRecord.id) adapter!!.notifyItemChanged(index)
+                        true
+                    }
 
                     resetOrderIcon()
                 } else {
@@ -229,6 +233,9 @@ class HistoryFragment : Fragment() {
         setOrderIcon()
     }
 
+    private fun initAdapter() {
+
+    }
     private fun showFilterDialog() {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)

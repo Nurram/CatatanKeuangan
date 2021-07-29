@@ -77,14 +77,18 @@ class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
             var date = DateUtil.formatDate(records[0].date!!)
             records.add(0, Record(type = 1, date = records[0].date))
 
-            for (i in 0 until records.size) {
+            var i = 0
+            while (i <= records.size - 1) {
                 val formattedDate = DateUtil.formatDate(records[i].date!!)
 
                 if (date != formattedDate) {
                     date = formattedDate
                     records.add(i, Record(type = 1, date = records[i].date))
+                } else {
+                    i++
                 }
             }
+
             records
         } else {
             listOf()
