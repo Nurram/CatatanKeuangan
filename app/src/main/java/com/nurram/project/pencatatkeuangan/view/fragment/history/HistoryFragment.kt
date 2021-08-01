@@ -16,9 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentHistoryBinding
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
-import com.nurram.project.pencatatkeuangan.utils.DateUtil
-import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
@@ -93,6 +91,14 @@ class HistoryFragment : Fragment() {
         viewModel?.getAllRecords(isNewest)?.observe(viewLifecycleOwner, {
             records = it
             submitList(it)
+
+            if(it.isNotEmpty()) {
+                binding.historyRecycler.VISIBLE()
+                binding.historyEmpty.GONE()
+            } else {
+                binding.historyRecycler.GONE()
+                binding.historyEmpty.VISIBLE()
+            }
         })
     }
 

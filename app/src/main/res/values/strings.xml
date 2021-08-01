@@ -71,4 +71,5 @@
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
     <string name="max_discount">Maximum amount is 100!</string>
+    <string name="no_data_found">No Data Found</string>
 </resources>

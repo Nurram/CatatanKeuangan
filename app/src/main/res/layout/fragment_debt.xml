@@ -67,4 +67,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
+
+    <ImageView
+            android:id="@+id/debt_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:src="@drawable/no_data"
+            android:scaleType="fitCenter"
+            android:layout_margin="48dp"/>
 </LinearLayout>

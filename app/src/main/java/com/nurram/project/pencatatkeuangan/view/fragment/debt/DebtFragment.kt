@@ -16,9 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
-import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
-import com.nurram.project.pencatatkeuangan.utils.DateUtil
-import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
@@ -85,6 +83,14 @@ class DebtFragment : Fragment() {
         viewModel?.getAllDebts(isNewest)?.observe(viewLifecycleOwner, {
             debts = it
             submitList(it)
+
+            if(it.isNotEmpty()) {
+                binding.debtRecycler.VISIBLE()
+                binding.debtEmpty.GONE()
+            } else {
+                binding.debtRecycler.GONE()
+                binding.debtEmpty.VISIBLE()
+            }
         })
     }
 
