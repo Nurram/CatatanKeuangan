@@ -92,7 +92,7 @@ class HistoryFragment : Fragment() {
             records = it
             submitList(it)
 
-            if(it.isNotEmpty()) {
+            if (it.isNotEmpty()) {
                 binding.historyRecycler.VISIBLE()
                 binding.historyEmpty.GONE()
             } else {
@@ -242,6 +242,7 @@ class HistoryFragment : Fragment() {
     private fun initAdapter() {
 
     }
+
     private fun showFilterDialog() {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)
@@ -281,6 +282,7 @@ class HistoryFragment : Fragment() {
                     {
                         records = it
                         submitList(it)
+                        adapter?.notifyDataSetChanged()
 
                         binding.historyFilterText.text = getString(R.string.remove_filter)
                     })

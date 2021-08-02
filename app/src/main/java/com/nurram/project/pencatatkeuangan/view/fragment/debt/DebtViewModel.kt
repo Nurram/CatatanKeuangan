@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurram.project.pencatatkeuangan.db.Debt
-import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
@@ -19,8 +18,29 @@ class DebtViewModel(private val debtRepo: DebtRepo) : ViewModel() {
             debtRepo.getAllDebtAsc()
         }
 
-    fun getFilteredDebt(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Debt>>? =
-        debtRepo.getFilteredDebtDesc(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
+    fun getFilteredDebt(startDate: Date, endDate: Date, isDesc: Boolean): LiveData<List<Debt>>? {
+        val startDateString = DateUtil.formatDate(startDate)
+        val endDateString = DateUtil.formatDate(endDate)
+
+        var startDates = startDate
+
+        if (startDateString == endDateString) {
+            val startCalendar = Calendar.getInstance()
+            startCalendar.time = endDate
+            startCalendar.set(Calendar.HOUR_OF_DAY, 0)
+            startCalendar.set(Calendar.MINUTE, 0)
+            startCalendar.set(Calendar.SECOND, 0)
+
+            startDates = startCalendar.time
+        }
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endDate
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23)
+
+        val endDates = endCalendar.time
+        return debtRepo.getFilteredDebtDesc(startDates, endDates, isDesc)
+    }
 
     fun deleteDebt(debt: Debt) = viewModelScope.launch { debtRepo.deleteDebt(debt) }
 

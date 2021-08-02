@@ -1,6 +1,5 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.history
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +20,29 @@ class HistoryViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun getFilteredRecord(
         startDate: Date, endDate: Date, isDesc: Boolean
-    ): LiveData<List<Record>>? =
-        recordRepo.getFilteredRecord(DateUtil.subtractDays(startDate, 1), endDate, isDesc)
+    ): LiveData<List<Record>>? {
+        val startDateString = DateUtil.formatDate(startDate)
+        val endDateString = DateUtil.formatDate(endDate)
+
+        var startDates = startDate
+
+        if (startDateString == endDateString) {
+            val startCalendar = Calendar.getInstance()
+            startCalendar.time = endDate
+            startCalendar.set(Calendar.HOUR_OF_DAY, 0)
+            startCalendar.set(Calendar.MINUTE, 0)
+            startCalendar.set(Calendar.SECOND, 0)
+
+            startDates = startCalendar.time
+        }
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endDate
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23)
+
+        val endDates = endCalendar.time
+        return recordRepo.getFilteredRecord(startDates, endDates, isDesc)
+    }
 
     fun updateRecord(record: Record) = viewModelScope.launch { recordRepo.updateRecord(record) }
 

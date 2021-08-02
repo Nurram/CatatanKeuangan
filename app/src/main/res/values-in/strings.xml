@@ -29,9 +29,6 @@
     <string name="konversi_excel_ditolak">Kamu harus memberi izin agar bisa menggunakan konversi excel</string>
     <string name="attention">Perhatian!</string>
     <string name="lakukan_konversi">Lakukan konversi ke format xls?</string>
-    <string name="data_converted">Data sudah dikonversi, silahkan buka kembali halaman untuk konversi
-        ulang
-    </string>
     <string name="konversi_tidak_diijinkan">Kamu tidak bisa menggunakan fitur konversi</string>
     <string name="mulai_konversi">Memulai konversi</string>
     <string name="selesai_konversi">Konversi telah selesai dan disimpan di folder Download</string>
@@ -72,5 +69,4 @@
     <string name="delete_wallet_confirmation">Hapus dompet ini?</string>
     <string name="ex_credit_card">Contoh: Kartu kredit</string>
     <string name="max_amount">Nilai maksimal adalah 1 miliar!</string>
-    <string name="max_discount">Nilai maksimal adalah 100</string>
 </resources>

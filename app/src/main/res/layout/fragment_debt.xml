@@ -74,5 +74,5 @@
             android:layout_height="80dp"
             android:src="@drawable/no_data"
             android:scaleType="fitCenter"
-            android:layout_margin="48dp"/>
+            android:layout_margin="48dp" />
 </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Financial Records</string>
-    <string name="data_converted">Data already converted, please reopen this page to re-convert</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_delete">Delete</string>
     <string name="dialog_title_balance">Your balance</string>
@@ -70,6 +69,4 @@
     <string name="delete_wallet_confirmation">Delete this wallet?</string>
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
-    <string name="max_discount">Maximum amount is 100!</string>
-    <string name="no_data_found">No Data Found</string>
 </resources>

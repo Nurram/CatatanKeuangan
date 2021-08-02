@@ -84,7 +84,7 @@ class DebtFragment : Fragment() {
             debts = it
             submitList(it)
 
-            if(it.isNotEmpty()) {
+            if (it.isNotEmpty()) {
                 binding.debtRecycler.VISIBLE()
                 binding.debtEmpty.GONE()
             } else {
@@ -242,6 +242,7 @@ class DebtFragment : Fragment() {
                     ?.observe(viewLifecycleOwner, {
                         debts = it
                         submitList(it)
+                        adapter?.notifyDataSetChanged()
 
                         binding.debtFilterText.text = getString(R.string.remove_filter)
                     })
