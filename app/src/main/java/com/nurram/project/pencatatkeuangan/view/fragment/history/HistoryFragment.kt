@@ -103,11 +103,6 @@ class HistoryFragment : Fragment() {
     }
 
     private fun deleteRecords(record: Record) {
-        (parentFragment?.activity as MainActivity).reduceValue(
-            record.description,
-            record.total
-        )
-
         val dialog = AlertDialog.Builder(requireContext())
         dialog.setTitle(getString(R.string.attention))
         dialog.setMessage(R.string.delete_record_confirmation)

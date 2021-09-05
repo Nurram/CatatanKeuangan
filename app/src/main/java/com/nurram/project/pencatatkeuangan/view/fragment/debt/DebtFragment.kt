@@ -18,18 +18,16 @@ import com.nurram.project.pencatatkeuangan.databinding.FragmentDebtBinding
 import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
-import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
 
 class DebtFragment : Fragment() {
     private lateinit var binding: FragmentDebtBinding
     private lateinit var walletId: String
+    private lateinit var debtAdapter: DebtAdapter
+    private lateinit var viewModel: DebtViewModel
 
-    private var adapter: DebtAdapter? = null
-    private var viewModel: DebtViewModel? = null
-    private var debts: List<Debt>? = null
-
+    private var debts = listOf<Debt>()
     private var isNewest = true
 
     override fun onCreateView(
@@ -44,12 +42,10 @@ class DebtFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = activity?.let {
-            val pref = PrefUtil(requireContext())
-            walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
-            val factory = ViewModelFactory(it.application, walletId)
-            ViewModelProvider(it, factory).get(DebtViewModel::class.java)
-        }
+        val pref = PrefUtil(requireContext())
+        walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val factory = ViewModelFactory(requireActivity().application, walletId)
+        viewModel = ViewModelProvider(requireActivity(), factory).get(DebtViewModel::class.java)
 
         populateRecycler()
         getAllDebts()
@@ -57,9 +53,9 @@ class DebtFragment : Fragment() {
         binding.debtSort.setOnClickListener {
             isNewest = !isNewest
 
-            debts = debts?.reversed()
-            debts?.let { it1 ->
-                binding.debtRecycler.adapter = adapter
+            debts = debts.reversed()
+            debts.let { it1 ->
+                binding.debtRecycler.adapter = debtAdapter
                 submitList(it1)
             }
 
@@ -80,7 +76,7 @@ class DebtFragment : Fragment() {
     }
 
     private fun getAllDebts() {
-        viewModel?.getAllDebts(isNewest)?.observe(viewLifecycleOwner, {
+        viewModel.getAllDebts(isNewest)?.observe(viewLifecycleOwner, {
             debts = it
             submitList(it)
 
@@ -95,23 +91,21 @@ class DebtFragment : Fragment() {
     }
 
     private fun populateRecycler() {
-        adapter = DebtAdapter() { it, it1 ->
+        debtAdapter = DebtAdapter { it, it1 ->
             if (it1 == "delete") {
-                (parentFragment?.activity as MainActivity).reduceValue("", it.total.toLong())
-
-                val dialog = AlertDialog.Builder(requireContext())
-                dialog.setTitle(getString(R.string.attention))
-                dialog.setMessage(R.string.delete_record_confirmation)
-                dialog.setCancelable(true)
-                dialog.setPositiveButton("Yes") { _, _ ->
-                    viewModel?.deleteDebt(it)
-                    Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
+                AlertDialog.Builder(requireContext()).apply {
+                    setTitle(getString(R.string.attention))
+                    setMessage(R.string.delete_record_confirmation)
+                    setCancelable(true)
+                    setPositiveButton("Yes") { _, _ ->
+                        viewModel.deleteDebt(it)
+                        Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
+                    }
+                    setNegativeButton("Cancel") { innerDialog, _ ->
+                        innerDialog.dismiss()
+                    }
+                    show()
                 }
-                dialog.setNegativeButton("Cancel") { innerDialog, _ ->
-                    innerDialog.dismiss()
-                }
-
-                dialog.show()
             } else {
                 showUpdateDataDialog(it)
             }
@@ -120,15 +114,14 @@ class DebtFragment : Fragment() {
         binding.debtRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+            this.adapter = debtAdapter
         }
-
-        binding.debtRecycler.adapter = adapter
     }
 
     private fun submitList(records: List<Debt>) {
         val data = records.dropWhile { it.type == 1 }
-        val mappedData = viewModel!!.mapData(data as ArrayList<Debt>)
-        adapter?.submitList(mappedData)
+        val mappedData = viewModel.mapData(data as ArrayList<Debt>)
+        debtAdapter.submitList(mappedData)
     }
 
     @SuppressLint("SetTextI18n")
@@ -180,7 +173,7 @@ class DebtFragment : Fragment() {
                         walletId
                     )
 
-                    viewModel?.updateDebt(innerRecord)
+                    viewModel.updateDebt(innerRecord)
 
                     resetOrderIcon()
                 } else {
@@ -238,11 +231,11 @@ class DebtFragment : Fragment() {
         dialog?.setCancelable(true)
         dialog?.setPositiveButton(R.string.dialog_save) { _, _ ->
             if (startDate != null && endDate != null) {
-                viewModel?.getFilteredDebt(startDate!!, endDate!!, isNewest)
+                viewModel.getFilteredDebt(startDate!!, endDate!!, isNewest)
                     ?.observe(viewLifecycleOwner, {
                         debts = it
                         submitList(it)
-                        adapter?.notifyDataSetChanged()
+                        debtAdapter.notifyDataSetChanged()
 
                         binding.debtFilterText.text = getString(R.string.remove_filter)
                     })

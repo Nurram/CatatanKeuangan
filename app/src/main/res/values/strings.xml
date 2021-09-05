@@ -21,13 +21,13 @@
     <string name="delete_all">Are you sure to delete all data?</string>
     <string name="history">History</string>
     <string name="saldo">Balance</string>
-    <string name="saldo_kamu">Your balance</string>
+    <string name="total_balance">Your balance</string>
     <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
     <string name="data_empty">Data not found</string>
     <string name="data_success_delete">Data successfully deleted</string>
     <string name="toast_isi_kolom">Fill all column</string>
-    <string name="total_income_kamu">Your total income</string>
-    <string name="total_expenses_kamu">Your total expenses</string>
+    <string name="total_income">Total income</string>
+    <string name="total_expenses">Total expenses</string>
     <string name="rp_0">Rp.0</string>
     <string name="reset">Reset</string>
     <string name="graph">Graph</string>
@@ -69,4 +69,8 @@
     <string name="delete_wallet_confirmation">Delete this wallet?</string>
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
+    <string name="pages">Pages</string>
+    <string name="report">Report</string>
+    <string name="settings">Settings</string>
+    <string name="reset_data_in_wallet">Reset data in wallet</string>
 </resources>

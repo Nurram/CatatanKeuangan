@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_main_debt_tv"
-            android:text="@string/saldo_kamu"
+            android:text="@string/total_balance"
             android:textSize="16sp"
             android:textColor="@color/defaultText"
             android:layout_marginStart="16dp"

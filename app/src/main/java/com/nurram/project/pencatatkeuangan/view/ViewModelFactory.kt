@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
-import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphViewModel
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
+import com.nurram.project.pencatatkeuangan.view.fragment.report.ReportViewModel
 
 class ViewModelFactory(
     application: Application,
@@ -32,8 +32,8 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(DebtViewModel::class.java) -> {
                 DebtViewModel(debtRepo) as T
             }
-            modelClass.isAssignableFrom(GraphViewModel::class.java) -> {
-                GraphViewModel(recordRepo) as T
+            modelClass.isAssignableFrom(ReportViewModel::class.java) -> {
+                ReportViewModel(recordRepo) as T
             }
             else -> {
                 WalletViewModel(walletRepo) as T

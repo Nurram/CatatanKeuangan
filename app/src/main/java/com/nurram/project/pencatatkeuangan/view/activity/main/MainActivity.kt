@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.google.android.gms.ads.AdRequest
@@ -32,23 +33,17 @@ import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity
-import com.nurram.project.pencatatkeuangan.view.activity.graph.GraphActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
+import com.nurram.project.pencatatkeuangan.view.fragment.report.ReportFragment
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-
-    private var permissionGranted = false
-
-    private var totalExpenses = 0L
-    private var totalIncome = 0L
-    private var totalDebt = 0L
 
     private var mInterstitialAd: InterstitialAd? = null
 
@@ -68,26 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         initDrawer()
         initHeaderUi(walletId)
-
-        supportFragmentManager.beginTransaction().replace(R.id.fragment, MainFragment()).commit()
-
-        viewModel.getTotalExpenses()?.observe(this, {
-            if (it != null) {
-                totalExpenses = it.toLong()
-            }
-        })
-
-        viewModel.getTotalIncome()?.observe(this, {
-            if (it != null) {
-                totalIncome = it.toLong()
-            }
-        })
-
-        viewModel.getTotalDebt()?.observe(this, {
-            if (it != null) {
-                totalDebt = it.toLong()
-            }
-        })
 
         MobileAds.initialize(this) { }
         val adRequest = AdRequest.Builder().build()
@@ -121,7 +96,6 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = true
                 showConvertDialog()
             } else {
                 Toast.makeText(this, getString(R.string.konversi_excel_ditolak), Toast.LENGTH_LONG)
@@ -132,64 +106,46 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_reset -> showDeleteDialog()
-            R.id.action_saldo -> showBalanceDialog()
-            else -> {
-                val intent = Intent(this, GraphActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-        return true
-    }
-
     private fun initDrawer() {
-        val toggle = ActionBarDrawerToggle(
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, MainFragment()).commit()
+
+        ActionBarDrawerToggle(
             this, binding.drawerLayout, binding.mainToolbar,
             R.string.open,
             R.string.close
-        )
+        ).apply {
+            binding.drawerLayout.addDrawerListener(this)
+            syncState()
+            isDrawerIndicatorEnabled = true
+            drawerArrowDrawable.color = ContextCompat.getColor(this@MainActivity, android.R.color.white)
 
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        toggle.isDrawerIndicatorEnabled = true
-        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, android.R.color.white)
+        }
 
-        binding.navView.menu.getItem(0).isChecked = true
-        binding.navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_home -> {
-                    supportActionBar?.title = null
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, MainFragment()).commit()
-                }
-                R.id.nav_discount -> {
-                    supportActionBar?.title = getString(R.string.discount)
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, DiscCalcFragment()).commit()
-                }
-                R.id.sql_to_xls -> {
-                    ActivityCompat.requestPermissions(
-                        this,
+        binding.apply {
+            navView.menu.getItem(0).isChecked = true
+            navView.setNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.nav_home -> changeFragment(null, MainFragment())
+                    R.id.nav_report -> changeFragment(getString(R.string.report), ReportFragment())
+                    R.id.nav_discount -> changeFragment(getString(R.string.discount), DiscCalcFragment())
+                    R.id.sql_to_xls -> ActivityCompat.requestPermissions(
+                        this@MainActivity,
                         arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         1
                     )
+                    R.id.dark_mode -> startActivity(DarkOptionsActivity.getIntent(this@MainActivity))
+                    R.id.reset -> showDeleteDialog()
                 }
-                R.id.dark_mode -> {
-                    startActivity(DarkOptionsActivity.getIntent(this))
-                }
-            }
 
-            binding.drawerLayout.closeDrawers()
-            true
+                drawerLayout.closeDrawers()
+                true
+            }
         }
+    }
+
+    private fun changeFragment(title: String?, fragment: Fragment) {
+        supportActionBar?.title = title
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit()
     }
 
     private fun initHeaderUi(walletId: String) {
@@ -215,77 +171,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showBalanceDialog() {
-        val dialog = AlertDialog.Builder(this)
-        val dialogView = SaldoDialogLayoutBinding.inflate(layoutInflater)
-
-        dialogView.apply {
-            dialogMainIncome.text = CurrencyFormatter.convertAndFormat(totalIncome)
-            dialogMainExpenses.text = CurrencyFormatter.convertAndFormat(
-                totalExpenses
-            )
-            dialogMainDebt.text = CurrencyFormatter.convertAndFormat(totalDebt)
-            dialogMainSaldo.text =
-                CurrencyFormatter.convertAndFormat(totalIncome - (totalExpenses + totalDebt))
-        }
-
-        dialog.setView(dialogView.root)
-        dialog.setTitle(R.string.dialog_title_balance)
-        dialog.setCancelable(true)
-        dialog.setPositiveButton("Close", null)
-        dialog.show()
-    }
-
     private fun showDeleteDialog() {
-        val dialog = AlertDialog.Builder(this)
-        dialog.setTitle(getString(R.string.attention))
-        dialog.setMessage(R.string.delete_all)
-        dialog.setCancelable(true)
-        dialog.setPositiveButton("Yes") { _, _ ->
-            viewModel.deleteAllRecord()
-            viewModel.deleteAllDebt()
-
-            totalIncome = 0
-            totalExpenses = 0
-            totalDebt = 0
-        }
-        dialog.setNegativeButton("Cancel") { innerDialog, _ ->
-            innerDialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    fun reduceValue(key: String, amount: Long) {
-        when (key) {
-            "income" -> totalIncome -= amount
-            "expenses" -> totalExpenses -= amount
-            else -> totalDebt -= amount
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.attention))
+            setMessage(R.string.delete_all)
+            setCancelable(true)
+            setPositiveButton("Yes") { _, _ ->
+                viewModel.deleteAllRecord()
+                viewModel.deleteAllDebt()
+            }
+            setNegativeButton("Cancel") { innerDialog, _ ->
+                innerDialog.dismiss()
+            }
+            show()
         }
     }
 
     private fun showConvertDialog() {
-        val dialog = AlertDialog.Builder(this)
-
-        dialog.setTitle(getString(R.string.attention))
-        dialog.setMessage(getString(R.string.lakukan_konversi))
-        dialog.setCancelable(true)
-        dialog.setPositiveButton("Yes") { _, _ ->
-            if (permissionGranted) {
-                convertDbToExcel()
-            } else {
-                Toast.makeText(
-                    this,
-                    getString(R.string.konversi_tidak_diijinkan),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.attention))
+            setMessage(getString(R.string.lakukan_konversi))
+            setCancelable(true)
+            setPositiveButton("Yes") { _, _ -> convertDbToExcel() }
+            setNegativeButton("Cancel") { dialog1, _ -> dialog1.dismiss() }
+            show()
         }
-        dialog.setNegativeButton("Cancel") { dialog1, _ ->
-            dialog1.dismiss()
-        }
-
-        dialog.show()
     }
 
     private fun convertDbToExcel() {

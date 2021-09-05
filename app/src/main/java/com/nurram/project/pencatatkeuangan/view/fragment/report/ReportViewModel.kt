@@ -1,4 +1,4 @@
-package com.nurram.project.pencatatkeuangan.view.activity.graph
+package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,7 +10,7 @@ import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
-class GraphViewModel(private val recordRepo: RecordRepo) : ViewModel() {
+class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private val dataPoint = mutableListOf<DataPoint>()
     private var records = mutableListOf<Record>()
     private var dates = mutableListOf<String>()

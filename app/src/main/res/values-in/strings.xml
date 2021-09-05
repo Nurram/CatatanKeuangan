@@ -1,5 +1,5 @@
 <resources>
-    <string name="total_expenses_kamu">Total pengeluaran kamu:
+    <string name="total_expenses">Total pengeluaran kamu:
     </string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
@@ -9,7 +9,7 @@
     <string name="income">Pemasukan</string>
     <string name="income_kamu">Pemasukan kamu</string>
     <string name="pengluaran_kamu">Pengeluaran kamu</string>
-    <string name="saldo_kamu">Saldo kamu</string>
+    <string name="total_balance">Saldo kamu</string>
     <string name="saldo">Saldo</string>
     <string name="reset">Reset</string>
     <string name="your_debt">Utang kamu</string>
@@ -20,7 +20,7 @@
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="data_success_delete">Data berhasil dihapus</string>
     <string name="app_name">Pencatat Keuangan</string>
-    <string name="total_income_kamu">Total pemasukan kamu:</string>
+    <string name="total_income">Total pemasukan kamu:</string>
     <string name="graph">Graph</string>
     <string name="history">History</string>
 

@@ -31,6 +31,9 @@ class MainFragment : Fragment() {
     private lateinit var adapter: PagerAdapter
     private lateinit var walletId: String
 
+    private var income = 0L
+    private var expenses = 0L
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,26 +42,35 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val pref = PrefUtil(requireContext())
         walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
         val factory = ViewModelFactory(requireActivity().application, walletId)
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         viewModel.getTotalExpenses()?.observe(viewLifecycleOwner, {
             if (it != null) {
+                expenses = it
+                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(income - expenses)
                 binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
+                expenses = 0
+                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(income - expenses)
                 binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
 
         viewModel.getTotalIncome()?.observe(viewLifecycleOwner, {
             if (it != null) {
+                income = it
+                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(income - expenses)
                 binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
+                income = 0
+                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(income - expenses)
                 binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(0)
             }
         })

@@ -1,12 +1,14 @@
-package com.nurram.project.pencatatkeuangan.view.activity.graph
+package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,42 +17,44 @@ import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.nurram.project.pencatatkeuangan.R
-import com.nurram.project.pencatatkeuangan.databinding.ActivityGraphBinding
+import com.nurram.project.pencatatkeuangan.databinding.FragmentReportBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
-import java.util.*
+import java.util.ArrayList
 
-class GraphActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityGraphBinding
-    private lateinit var viewModel: GraphViewModel
-    private lateinit var adapter: GraphAdapter
+class ReportFragment : Fragment() {
+    private lateinit var binding: FragmentReportBinding
+    private lateinit var adapter: ReportAdapter
+    private lateinit var viewModel: ReportViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityGraphBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.graphToolbar)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentReportBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val pref = PrefUtil(this)
+        val pref = PrefUtil(requireContext())
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
-        val factory = ViewModelFactory(application, walletId)
+        val factory = ViewModelFactory(requireActivity().application, walletId)
 
-        adapter = GraphAdapter(this) { _, _ -> }
+        adapter = ReportAdapter(requireContext()) { _, _ -> }
         val spinnerAdapter = ArrayAdapter(
-            this,
+            requireContext(),
             android.R.layout.simple_spinner_item,
             arrayOf(getString(R.string.expenses), getString(R.string.income))
         )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        viewModel = ViewModelProvider(this, factory).get(GraphViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(ReportViewModel::class.java)
         binding.apply {
             graphSpinner.adapter = spinnerAdapter
             graphSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -62,11 +66,11 @@ class GraphActivity : AppCompatActivity() {
                 ) {
                     binding.graphChart.removeAllSeries()
                     if (position == 0) {
-                        viewModel.getAllExpenses()?.observe(this@GraphActivity, {
+                        viewModel.getAllExpenses()?.observe(viewLifecycleOwner, {
                             it?.let { it1 -> setData(it1, "out") }
                         })
                     } else if (position == 1) {
-                        viewModel.getAllIncome()?.observe(this@GraphActivity, {
+                        viewModel.getAllIncome()?.observe(viewLifecycleOwner, {
                             it?.let { it1 -> setData(it1, "in") }
                         })
                     }
@@ -74,24 +78,19 @@ class GraphActivity : AppCompatActivity() {
             }
 
             graphRecycler.adapter = adapter
-            graphRecycler.layoutManager = LinearLayoutManager(this@GraphActivity)
+            graphRecycler.layoutManager = LinearLayoutManager(requireContext())
             graphRecycler.setHasFixedSize(true)
 
-            MobileAds.initialize(this@GraphActivity) { }
+            MobileAds.initialize(requireContext()) { }
             val adRequest = AdRequest.Builder().build()
 
-            viewModel.getAllRecordCount()?.observe(this@GraphActivity, {
+            viewModel.getAllRecordCount()?.observe(viewLifecycleOwner, {
                 if (it >= 3) {
                     binding.adView.loadAd(adRequest)
                     binding.adView.VISIBLE()
                 }
             })
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        finish()
     }
 
     private fun submitList(records: List<Record>) {
@@ -105,7 +104,7 @@ class GraphActivity : AppCompatActivity() {
             submitList(data)
         } else {
             Toast.makeText(
-                this@GraphActivity, getString(R.string.data_empty),
+                requireContext(), getString(R.string.data_empty),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -121,10 +120,10 @@ class GraphActivity : AppCompatActivity() {
         series.setAnimated(true)
 
         if (whereFrom == "in") {
-            series.color = ContextCompat.getColor(this, R.color.colorAccent)
+            series.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
             series.title = getString(R.string.income)
         } else {
-            series.color = ContextCompat.getColor(this, R.color.colorRed)
+            series.color = ContextCompat.getColor(requireContext(), R.color.colorRed)
             series.title = getString(R.string.expenses)
         }
 

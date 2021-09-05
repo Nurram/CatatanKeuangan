@@ -1,4 +1,4 @@
-package com.nurram.project.pencatatkeuangan.view.activity.graph
+package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFor
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
-class GraphAdapter(
+class ReportAdapter(
     private val context: Context,
     private val clickUtils: (Record, String) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,7 +36,7 @@ class GraphAdapter(
 
         if (p1 == 0) {
             binding = ItemRowBinding.inflate(inflater, p0, false)
-            return GraphHolder(binding)
+            return ReportHolder(binding)
         }
 
         binding = ItemDateBinding.inflate(inflater, p0, false)
@@ -47,7 +47,7 @@ class GraphAdapter(
         val data = datas[p1]
 
         if (p0.itemViewType == 0) {
-            p0 as GraphHolder
+            p0 as ReportHolder
             p0.bind(data, clickUtils)
         } else {
             p0 as DateHolder
@@ -55,7 +55,7 @@ class GraphAdapter(
         }
     }
 
-    inner class GraphHolder(private val binding: ItemRowBinding) :
+    inner class ReportHolder(private val binding: ItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var record: Record
 
