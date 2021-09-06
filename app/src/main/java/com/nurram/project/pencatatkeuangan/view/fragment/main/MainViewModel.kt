@@ -25,6 +25,8 @@ class MainViewModel(
 
     fun getAllRecordCount() = recordRepo.getAllRecordCount()
 
+    fun getBalance(): LiveData<Long>? = recordRepo.getBalance()
+
     fun getTotalExpenses(): LiveData<Long>? = recordRepo.getTotalExpenses()
 
     fun getTotalIncome(): LiveData<Long>? = recordRepo.getTotalIncome()

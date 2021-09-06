@@ -30,6 +30,8 @@ class RecordRepo(
             recordDao?.getFilteredRecordAsc(walletId, startDate, endDate)
         }
 
+    fun getBalance(): LiveData<Long>? = recordDao?.getBalance(walletId)
+
     fun getAllIncome(): LiveData<List<Record>>? = recordDao?.getAllIncome(walletId)
 
     fun getAllExpenses(): LiveData<List<Record>>? = recordDao?.getAllExpenses(walletId)

@@ -53,6 +53,11 @@ interface RecordDAO {
         endDate: Date
     ): LiveData<List<Record>>
 
+    @Query("select (sub.income - coalesce(sub2.expense, 0)) from " +
+            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income') sub, " +
+            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses') sub2")
+    fun getBalance(walletId: String): LiveData<Long>
+
     @Query("select * from record_table  where wallet_id=:walletId and description = 'expenses' order by date desc")
     fun getAllExpenses(walletId: String): LiveData<List<Record>>
 
