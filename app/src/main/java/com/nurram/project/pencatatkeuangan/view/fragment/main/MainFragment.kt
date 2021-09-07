@@ -3,7 +3,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.main
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtFragment
 import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
@@ -43,13 +43,23 @@ class MainFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).supportActionBar?.title = DateUtil.getCurrentMonthAndYear()
 
         val pref = PrefUtil(requireContext())
         walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
         val factory = ViewModelFactory(requireActivity().application, walletId)
 
+        val currentMonth = DateUtil.getCurrentMonthAndYear()
+        val date = DateUtil.toDate(currentMonth)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
-        viewModel.getBalance()?.observe(viewLifecycleOwner, {
+        viewModel.getBalance(date, calendar.time)?.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(it)
             }
@@ -57,7 +67,7 @@ class MainFragment : Fragment() {
                 binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
-        viewModel.getTotalExpenses()?.observe(viewLifecycleOwner, {
+        viewModel.getCurrentTotalExpenses(date, calendar.time)?.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
@@ -65,7 +75,7 @@ class MainFragment : Fragment() {
             }
         })
 
-        viewModel.getTotalIncome()?.observe(viewLifecycleOwner, {
+        viewModel.getCurrentTotalIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {

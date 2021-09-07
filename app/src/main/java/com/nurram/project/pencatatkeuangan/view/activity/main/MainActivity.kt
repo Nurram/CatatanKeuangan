@@ -1,12 +1,9 @@
 package com.nurram.project.pencatatkeuangan.view.activity.main
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -26,7 +23,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
-import com.nurram.project.pencatatkeuangan.databinding.SaldoDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
@@ -54,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
-        supportActionBar?.title = null
 
         val pref = PrefUtil(this)
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
@@ -66,13 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this) { }
         val adRequest = AdRequest.Builder().build()
-
-        viewModel.getAllRecordCount()?.observe(this, {
-            if (it >= 3) {
-                binding.adView.loadAd(adRequest)
-                binding.adView.VISIBLE()
-            }
-        })
+        binding.adView.loadAd(adRequest)
 
         InterstitialAd.load(
             this,

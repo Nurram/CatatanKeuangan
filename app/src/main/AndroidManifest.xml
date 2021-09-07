@@ -28,10 +28,6 @@
                 android:parentActivityName=".view.activity.main.MainActivity"
                 android:screenOrientation="portrait" />
         <activity
-                android:name=".view.activity.graph.GraphActivity"
-                android:parentActivityName=".view.activity.main.MainActivity"
-                android:screenOrientation="portrait" />
-        <activity
                 android:name=".view.activity.main.MainActivity"
                 android:screenOrientation="portrait">
             <intent-filter>

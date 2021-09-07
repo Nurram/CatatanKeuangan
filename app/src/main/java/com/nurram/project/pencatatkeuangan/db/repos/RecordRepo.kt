@@ -13,11 +13,11 @@ class RecordRepo(
     private val recordDb = RecordDb.getDb(application)
     private val recordDao = recordDb?.recordDao
 
-    fun getAllRecordCount() = recordDao?.getAllDataCount(walletId)
+    fun getAllRecordsDesc(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordDao?.getAllDataDesc(walletId, startDate, endDate)
 
-    fun getAllRecordsDesc(): LiveData<List<Record>>? = recordDao?.getAllDataDesc(walletId)
-
-    fun getAllRecordsAsc(): LiveData<List<Record>>? = recordDao?.getAllDataAsc(walletId)
+    fun getAllRecordsAsc(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordDao?.getAllDataAsc(walletId, startDate, endDate)
 
     fun getFilteredRecord(
         startDate: Date,
@@ -30,11 +30,15 @@ class RecordRepo(
             recordDao?.getFilteredRecordAsc(walletId, startDate, endDate)
         }
 
-    fun getBalance(): LiveData<Long>? = recordDao?.getBalance(walletId)
+    fun getBalance(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getBalance(walletId, startDate, endDate)
 
-    fun getAllIncome(): LiveData<List<Record>>? = recordDao?.getAllIncome(walletId)
+    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordDao?.getCurrentIncome(walletId, startDate, endDate)
 
-    fun getAllExpenses(): LiveData<List<Record>>? = recordDao?.getAllExpenses(walletId)
+    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordDao?.getCurrentExpenses(walletId, startDate, endDate)
+
+    fun getTotalCurrentExpenses(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getCurrentTotalExpenses(walletId, startDate, endDate)
+
+    fun getTotalCurrentIncome(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getCurrentTotalIncome(walletId, startDate, endDate)
 
     fun getTotalExpenses(): LiveData<Long>? = recordDao?.getTotalExpenses(walletId)
 

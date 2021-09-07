@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityWalletBinding
 import com.nurram.project.pencatatkeuangan.databinding.AddWalletDialogBinding
@@ -60,6 +62,10 @@ class WalletActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(WalletViewModel::class.java)
 
         viewModel.getWallet()?.observe(this, { adapter.submitList(it) })
+
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     @SuppressLint("SetTextI18n")

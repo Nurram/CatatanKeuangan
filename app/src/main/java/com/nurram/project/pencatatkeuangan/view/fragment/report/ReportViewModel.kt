@@ -18,11 +18,9 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private var pos = 0
     private var totalSum = 0L
 
-    fun getAllRecordCount() = recordRepo.getAllRecordCount()
+    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordRepo.getAllExpenses(startDate, endDate)
 
-    fun getAllExpenses(): LiveData<List<Record>>? = recordRepo.getAllExpenses()
-
-    fun getAllIncome(): LiveData<List<Record>>? = recordRepo.getAllIncome()
+    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordRepo.getAllIncome(startDate, endDate)
 
     fun setGraphData(graphList: List<Record>) {
         resetGraph()

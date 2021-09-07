@@ -10,6 +10,7 @@ import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainViewModel(
     private val recordRepo: RecordRepo,
@@ -23,19 +24,18 @@ class MainViewModel(
 
     fun getWalletById(id: String) = walletRepo.getWalletById(id)
 
-    fun getAllRecordCount() = recordRepo.getAllRecordCount()
+    fun getBalance(startDate: Date, endDate: Date): LiveData<Long>? =
+        recordRepo.getBalance(startDate, endDate)
 
-    fun getBalance(): LiveData<Long>? = recordRepo.getBalance()
+    fun getCurrentTotalExpenses(startDate: Date, endDate: Date): LiveData<Long>? =
+        recordRepo.getTotalCurrentExpenses(startDate, endDate)
 
-    fun getTotalExpenses(): LiveData<Long>? = recordRepo.getTotalExpenses()
-
-    fun getTotalIncome(): LiveData<Long>? = recordRepo.getTotalIncome()
+    fun getCurrentTotalIncome(startDate: Date, endDate: Date): LiveData<Long>? =
+        recordRepo.getTotalCurrentIncome(startDate, endDate)
 
     fun insertRecord(record: Record) = viewModelScope.launch { recordRepo.insertRecord(record) }
 
     fun deleteAllRecord() = viewModelScope.launch { recordRepo.deleteAllRecord() }
-
-    fun getTotalDebt(): LiveData<Long>? = debtRepo.getTotalDebt()
 
     fun insertDebt(debt: Debt) = viewModelScope.launch { debtRepo.insertDebt(debt) }
 

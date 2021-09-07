@@ -28,14 +28,13 @@ interface RecordDAO {
     @Update
     suspend fun update(record: Record)
 
-    @Query("select count(*) from record_table WHERE wallet_id=:walletId")
-    fun getAllDataCount(walletId: String): LiveData<Long>
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date desc")
+    fun getAllDataDesc(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
 
-    @Query("select * from record_table where wallet_id=:walletId order by date desc")
-    fun getAllDataDesc(walletId: String): LiveData<List<Record>>
-
-    @Query("select * from record_table where wallet_id=:walletId order by date asc")
-    fun getAllDataAsc(walletId: String): LiveData<List<Record>>
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date asc")
+    fun getAllDataAsc(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
     @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date desc")
@@ -53,16 +52,27 @@ interface RecordDAO {
         endDate: Date
     ): LiveData<List<Record>>
 
+    @TypeConverters(DateConverter::class)
     @Query("select (sub.income - coalesce(sub2.expense, 0)) from " +
-            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income') sub, " +
-            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses') sub2")
-    fun getBalance(walletId: String): LiveData<Long>
+            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income' and date between :startDate and :endDate) sub, " +
+            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate) sub2")
+    fun getBalance(walletId: String, startDate: Date, endDate: Date): LiveData<Long>
 
-    @Query("select * from record_table  where wallet_id=:walletId and description = 'expenses' order by date desc")
-    fun getAllExpenses(walletId: String): LiveData<List<Record>>
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table  where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate order by date desc")
+    fun getCurrentExpenses(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
 
-    @Query("select * from record_table  where wallet_id=:walletId and description = 'income' order by date desc")
-    fun getAllIncome(walletId: String): LiveData<List<Record>>
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table  where wallet_id=:walletId and description = 'income' and date between :startDate and :endDate order by date desc")
+    fun getCurrentIncome(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select sum(total) from record_table  where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate")
+    fun getCurrentTotalExpenses(walletId: String, startDate: Date, endDate: Date): LiveData<Long>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select sum(total) from record_table  where wallet_id=:walletId and description = 'income' and date between :startDate and :endDate")
+    fun getCurrentTotalIncome(walletId: String, startDate: Date, endDate: Date): LiveData<Long>
 
     @Query("select sum(total) from record_table  where wallet_id=:walletId and description = 'expenses'")
     fun getTotalExpenses(walletId: String): LiveData<Long>

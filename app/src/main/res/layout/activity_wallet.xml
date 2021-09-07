@@ -21,13 +21,13 @@
             android:id="@+id/wallet_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wallet_toolbar"
             tools:listitem="@layout/item_wallet"
             tools:itemCount="3"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/adView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/wallet_fab"
@@ -38,6 +38,17 @@
             app:tint="@android:color/white"
             app:backgroundTint="@color/colorAccent"
             android:contentDescription="@string/add_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/adView" />
+
+    <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-2987316684275669/7132649632"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

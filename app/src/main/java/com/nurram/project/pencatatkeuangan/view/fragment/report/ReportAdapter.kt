@@ -107,4 +107,9 @@ class ReportAdapter(
         this.datas.addAll(datas)
         notifyDataSetChanged()
     }
+
+    fun clearList() {
+        datas.clear()
+        notifyDataSetChanged()
+    }
 }

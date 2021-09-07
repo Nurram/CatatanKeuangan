@@ -11,11 +11,11 @@ import java.util.*
 
 class HistoryViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
-    fun getAllRecords(isNewest: Boolean): LiveData<List<Record>>? =
+    fun getAllRecords(isNewest: Boolean, startDate: Date, endDate: Date): LiveData<List<Record>>? =
         if (isNewest) {
-            recordRepo.getAllRecordsDesc()
+            recordRepo.getAllRecordsDesc(startDate, endDate)
         } else {
-            recordRepo.getAllRecordsAsc()
+            recordRepo.getAllRecordsAsc(startDate, endDate)
         }
 
     fun getFilteredRecord(

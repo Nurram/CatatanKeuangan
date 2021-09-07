@@ -10,16 +10,31 @@ class DateUtil {
             return result.format(input)
         }
 
-        fun getCurrentDate(): String {
-            val formatter = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
+        private fun formatDateMonthOnly(input: Date): String {
+            val result = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            return result.format(input)
+        }
+
+        fun formatDate2(input: Date): String {
+            val result = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
+            return result.format(input)
+        }
+
+        fun toDate(string: String): Date {
+            val simpleDate = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            return simpleDate.parse(string)!!
+        }
+
+        fun getCurrentMonthAndYear(): String {
+            val formatter = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
             return formatter.format(Date())
         }
 
-        fun subtractDays(date: Date, days: Int): Date {
+        fun subtractMonth(date: Date, month: Int): String {
             val cal = GregorianCalendar()
             cal.time = date
-            cal.add(Calendar.DATE, -days)
-            return cal.time
+            cal.add(Calendar.MONTH, month)
+            return formatDateMonthOnly(cal.time)
         }
     }
 }

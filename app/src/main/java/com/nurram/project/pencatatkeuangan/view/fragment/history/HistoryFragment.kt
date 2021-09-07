@@ -32,6 +32,8 @@ class HistoryFragment : Fragment() {
     private var records: List<Record>? = null
 
     private var isNewest = true
+    private var firstDayOfMonth = 0L
+    private var lastDayOfMonth = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,7 +90,19 @@ class HistoryFragment : Fragment() {
     }
 
     private fun getAllRecords() {
-        viewModel?.getAllRecords(isNewest)?.observe(viewLifecycleOwner, {
+        val currentMonth = DateUtil.getCurrentMonthAndYear()
+        val date = DateUtil.toDate(currentMonth)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+
+        firstDayOfMonth = date.time
+        lastDayOfMonth = calendar.timeInMillis
+
+        viewModel?.getAllRecords(isNewest, date, calendar.time)?.observe(viewLifecycleOwner, {
             records = it
             submitList(it)
 
@@ -251,21 +265,27 @@ class HistoryFragment : Fragment() {
         var endDate: Date? = null
 
         dialogView.filterStartDate.setOnClickListener {
-            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+            val datePicker = DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
                 calendar.set(year, monthOfYear, dayOfMonth)
                 startDate = calendar.time
                 dialogView.filterStartDate.text = DateUtil.formatDate(calendar.time)
-            }, year, month, day).show()
+            }, year, month, day)
+            datePicker.datePicker.minDate = firstDayOfMonth
+            datePicker.datePicker.maxDate = lastDayOfMonth
+            datePicker.show()
         }
 
         dialogView.filterEndDate.setOnClickListener {
-            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+            val datePicker = DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 val calendar = Calendar.getInstance()
                 calendar.set(year, monthOfYear, dayOfMonth)
                 endDate = calendar.time
                 dialogView.filterEndDate.text = DateUtil.formatDate(calendar.time)
-            }, year, month, day).show()
+            }, year, month, day)
+            datePicker.datePicker.minDate = firstDayOfMonth
+            datePicker.datePicker.maxDate = lastDayOfMonth
+            datePicker.show()
         }
 
         dialog?.setView(dialogView.root)

@@ -70,7 +70,7 @@
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
     <string name="pages">Pages</string>
-    <string name="report">Report</string>
+    <string name="report">Monthly Report</string>
     <string name="settings">Settings</string>
     <string name="reset_data_in_wallet">Reset data in wallet</string>
 </resources>
