@@ -22,12 +22,18 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordRepo.getAllIncome(startDate, endDate)
 
+    fun getMaxIncome(startDate: Date, endDate: Date) = recordRepo.getMaxIncome(startDate, endDate)
+
+    fun getMaxExpense(startDate: Date, endDate: Date) = recordRepo.getMaxExpenses(startDate, endDate)
+
     fun setGraphData(graphList: List<Record>) {
         resetGraph()
-
-        var currentDateString = DateUtil.formatDate(graphList[0].date!!)
+        var currentDateString =
+            if(graphList.isNotEmpty()) DateUtil.formatDate(graphList[0].date!!)
+            else ""
 
         records.addAll(graphList)
+        Log.d("TAG", "VM GraphList $records")
         records.forEach {
             val recordDate = DateUtil.formatDate(it.date!!)
             totalSum += it.total
@@ -59,8 +65,6 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
         pos = 0
     }
 
-    fun getTotalSum(): String = CurrencyFormatter.convertAndFormat(totalSum)
-
     fun getDataPoint() = dataPoint.toTypedArray()
 
     fun getRecords(position: Int) = records.filter {
@@ -71,7 +75,6 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
 
     fun mapData(records: ArrayList<Record>): List<Record> =
         if (!records.isNullOrEmpty()) {
-            Log.d("TAG2", "${records.size} ${records[0].judul}")
             var date = DateUtil.formatDate(records[0].date!!)
             records.add(0, Record(type = 1, date = records[0].date))
 

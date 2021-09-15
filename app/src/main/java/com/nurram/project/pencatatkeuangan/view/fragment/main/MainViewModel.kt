@@ -24,8 +24,7 @@ class MainViewModel(
 
     fun getWalletById(id: String) = walletRepo.getWalletById(id)
 
-    fun getBalance(startDate: Date, endDate: Date): LiveData<Long>? =
-        recordRepo.getBalance(startDate, endDate)
+    fun getBalance(): LiveData<Long>? = recordRepo.getBalance()
 
     fun getCurrentTotalExpenses(startDate: Date, endDate: Date): LiveData<Long>? =
         recordRepo.getTotalCurrentExpenses(startDate, endDate)

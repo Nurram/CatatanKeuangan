@@ -115,6 +115,30 @@ class ReportFragment : Fragment() {
                 it?.let { it1 -> setData(it1, "in") }
             })
         }
+
+        viewModel.getMaxIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
+            if(it != null) {
+                binding.incomeTitle.text = it.judul
+                binding.incomeDate.text = it.date?.let { it1 -> DateUtil.formatDate(it1) }
+                binding.incomeTotal.text = CurrencyFormatter.convertAndFormat(it.total)
+            } else {
+                binding.incomeTitle.text = "-"
+                binding.incomeDate.text = "-"
+                binding.incomeTotal.text = CurrencyFormatter.convertAndFormat(0)
+            }
+        })
+
+        viewModel.getMaxExpense(date, calendar.time)?.observe(viewLifecycleOwner, {
+            if(it != null) {
+                binding.expenseTitle.text = it.judul
+                binding.expenseDate.text = it.date?.let { it1 -> DateUtil.formatDate(it1) }
+                binding.expenseTotal.text = CurrencyFormatter.convertAndFormat(it.total)
+            } else {
+                binding.expenseTitle.text = "-"
+                binding.expenseDate.text = "-"
+                binding.expenseTotal.text = CurrencyFormatter.convertAndFormat(0)
+            }
+        })
     }
 
     private fun submitList(records: List<Record>) {
@@ -123,10 +147,10 @@ class ReportFragment : Fragment() {
     }
 
     private fun setData(data: List<Record>, whereFrom: String) {
-        if (data.isNotEmpty()) {
-            initGraph(data, whereFrom)
-            submitList(data)
+        initGraph(data, whereFrom)
+        submitList(data)
 
+        if (data.isNotEmpty()) {
             binding.dataEmpty.GONE()
         } else {
             binding.dataEmpty.VISIBLE()
@@ -154,7 +178,9 @@ class ReportFragment : Fragment() {
             submitList(datas)
         }
 
+        Log.d("TAG", "GraphList $graphList")
         binding.graphChart.apply {
+            removeAllSeries()
             addSeries(series)
             gridLabelRenderer.textSize = 16f
             viewport.isXAxisBoundsManual = true

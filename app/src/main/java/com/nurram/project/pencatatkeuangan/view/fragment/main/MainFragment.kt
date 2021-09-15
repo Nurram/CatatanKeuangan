@@ -59,7 +59,7 @@ class MainFragment : Fragment() {
         calendar.set(Calendar.SECOND, 59)
 
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
-        viewModel.getBalance(date, calendar.time)?.observe(viewLifecycleOwner, {
+        viewModel.getBalance()?.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(it)
             }

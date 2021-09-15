@@ -54,9 +54,9 @@ interface RecordDAO {
 
     @TypeConverters(DateConverter::class)
     @Query("select (sub.income - coalesce(sub2.expense, 0)) from " +
-            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income' and date between :startDate and :endDate) sub, " +
-            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate) sub2")
-    fun getBalance(walletId: String, startDate: Date, endDate: Date): LiveData<Long>
+            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income') sub, " +
+            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses') sub2")
+    fun getBalance(walletId: String): LiveData<Long>
 
     @TypeConverters(DateConverter::class)
     @Query("select * from record_table  where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate order by date desc")
@@ -79,6 +79,14 @@ interface RecordDAO {
 
     @Query("select sum(total) from record_table  where wallet_id=:walletId and description = 'income'")
     fun getTotalIncome(walletId: String): LiveData<Long>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and description = 'income' and date between :startDate and :endDate ORDER BY total DESC LIMIT 1")
+    fun getMaxIncome(walletId: String, startDate: Date, endDate: Date): LiveData<Record>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate ORDER BY total DESC LIMIT 1")
+    fun getMaxExpense(walletId: String, startDate: Date, endDate: Date): LiveData<Record>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDebt(debt: Debt)

@@ -30,7 +30,7 @@ class RecordRepo(
             recordDao?.getFilteredRecordAsc(walletId, startDate, endDate)
         }
 
-    fun getBalance(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getBalance(walletId, startDate, endDate)
+    fun getBalance(): LiveData<Long>? = recordDao?.getBalance(walletId)
 
     fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordDao?.getCurrentIncome(walletId, startDate, endDate)
 
@@ -40,35 +40,15 @@ class RecordRepo(
 
     fun getTotalCurrentIncome(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getCurrentTotalIncome(walletId, startDate, endDate)
 
-    fun getTotalExpenses(): LiveData<Long>? = recordDao?.getTotalExpenses(walletId)
+    fun getMaxExpenses(startDate: Date, endDate: Date): LiveData<Record>? = recordDao?.getMaxExpense(walletId, startDate, endDate)
 
-    fun getTotalIncome(): LiveData<Long>? = recordDao?.getTotalIncome(walletId)
+    fun getMaxIncome(startDate: Date, endDate: Date): LiveData<Record>? = recordDao?.getMaxIncome(walletId, startDate, endDate)
 
     suspend fun insertRecord(record: Record) = recordDao?.insert(record)
-//        recordDao?.let {
-//            coroutineScope {
-//                launch { recordDao.insert(record) }
-//            }
-//        }
 
     suspend fun updateRecord(record: Record) = recordDao?.update(record)
-//        recordDao?.let {
-//            coroutineScope {
-//                launch { recordDao.update(record) }
-//            }
-//        }
 
     suspend fun deleteAllRecord() = recordDao?.deleteAll(walletId)
-//        recordDao?.let {
-//            coroutineScope {
-//                launch { recordDao.deleteAll(walletId) }
-//            }
-//        }
 
     suspend fun deleteRecord(record: Record) = recordDao?.delete(record)
-//        recordDao?.let {
-//            coroutineScope {
-//                launch { recordDao.delete(record) }
-//            }
-//        }
 }

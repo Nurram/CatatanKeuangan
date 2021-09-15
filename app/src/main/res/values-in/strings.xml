@@ -1,6 +1,5 @@
 <resources>
-    <string name="total_expenses">Total pengeluaran kamu:
-    </string>
+    <string name="total_expenses">Total pengeluaran:</string>
     <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
     <string name="ex_shopping">contoh: Belanja</string>
@@ -20,7 +19,7 @@
     <string name="toast_isi_kolom">Isi semua kolom!</string>
     <string name="data_success_delete">Data berhasil dihapus</string>
     <string name="app_name">Pencatat Keuangan</string>
-    <string name="total_income">Total pemasukan kamu:</string>
+    <string name="total_income">Total pemasukan:</string>
     <string name="graph">Graph</string>
     <string name="history">History</string>
 
@@ -73,4 +72,6 @@
     <string name="report">Laporan Bulanan</string>
     <string name="settings">Pengaturan</string>
     <string name="reset_data_in_wallet">Reset data di wallet ini</string>
+    <string name="highest_income">Pemasukan Tertinggi</string>
+    <string name="highest_expense">Pengeluaran Tertinggi</string>
 </resources>

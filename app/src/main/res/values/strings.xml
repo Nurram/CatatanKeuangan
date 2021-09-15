@@ -73,4 +73,6 @@
     <string name="report">Monthly Report</string>
     <string name="settings">Settings</string>
     <string name="reset_data_in_wallet">Reset data in wallet</string>
+    <string name="highest_income">Highest Income</string>
+    <string name="highest_expense">Highest Expense</string>
 </resources>
