@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ajts.androidmads.library.SQLiteToExcel
@@ -95,6 +96,20 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    override fun onBackPressed() {
+        val drawer = binding.drawerLayout
+        val nav = binding.navView
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else if(!nav.menu.findItem(R.id.nav_home).isChecked) {
+            nav.setCheckedItem(R.id.nav_home)
+            changeFragment(null, MainFragment())
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun initDrawer() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment, MainFragment()).commit()
 
@@ -107,11 +122,10 @@ class MainActivity : AppCompatActivity() {
             syncState()
             isDrawerIndicatorEnabled = true
             drawerArrowDrawable.color = ContextCompat.getColor(this@MainActivity, android.R.color.white)
-
         }
 
         binding.apply {
-            navView.menu.getItem(0).isChecked = true
+            navView.setCheckedItem(R.id.nav_home)
             navView.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.nav_home -> changeFragment(null, MainFragment())

@@ -66,10 +66,7 @@ class ReportAdapter(
                 itemTitle.text = record.judul
                 itemUang.text = convertAndFormat(record.total)
                 itemDelete.setOnClickListener { clickUtils(record, "delete") }
-                itemUpdate.setOnClickListener { clickUtils(record, "edit") }
-                itemView.setOnClickListener { clickUtils(record, "edit") }
 
-                itemDelete.visibility = View.GONE
                 itemUpdate.visibility = View.GONE
 
                 if (record.description == "income") {

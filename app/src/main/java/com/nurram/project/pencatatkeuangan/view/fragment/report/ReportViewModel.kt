@@ -3,11 +3,13 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jjoe64.graphview.series.DataPoint
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
@@ -94,4 +96,6 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
         } else {
             listOf()
         }
+
+    fun deleteRecord(record: Record) = viewModelScope.launch { recordRepo.deleteRecord(record) }
 }

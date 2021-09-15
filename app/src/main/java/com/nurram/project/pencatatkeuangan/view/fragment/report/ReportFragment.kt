@@ -2,18 +2,17 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.nurram.project.pencatatkeuangan.R
@@ -46,7 +45,7 @@ class ReportFragment : Fragment() {
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
         val factory = ViewModelFactory(requireActivity().application, walletId)
         viewModel = ViewModelProvider(this, factory).get(ReportViewModel::class.java)
-        adapter = ReportAdapter(requireContext()) { _, _ -> }
+        adapter = ReportAdapter(requireContext()) { data, _ -> showDeleteDialog(data) }
         selectedMonth = binding.reportDate.text.toString()
 
         moveDate(0)
@@ -178,7 +177,6 @@ class ReportFragment : Fragment() {
             submitList(datas)
         }
 
-        Log.d("TAG", "GraphList $graphList")
         binding.graphChart.apply {
             removeAllSeries()
             addSeries(series)
@@ -191,5 +189,22 @@ class ReportFragment : Fragment() {
             legendRenderer.backgroundColor = android.R.color.transparent
             legendRenderer.textSize = 24f
         }
+    }
+
+    private fun showDeleteDialog(record: Record) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(getString(R.string.attention))
+        dialog.setMessage(R.string.delete_record_confirmation)
+        dialog.setCancelable(true)
+        dialog.setPositiveButton("Yes") { _, _ ->
+            viewModel.deleteRecord(record)
+            binding.graphSpinner.setSelection(0)
+            Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
+        }
+        dialog.setNegativeButton("Cancel") { innerDialog, _ ->
+            innerDialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

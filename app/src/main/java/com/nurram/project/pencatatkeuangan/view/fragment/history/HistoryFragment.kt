@@ -248,10 +248,6 @@ class HistoryFragment : Fragment() {
         setOrderIcon()
     }
 
-    private fun initAdapter() {
-
-    }
-
     private fun showFilterDialog() {
         val dialog = context?.let { AlertDialog.Builder(it) }
         val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)
