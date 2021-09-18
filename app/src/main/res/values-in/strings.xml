@@ -74,4 +74,6 @@
     <string name="reset_data_in_wallet">Reset data di wallet ini</string>
     <string name="highest_income">Pemasukan Tertinggi</string>
     <string name="highest_expense">Pengeluaran Tertinggi</string>
+    <string name="ex_100">contoh: 100</string>
+    <string name="max_discount">Maksimal diskon adalah 100!</string>
 </resources>

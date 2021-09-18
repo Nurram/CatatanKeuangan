@@ -3,6 +3,8 @@ package com.nurram.project.pencatatkeuangan.view.fragment.main
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -123,6 +125,33 @@ class MainFragment : Fragment() {
         val builder = context?.let { AlertDialog.Builder(it) }
         val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
 
+        var current = ""
+        dialogView.dialogAmount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+            override fun afterTextChanged(s: Editable?) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val stringText = s.toString()
+
+                if(stringText != current) {
+                    dialogView.dialogAmount.removeTextChangedListener(this)
+
+                    val formatted = if(stringText.length > 2) {
+                        val cleanString = CurrencyFormatter.getNumber(stringText)
+                        CurrencyFormatter.convertAndFormat(cleanString)
+                    } else {
+                        "Rp"
+                    }
+
+                    current = formatted
+                    dialogView.dialogAmount.setText(formatted)
+                    dialogView.dialogAmount.setSelection(formatted.length)
+                    dialogView.dialogAmount.addTextChangedListener(this)
+                }
+            }
+        })
+
         var selectedDate = Date()
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -156,11 +185,12 @@ class MainFragment : Fragment() {
             }
 
             if (dialogView.dialogTitle.text.isNotBlank() &&
-                dialogView.dialogAmount.text.isNotBlank() &&
-                dialogView.dialogAmount.text.toString().toLong() > 0
+                dialogView.dialogAmount.text.length > 2 &&
+                dialogView.dialogAmount.text.toString() != "Rp0"
             ) {
 
-                val totalIncomeString = dialogView.dialogAmount.text.toString()
+                val totalIncomeString =
+                    CurrencyFormatter.getNumberAsString(dialogView.dialogAmount.text.toString())
 
                 if (key == "history") {
                     val totalIncome = CurrencyFormatter.isAmountValidLong(

@@ -2,6 +2,8 @@ package com.nurram.project.pencatatkeuangan.view.fragment.discount
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
+import java.util.*
 
 class DiscCalcFragment : Fragment() {
     private lateinit var binding: FragmentDiscCalcBinding
@@ -28,32 +31,70 @@ class DiscCalcFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this).get(DiscCalcViewModel::class.java)
+        var current = ""
+
         binding.apply {
-            discountCalculate.setOnClickListener {
-                val discount = discountAmount.text.toString().toInt()
-                val price = discountValue.text.toString().toLong()
+            discountAmount.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
-                if (price > 1000000000) {
-                    if (discount > 100) {
-                        val data = viewModel.calculateDiscount(price, discount)
-                        val result = data["result"]!!
-                        val save = data["save"]!!
+                override fun afterTextChanged(s: Editable?) = Unit
 
-                        discountResult.apply {
-                            visibility = View.VISIBLE
-                            text = "${getString(R.string.price_after_discount)} ${
-                                CurrencyFormatter.convertAndFormat(result)
-                            }"
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val stringText = s.toString()
+
+                    if(stringText != current) {
+                        discountAmount.removeTextChangedListener(this)
+
+                        val formatted = if(stringText.length > 2) {
+                            val cleanString = CurrencyFormatter.getNumber(stringText)
+                            CurrencyFormatter.convertAndFormat(cleanString)
+                        } else {
+                            "Rp"
                         }
 
-                        discountSave.apply {
-                            visibility = View.VISIBLE
-                            text =
-                                "${getString(R.string.you_save)} ${
-                                    CurrencyFormatter.convertAndFormat(
-                                        save
-                                    )
+                        current = formatted
+                        discountAmount.setText(formatted)
+                        discountAmount.setSelection(formatted.length)
+                        discountAmount.addTextChangedListener(this)
+                    }
+                }
+            })
+
+            discountCalculate.setOnClickListener {
+                if(discountAmount.text.length <= 2 || discountValue.text.isNullOrEmpty()) {
+                    Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+                } else {
+                    val amount = CurrencyFormatter.getNumber(discountAmount.text.toString())
+                    val discount = discountValue.text.toString().toLong()
+
+                    if (amount <= 1000000000) {
+                        if (discount <= 100) {
+                            val data = viewModel.calculateDiscount(amount, discount)
+                            val priceAfterDiscount = data["priceAfterDiscount"]!!
+                            val save = data["save"]!!
+
+                            discountResult.apply {
+                                visibility = View.VISIBLE
+                                text = "${getString(R.string.price_after_discount)} ${
+                                    CurrencyFormatter.convertAndFormat(priceAfterDiscount)
                                 }"
+                            }
+
+                            discountSave.apply {
+                                visibility = View.VISIBLE
+                                text =
+                                    "${getString(R.string.you_save)} ${
+                                        CurrencyFormatter.convertAndFormat(
+                                            save
+                                        )
+                                    }"
+                            }
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.max_discount),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         Toast.makeText(
@@ -62,14 +103,7 @@ class DiscCalcFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.max_amount),
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
-
             }
         }
     }

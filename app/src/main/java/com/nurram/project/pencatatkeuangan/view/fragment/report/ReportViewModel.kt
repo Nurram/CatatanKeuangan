@@ -35,7 +35,6 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
             else ""
 
         records.addAll(graphList)
-        Log.d("TAG", "VM GraphList $records")
         records.forEach {
             val recordDate = DateUtil.formatDate(it.date!!)
             totalSum += it.total

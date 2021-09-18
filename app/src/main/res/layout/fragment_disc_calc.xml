@@ -40,8 +40,9 @@
                     android:id="@+id/discount_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ex_1_000_000"
+                    android:text="@string/rp"
                     android:inputType="number"
+                    android:maxLength="15"
                     android:layout_marginBottom="8dp" />
 
             <TextView
@@ -55,8 +56,9 @@
                     android:id="@+id/discount_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ex_1_000_000"
+                    android:hint="@string/ex_100"
                     android:inputType="number"
+                    android:maxLength="3"
                     android:layout_marginBottom="24dp" />
 
             <TextView

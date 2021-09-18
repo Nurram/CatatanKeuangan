@@ -49,4 +49,16 @@ object CurrencyFormatter {
             0
         }
     }
+
+    fun getNumber(value: String): Long {
+        var newValue = value.replace("Rp", "")
+        newValue = newValue.replace(".", "")
+        return newValue.toLong()
+    }
+
+    fun getNumberAsString(value: String): String {
+        var newValue = value.replace("Rp", "")
+        newValue = newValue.replace(".", "")
+        return newValue
+    }
 }

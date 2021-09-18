@@ -3,6 +3,8 @@ package com.nurram.project.pencatatkeuangan.view.fragment.history
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -170,7 +172,35 @@ class HistoryFragment : Fragment() {
 
         dialogView.apply {
             dialogTitle.setText(record.judul)
-            dialogAmount.setText(record.total.toString())
+            dialogAmount.setText(CurrencyFormatter.convertAndFormat(record.total.toString().toLong()))
+
+            var current = ""
+            dialogAmount.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+                override fun afterTextChanged(s: Editable?) = Unit
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val stringText = s.toString()
+
+                    if(stringText != current) {
+                        dialogAmount.removeTextChangedListener(this)
+
+                        val formatted = if(stringText.length > 2) {
+                            val cleanString = CurrencyFormatter.getNumber(stringText)
+                            CurrencyFormatter.convertAndFormat(cleanString)
+                        } else {
+                            "Rp"
+                        }
+
+                        current = formatted
+                        dialogAmount.setText(formatted)
+                        dialogAmount.setSelection(formatted.length)
+                        dialogAmount.addTextChangedListener(this)
+                    }
+                }
+            })
+
             dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${
                 record.date?.let {
                     DateUtil.formatDate(it)
@@ -198,8 +228,8 @@ class HistoryFragment : Fragment() {
             setPositiveButton(R.string.dialog_save) { _, _ ->
 
                 if (dialogView.dialogTitle.text.isNotBlank() &&
-                    dialogView.dialogAmount.text.isNotBlank() &&
-                    dialogView.dialogAmount.text.toString().toLong() > 0
+                    dialogView.dialogAmount.text.length > 2 &&
+                    dialogView.dialogAmount.text.toString() != "Rp0"
                 ) {
                     if (dialogView.dialogCheckboxIncome.isChecked) {
                         record.description = "income"
@@ -207,7 +237,9 @@ class HistoryFragment : Fragment() {
                         record.description = "expenses"
                     }
 
-                    val totalIncomeString = dialogView.dialogAmount.text.toString()
+                    val totalIncomeString =
+                        CurrencyFormatter.getNumberAsString(dialogView.dialogAmount.text.toString())
+
                     val totalIncome = CurrencyFormatter.isAmountValidLong(
                         requireContext(),
                         totalIncomeString

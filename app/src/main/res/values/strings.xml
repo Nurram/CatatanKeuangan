@@ -32,6 +32,7 @@
     <string name="reset">Reset</string>
     <string name="graph">Graph</string>
     <string name="ex_1_000_000">ex: 10000</string>
+    <string name="ex_100">ex: 100</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
     <string name="tanggal_transaksi">Transaction date:</string>
     <string name="selected_date">No date selected</string>
@@ -69,10 +70,12 @@
     <string name="delete_wallet_confirmation">Delete this wallet?</string>
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
+    <string name="max_discount">Maximum discount is 100!</string>
     <string name="pages">Pages</string>
     <string name="report">Monthly Report</string>
     <string name="settings">Settings</string>
     <string name="reset_data_in_wallet">Reset data in wallet</string>
     <string name="highest_income">Highest Income</string>
     <string name="highest_expense">Highest Expense</string>
+    <string name="rp">Rp</string>
 </resources>
