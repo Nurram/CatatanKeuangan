@@ -28,7 +28,7 @@
     <string name="toast_isi_kolom">Fill all column</string>
     <string name="total_income">Total income</string>
     <string name="total_expenses">Total expenses</string>
-    <string name="rp_0">Rp.0</string>
+    <string name="rp_0" translatable="false">0</string>
     <string name="reset">Reset</string>
     <string name="graph">Graph</string>
     <string name="ex_1_000_000">ex: 10000</string>
@@ -77,5 +77,5 @@
     <string name="reset_data_in_wallet">Reset data in wallet</string>
     <string name="highest_income">Highest Income</string>
     <string name="highest_expense">Highest Expense</string>
-    <string name="rp">Rp</string>
+    <string name="rp" translatable="false">Rp</string>
 </resources>

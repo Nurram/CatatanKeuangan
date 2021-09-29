@@ -1,6 +1,5 @@
 <resources>
     <string name="total_expenses">Total pengeluaran:</string>
-    <string name="rp_0">Rp.0</string>
     <string name="masukan_judul">Masukan judul</string>
     <string name="ex_shopping">contoh: Belanja</string>
     <string name="masukan_total_uang">Masukan total uang</string>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
             android:orientation="vertical"
@@ -20,21 +21,32 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/ex_shopping"
                 android:inputType="text"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"/>
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/masukan_total_uang" />
 
-        <EditText
-                android:id="@+id/dialog_amount"
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rp"
-                android:inputType="number"
-                android:maxLength="15"
-                android:layout_marginBottom="8dp" />
+                app:prefixText="@string/rp"
+                app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dialog_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:hint="@string/rp_0"
+                    android:background="@android:color/white"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="4dp"
+                    android:paddingTop="12dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
                 android:id="@+id/dialog_date"

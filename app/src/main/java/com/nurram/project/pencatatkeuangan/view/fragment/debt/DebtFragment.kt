@@ -156,8 +156,8 @@ class DebtFragment : Fragment() {
             setView(dialogView.root)
             setCancelable(true)
             setPositiveButton(R.string.dialog_save) { _, _ ->
-                if (dialogView.dialogTitle.text.isNotBlank() &&
-                    dialogView.dialogAmount.text.isNotBlank() &&
+                if (!dialogView.dialogTitle.text.isNullOrBlank() &&
+                    !dialogView.dialogAmount.text.isNullOrBlank() &&
                     dialogView.dialogAmount.text.toString().toLong() > 0
                 ) {
                     val totalIncomeString = dialogView.dialogAmount.text.toString()

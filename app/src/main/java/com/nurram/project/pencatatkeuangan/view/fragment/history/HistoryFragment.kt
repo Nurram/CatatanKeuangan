@@ -172,34 +172,7 @@ class HistoryFragment : Fragment() {
 
         dialogView.apply {
             dialogTitle.setText(record.judul)
-            dialogAmount.setText(CurrencyFormatter.convertAndFormat(record.total.toString().toLong()))
-
-            var current = ""
-            dialogAmount.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-                override fun afterTextChanged(s: Editable?) = Unit
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val stringText = s.toString()
-
-                    if(stringText != current) {
-                        dialogAmount.removeTextChangedListener(this)
-
-                        val formatted = if(stringText.length > 2) {
-                            val cleanString = CurrencyFormatter.getNumber(stringText)
-                            CurrencyFormatter.convertAndFormat(cleanString)
-                        } else {
-                            "Rp"
-                        }
-
-                        current = formatted
-                        dialogAmount.setText(formatted)
-                        dialogAmount.setSelection(formatted.length)
-                        dialogAmount.addTextChangedListener(this)
-                    }
-                }
-            })
+            dialogAmount.setText(record.total.toString())
 
             dialogDate.text = "${getString(R.string.tanggal_transaksi)} ${
                 record.date?.let {
@@ -227,8 +200,8 @@ class HistoryFragment : Fragment() {
             setCancelable(true)
             setPositiveButton(R.string.dialog_save) { _, _ ->
 
-                if (dialogView.dialogTitle.text.isNotBlank() &&
-                    dialogView.dialogAmount.text.length > 2 &&
+                if (!dialogView.dialogTitle.text.isNullOrBlank() &&
+                    dialogView.dialogAmount.text!!.length > 2 &&
                     dialogView.dialogAmount.text.toString() != "Rp0"
                 ) {
                     if (dialogView.dialogCheckboxIncome.isChecked) {
@@ -237,12 +210,9 @@ class HistoryFragment : Fragment() {
                         record.description = "expenses"
                     }
 
-                    val totalIncomeString =
-                        CurrencyFormatter.getNumberAsString(dialogView.dialogAmount.text.toString())
-
                     val totalIncome = CurrencyFormatter.isAmountValidLong(
                         requireContext(),
-                        totalIncomeString
+                        dialogView.dialogAmount.text.toString()
                     )
                     val innerRecord = Record(
                         record.id, dialogView.dialogTitle.text.toString(),

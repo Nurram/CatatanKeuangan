@@ -31,40 +31,13 @@ class DiscCalcFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this).get(DiscCalcViewModel::class.java)
-        var current = ""
 
         binding.apply {
-            discountAmount.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-                override fun afterTextChanged(s: Editable?) = Unit
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val stringText = s.toString()
-
-                    if(stringText != current) {
-                        discountAmount.removeTextChangedListener(this)
-
-                        val formatted = if(stringText.length > 2) {
-                            val cleanString = CurrencyFormatter.getNumber(stringText)
-                            CurrencyFormatter.convertAndFormat(cleanString)
-                        } else {
-                            "Rp"
-                        }
-
-                        current = formatted
-                        discountAmount.setText(formatted)
-                        discountAmount.setSelection(formatted.length)
-                        discountAmount.addTextChangedListener(this)
-                    }
-                }
-            })
-
             discountCalculate.setOnClickListener {
-                if(discountAmount.text.length <= 2 || discountValue.text.isNullOrEmpty()) {
+                if(discountValue.text.isNullOrEmpty() || discountAmount.text.isNullOrEmpty()) {
                     Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
                 } else {
-                    val amount = CurrencyFormatter.getNumber(discountAmount.text.toString())
+                    val amount = discountAmount.text.toString().toLong()
                     val discount = discountValue.text.toString().toLong()
 
                     if (amount <= 1000000000) {
