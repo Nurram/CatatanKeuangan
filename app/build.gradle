@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         multiDexEnabled true
         applicationId "com.nurram.project.pencatatkeuangan"
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 23
-        versionName "2.8"
+        targetSdkVersion 31
+        versionCode 24
+        versionName "2.9"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
