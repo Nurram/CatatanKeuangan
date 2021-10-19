@@ -30,6 +30,7 @@ class WalletActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WalletViewModel
     private lateinit var pref: PrefUtil
+    private lateinit var adapter: WalletAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +41,10 @@ class WalletActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         pref = PrefUtil(this)
-        val adapter = WalletAdapter { wallet, code ->
+        adapter = WalletAdapter { wallet, code ->
             when (code) {
                 0 -> showDeleteDialog(wallet)
+                1 -> showUpdateDataDialog(wallet)
                 else -> {
                     pref.saveToPref(prefKey, wallet.id)
                     moveToMain()
@@ -77,13 +79,31 @@ class WalletActivity : AppCompatActivity() {
             setView(dialogView.root)
             setCancelable(true)
             setPositiveButton(R.string.dialog_save) { _, _ ->
+                val title = dialogView.dialogTitle.text.toString()
+                val wallet1 = Wallet(Calendar.getInstance().timeInMillis.toString(), title)
 
-                val wallet1 = Wallet(
-                    Calendar.getInstance().timeInMillis.toString(),
-                    dialogView.dialogTitle.text.toString()
-                )
+                if(title.isNotEmpty()) viewModel.insertWallet(wallet1)
+            }
+            show()
+        }
+    }
 
-                viewModel.insertWallet(wallet1)
+    @SuppressLint("SetTextI18n")
+    private fun showUpdateDataDialog(wallet: Wallet) {
+        val dialog = AlertDialog.Builder(this)
+        val dialogView = AddWalletDialogBinding.inflate(layoutInflater)
+        dialogView.dialogTitle.setText(wallet.name)
+
+        dialog.apply {
+            setView(dialogView.root)
+            setCancelable(true)
+            setPositiveButton(R.string.dialog_save) { _, _ ->
+                val title = dialogView.dialogTitle.text.toString()
+                wallet.name = dialogView.dialogTitle.text.toString()
+                if(title.isNotEmpty()) {
+                    viewModel.updateWallet(wallet)
+                    adapter.notifyDataSetChanged()
+                }
             }
             show()
         }

@@ -10,21 +10,14 @@ class WalletRepo(application: Application) {
     private val recordDao = db?.recordDao
 
     suspend fun insert(wallet: Wallet) = walletDao?.insert(wallet)
-    //        coroutineScope { launch { it.insert(wallet) } }
+
+    suspend fun update(wallet: Wallet) = walletDao?.update(wallet)
 
     fun getWallets() = walletDao?.getWallets()
 
     fun getWalletById(id: String) = walletDao?.getWalletById(id)
 
     suspend fun deleteWallet(wallet: Wallet) {
-//        coroutineScope {
-//            launch {
-//                it.deleteWallet(wallet)
-//                recordDao?.deleteWalletDataFromRecord(wallet.id)
-//                recordDao?.deleteWalletDataFromDebt(wallet.id)
-//            }
-//        }
-
         walletDao?.deleteWallet(wallet)
         recordDao?.deleteWalletDataFromRecord(wallet.id)
         recordDao?.deleteWalletDataFromDebt(wallet.id)
