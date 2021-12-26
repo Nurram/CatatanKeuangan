@@ -21,7 +21,7 @@ class ViewModelFactory(
     private val debtRepo = DebtRepo(application, walletId)
     private val walletRepo = WalletRepo(application)
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(recordRepo, debtRepo, walletRepo) as T
