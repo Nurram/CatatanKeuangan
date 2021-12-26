@@ -10,6 +10,8 @@ class WalletViewModel(private val repo: WalletRepo) : ViewModel() {
 
     fun insertWallet(wallet: Wallet) = viewModelScope.launch { repo.insert(wallet) }
 
+    fun updateWallet(wallet: Wallet) = viewModelScope.launch { repo.update(wallet) }
+
     fun getWallet() = repo.getWallets()
 
     fun deleteWallet(wallet: Wallet) = viewModelScope.launch { repo.deleteWallet(wallet) }

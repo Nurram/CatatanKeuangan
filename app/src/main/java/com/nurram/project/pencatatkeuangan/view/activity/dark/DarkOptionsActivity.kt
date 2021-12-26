@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.nurram.project.pencatatkeuangan.databinding.ActivityDarkOptionsBinding
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 
@@ -43,6 +45,10 @@ class DarkOptionsActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 sharedPref.saveToPref("dark", 2)
             }
+
+            MobileAds.initialize(this@DarkOptionsActivity) { }
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
         }
     }
 }

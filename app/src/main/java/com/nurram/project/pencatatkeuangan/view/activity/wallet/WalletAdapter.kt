@@ -34,13 +34,15 @@ class WalletAdapter(
 
                 if (wallet.id == "def") {
                     walletDelete.GONE()
+                    walletUpdate.GONE()
                 }
 
                 walletNameItem.text = "${position + 1}. ${wallet.name}"
                 walletDelete.setOnClickListener { onItemClick(wallet, 0) }
+                walletUpdate.setOnClickListener { onItemClick(wallet, 1) }
             }
 
-            itemView.setOnClickListener { onItemClick(wallet, 1) }
+            itemView.setOnClickListener { onItemClick(wallet, 2) }
         }
     }
 

@@ -10,6 +10,9 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wallet: Wallet)
 
+    @Update
+    suspend fun update(wallet: Wallet)
+
     @Query("SELECT * FROM wallet_table")
     fun getWallets(): LiveData<List<Wallet>>
 
