@@ -78,4 +78,9 @@
     <string name="highest_income">Highest Income</string>
     <string name="highest_expense">Highest Expense</string>
     <string name="rp" translatable="false">Rp</string>
+    <string name="debt">Debt</string>
+    <string name="title">Title</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
 </resources>

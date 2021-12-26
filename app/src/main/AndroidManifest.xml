@@ -20,14 +20,19 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".view.activity.add.AddDataActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"
+                android:parentActivityName=".view.activity.main.MainActivity"/>
+        <activity
                 android:name=".view.activity.wallet.WalletActivity"
+                android:exported="false"
                 android:parentActivityName=".view.activity.main.MainActivity"
-                android:exported="true"
                 android:screenOrientation="portrait" />
         <activity
                 android:name=".view.activity.dark.DarkOptionsActivity"
+                android:exported="false"
                 android:parentActivityName=".view.activity.main.MainActivity"
-                android:exported="true"
                 android:screenOrientation="portrait" />
         <activity
                 android:name=".view.activity.main.MainActivity"

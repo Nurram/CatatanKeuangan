@@ -18,6 +18,8 @@ data class Record(
     var total: Long = 0,
     @ColumnInfo(name = "date")
     var date: Date? = null,
+    @ColumnInfo(name = "notes")
+    var notes: String = "",
     @ColumnInfo(name = "wallet_id")
     var walletId: String = "def",
     @ColumnInfo(name = "description")
