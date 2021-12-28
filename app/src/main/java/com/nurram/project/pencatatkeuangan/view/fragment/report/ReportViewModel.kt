@@ -1,13 +1,11 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.report
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jjoe64.graphview.series.DataPoint
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
-import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
 import java.util.*
@@ -20,18 +18,21 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     private var pos = 0
     private var totalSum = 0L
 
-    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordRepo.getAllExpenses(startDate, endDate)
+    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordRepo.getAllExpenses(startDate, endDate)
 
-    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordRepo.getAllIncome(startDate, endDate)
+    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordRepo.getAllIncome(startDate, endDate)
 
     fun getMaxIncome(startDate: Date, endDate: Date) = recordRepo.getMaxIncome(startDate, endDate)
 
-    fun getMaxExpense(startDate: Date, endDate: Date) = recordRepo.getMaxExpenses(startDate, endDate)
+    fun getMaxExpense(startDate: Date, endDate: Date) =
+        recordRepo.getMaxExpenses(startDate, endDate)
 
     fun setGraphData(graphList: List<Record>) {
         resetGraph()
         var currentDateString =
-            if(graphList.isNotEmpty()) DateUtil.formatDate(graphList[0].date!!)
+            if (graphList.isNotEmpty()) DateUtil.formatDate(graphList[0].date!!)
             else ""
 
         records.addAll(graphList)

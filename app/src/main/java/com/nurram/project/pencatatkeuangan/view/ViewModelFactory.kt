@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
+import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataViewModel
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivityViewModel
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletViewModel
-import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtViewModel
-import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.report.ReportViewModel
 
@@ -23,14 +23,14 @@ class ViewModelFactory(
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
+            modelClass.isAssignableFrom(MainActivityViewModel::class.java) -> {
+                MainActivityViewModel(walletRepo, recordRepo, debtRepo) as T
+            }
+            modelClass.isAssignableFrom(AddDataViewModel::class.java) -> {
+                AddDataViewModel(recordRepo) as T
+            }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(recordRepo, debtRepo, walletRepo) as T
-            }
-            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
-                HistoryViewModel(recordRepo) as T
-            }
-            modelClass.isAssignableFrom(DebtViewModel::class.java) -> {
-                DebtViewModel(debtRepo) as T
             }
             modelClass.isAssignableFrom(ReportViewModel::class.java) -> {
                 ReportViewModel(recordRepo) as T

@@ -3,11 +3,11 @@
     <color name="colorPrimary">#673ab7</color>
     <color name="colorPrimaryDark">#482880</color>
     <color name="colorAccent">#8561c5</color>
-    <color name="colorRed">#F44336</color>
-
-    <color name="toolbarBg">#673ab7</color>
-    <color name="headerBg">@color/colorPrimary</color>
+    <color name="colorRed">#F47174</color>
+    <color name="colorGreen">#ACD1AF</color>
     <color name="discBg">@color/colorPrimary</color>
-    <color name="cardText">#0e1111</color>
-    <color name="defaultText">#0e1111</color>
+    <color name="cardText">#181A18</color>
+    <color name="defaultText">#181A18</color>
+
+    <color name="bg">#fafafa</color>
 </resources>

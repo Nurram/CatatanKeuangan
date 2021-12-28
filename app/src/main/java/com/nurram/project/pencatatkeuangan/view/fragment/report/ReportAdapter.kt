@@ -2,7 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import com.nurram.project.pencatatkeuangan.databinding.ItemRowBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFormat
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
 import java.util.*
 
 class ReportAdapter(
@@ -64,27 +64,19 @@ class ReportAdapter(
 
             binding.apply {
                 itemTitle.text = record.judul
+                itemDesc.text = record.note
                 itemUang.text = convertAndFormat(record.total)
-                itemDelete.setOnClickListener { clickUtils(record, "delete") }
 
-                itemUpdate.visibility = View.GONE
-
-                if (record.description == "income") {
-                    itemColor.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.colorAccent
-                        )
-                    )
-                    itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
-                } else {
-                    itemColor.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.colorRed
-                        )
-                    )
-                    itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                when (record.description) {
+                    AddDataActivity.INCOME -> {
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                    }
+                    AddDataActivity.EXPENSE -> {
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                    }
+                    else -> {
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                    }
                 }
             }
         }

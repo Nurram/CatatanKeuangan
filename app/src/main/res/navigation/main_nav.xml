@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_nav"
+        app:startDestination="@id/navigation_home">
+
+    <fragment
+            android:id="@+id/navigation_home"
+            android:name="com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment"
+            tools:layout="@layout/fragment_main">
+        <action
+                android:id="@+id/action_navigation_home_to_addDataActivity"
+                app:destination="@id/addDataActivity" />
+    </fragment>
+    <fragment
+            android:id="@+id/navigation_report"
+            android:name="com.nurram.project.pencatatkeuangan.view.fragment.report.ReportFragment"
+            android:label="@string/report"
+            tools:layout="@layout/fragment_report" />
+    <fragment
+            android:id="@+id/navigation_discount"
+            android:name="com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment"
+            android:label="@string/discount"
+            tools:layout="@layout/fragment_disc_calc" />
+    <fragment
+            android:id="@+id/navigation_setting"
+            android:name="com.nurram.project.pencatatkeuangan.view.fragment.setting.SettingFragment"
+            android:label="@string/settings"
+            tools:layout="@layout/fragment_setting" />
+    <activity
+            android:id="@+id/addDataActivity"
+            android:name="com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity"
+            tools:layout="@layout/activity_add_data"
+            android:label="@string/add_update_data" />
+</navigation>

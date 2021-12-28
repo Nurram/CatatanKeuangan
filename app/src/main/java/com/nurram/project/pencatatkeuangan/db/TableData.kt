@@ -1,12 +1,15 @@
 package com.nurram.project.pencatatkeuangan.db
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.*
 import com.nurram.project.pencatatkeuangan.db.converter.DateConverter
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Entity(tableName = "record_table")
 @TypeConverters(DateConverter::class)
+@Parcelize
 data class Record(
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -18,15 +21,15 @@ data class Record(
     var total: Long = 0,
     @ColumnInfo(name = "date")
     var date: Date? = null,
-    @ColumnInfo(name = "notes")
-    var notes: String = "",
     @ColumnInfo(name = "wallet_id")
     var walletId: String = "def",
+    @ColumnInfo(name = "note")
+    var note: String = "",
     @ColumnInfo(name = "description")
     var description: String = "expenses",
     @Ignore
     var type: Int = 0
-)
+) : Parcelable
 
 @Entity(tableName = "debt_table")
 @TypeConverters(DateConverter::class)

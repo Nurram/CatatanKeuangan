@@ -2,7 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jjoe64.graphview.LegendRenderer
@@ -116,7 +116,7 @@ class ReportFragment : Fragment() {
         }
 
         viewModel.getMaxIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
-            if(it != null) {
+            if (it != null) {
                 binding.incomeTitle.text = it.judul
                 binding.incomeDate.text = it.date?.let { it1 -> DateUtil.formatDate(it1) }
                 binding.incomeTotal.text = CurrencyFormatter.convertAndFormat(it.total)
@@ -128,7 +128,7 @@ class ReportFragment : Fragment() {
         })
 
         viewModel.getMaxExpense(date, calendar.time)?.observe(viewLifecycleOwner, {
-            if(it != null) {
+            if (it != null) {
                 binding.expenseTitle.text = it.judul
                 binding.expenseDate.text = it.date?.let { it1 -> DateUtil.formatDate(it1) }
                 binding.expenseTotal.text = CurrencyFormatter.convertAndFormat(it.total)

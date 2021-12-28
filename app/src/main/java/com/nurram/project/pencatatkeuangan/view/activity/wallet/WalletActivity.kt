@@ -1,7 +1,6 @@
 package com.nurram.project.pencatatkeuangan.view.activity.wallet
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -18,12 +17,11 @@ import com.nurram.project.pencatatkeuangan.db.Wallet
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
+import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import java.util.*
 
 class WalletActivity : AppCompatActivity() {
     companion object {
-        fun getIntent(context: Context) = Intent(context, WalletActivity::class.java)
-
         const val prefKey = "selectedWallet"
         const val prefDefault = "def"
     }
@@ -53,13 +51,12 @@ class WalletActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            walletFab.setOnClickListener { showAddDataDialog() }
             walletRv.adapter = adapter
             walletRv.layoutManager = LinearLayoutManager(this@WalletActivity)
         }
 
         val pref = PrefUtil(this)
-        val walletId = pref.getStringFromPref(prefKey, "def")
+        val walletId = pref.getStringFromPref(prefKey, MainFragment.DEFAULT_WALLET)
         val factory = ViewModelFactory(application, walletId)
         viewModel = ViewModelProvider(this, factory).get(WalletViewModel::class.java)
 
@@ -82,7 +79,7 @@ class WalletActivity : AppCompatActivity() {
                 val title = dialogView.dialogTitle.text.toString()
                 val wallet1 = Wallet(Calendar.getInstance().timeInMillis.toString(), title)
 
-                if(title.isNotEmpty()) viewModel.insertWallet(wallet1)
+                if (title.isNotEmpty()) viewModel.insertWallet(wallet1)
             }
             show()
         }
@@ -100,7 +97,7 @@ class WalletActivity : AppCompatActivity() {
             setPositiveButton(R.string.dialog_save) { _, _ ->
                 val title = dialogView.dialogTitle.text.toString()
                 wallet.name = dialogView.dialogTitle.text.toString()
-                if(title.isNotEmpty()) {
+                if (title.isNotEmpty()) {
                     viewModel.updateWallet(wallet)
                     adapter.notifyDataSetChanged()
                 }

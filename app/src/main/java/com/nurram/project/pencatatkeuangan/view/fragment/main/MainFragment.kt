@@ -3,36 +3,33 @@ package com.nurram.project.pencatatkeuangan.view.fragment.main
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.ViewPager
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nurram.project.pencatatkeuangan.R
-import com.nurram.project.pencatatkeuangan.databinding.AddDialogLayoutBinding
+import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentMainBinding
-import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
-import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
-import com.nurram.project.pencatatkeuangan.utils.DateUtil
-import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
-import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
-import com.nurram.project.pencatatkeuangan.view.fragment.debt.DebtFragment
-import com.nurram.project.pencatatkeuangan.view.fragment.history.HistoryFragment
 import java.util.*
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: PagerAdapter
     private lateinit var walletId: String
+    private lateinit var dataAdapter: MainAdapter
+
+    private val date = DateUtil.getCurrentMonthAndYearDate()
+    private val calendar = DateUtil.getMaxDateCalendar()
+    private var records = listOf<Record>()
+    private var isNewest = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,168 +39,187 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).supportActionBar?.title = DateUtil.getCurrentMonthAndYear()
 
         val pref = PrefUtil(requireContext())
-        walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        walletId = pref.getStringFromPref(WalletActivity.prefKey, DEFAULT_WALLET)
         val factory = ViewModelFactory(requireActivity().application, walletId)
 
-        val currentMonth = DateUtil.getCurrentMonthAndYear()
-        val date = DateUtil.toDate(currentMonth)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        initObservable()
 
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+        binding.history.apply {
+            tvTransactionMonth.text =
+                getString(R.string.transactions_in_s, DateUtil.getCurrentMonthName())
+
+            historySort.setOnClickListener {
+                isNewest = !isNewest
+
+                records = records.reversed()
+                submitList(records)
+
+                setOrderIcon()
+            }
+
+            var isFiltered = false
+            historyFilter.setOnClickListener {
+                if (isFiltered) {
+                    historyFilterText.text = getString(R.string.filter)
+                    getAllRecords()
+                } else {
+                    showFilterDialog()
+                }
+
+                isFiltered = !isFiltered
+            }
+        }
+
+        populateRecycler()
+        getAllRecords()
+    }
+
+    private fun initObservable() {
         viewModel.getBalance()?.observe(viewLifecycleOwner, {
             if (it != null) {
-                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(it)
-            }
-            else {
-                binding.mainTotalBalance.text = CurrencyFormatter.convertAndFormat(0)
+                binding.tvCurrentBalance.text = CurrencyFormatter.convertAndFormat(it)
+            } else {
+                binding.tvCurrentBalance.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
+
         viewModel.getCurrentTotalExpenses(date, calendar.time)?.observe(viewLifecycleOwner, {
             if (it != null) {
-                binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(it.toLong())
+                binding.tvCurrentExpense.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
-                binding.mainTotalExpenses.text = CurrencyFormatter.convertAndFormat(0)
+                binding.tvCurrentExpense.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
 
         viewModel.getCurrentTotalIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
             if (it != null) {
-                binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(it.toLong())
+                binding.tvCurrentIncome.text = CurrencyFormatter.convertAndFormat(it.toLong())
             } else {
-                binding.mainTotalIncome.text = CurrencyFormatter.convertAndFormat(0)
+                binding.tvCurrentIncome.text = CurrencyFormatter.convertAndFormat(0)
             }
         })
+    }
 
-        adapter = PagerAdapter(childFragmentManager)
-        binding.apply {
-            mainViewPager.adapter = adapter
-            mainViewPager.offscreenPageLimit = 3
-            mainViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(p0: Int) {}
+    private fun setOrderIcon() {
+        binding.history.apply {
+            if (!isNewest) historySortImage.rotationX = 180.0.toFloat()
+            else historySortImage.rotationX = 0.toFloat()
 
-                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-                    if (p0 == 1) {
-                        historyFab.hide()
-                        debtFab.show()
-                    } else {
-                        historyFab.show()
-                        debtFab.hide()
-                    }
-                }
-
-                override fun onPageSelected(p0: Int) {
-                    if (p0 == 0) {
-                        historyFab.hide()
-                        debtFab.show()
-                    } else {
-                        historyFab.show()
-                        debtFab.hide()
-                    }
-                }
-            })
-
-            binding.mainTabLayout.setupWithViewPager(mainViewPager)
-
-            historyFab.setOnClickListener { showAddDataDialog("history") }
-            debtFab.setOnClickListener { showAddDataDialog("utang") }
+            if (!isNewest) historySortText.text = getString(R.string.sort_oldest)
+            else historySortText.text = getString(R.string.sort_newest)
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showAddDataDialog(key: String) {
-        val builder = context?.let { AlertDialog.Builder(it) }
-        val dialogView = AddDialogLayoutBinding.inflate(layoutInflater)
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showFilterDialog() {
+        val dialog = context?.let { AlertDialog.Builder(it) }
+        val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)
 
-        var selectedDate = Date()
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        when (key) {
-            "utang" -> dialogView.dialogCheckboxIncome.visibility = View.GONE
+        var startDate: Date? = null
+        var endDate: Date? = null
+
+        dialogView.filterStartDate.setOnClickListener {
+            val datePicker =
+                DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                    val calendar = Calendar.getInstance()
+                    calendar.set(year, monthOfYear, dayOfMonth)
+                    startDate = calendar.time
+                    dialogView.filterStartDate.text = DateUtil.formatDate(calendar.time)
+                }, year, month, day)
+            datePicker.datePicker.minDate = date.time
+            datePicker.datePicker.maxDate = calendar.timeInMillis
+            datePicker.show()
         }
 
-        builder?.setView(dialogView.root)
-        dialogView.dialogShowDate.setOnClickListener {
-            DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                val calendar = Calendar.getInstance()
-                calendar.set(year, monthOfYear, dayOfMonth)
-                dialogView.dialogDate.text =
-                    "Transaction date: ${DateUtil.formatDate(calendar.time)}"
-                selectedDate = calendar.time
-            }, year, month, day).show()
+        dialogView.filterEndDate.setOnClickListener {
+            val datePicker =
+                DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                    val calendar = Calendar.getInstance()
+                    calendar.set(year, monthOfYear, dayOfMonth)
+                    endDate = calendar.time
+                    dialogView.filterEndDate.text = DateUtil.formatDate(calendar.time)
+                }, year, month, day)
+            datePicker.datePicker.minDate = date.time
+            datePicker.datePicker.maxDate = calendar.timeInMillis
+            datePicker.show()
         }
 
-        builder?.setCancelable(true)
-        builder?.setPositiveButton(R.string.dialog_save, null)
-        val dialog = builder?.create()
+        dialog?.setView(dialogView.root)
+        dialog?.setCancelable(true)
+        dialog?.setPositiveButton(R.string.dialog_save) { _, _ ->
+            if (startDate != null && endDate != null) {
+                viewModel.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
+                    viewLifecycleOwner,
+                    {
+                        records = it
+                        submitList(it)
+                        dataAdapter.notifyDataSetChanged()
+
+                        binding.history.historyFilterText.text = getString(R.string.remove_filter)
+                    })
+            }
+        }
+
         dialog?.show()
-        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            val isIncome = if (dialogView.dialogCheckboxIncome.isChecked) {
-                "income"
-            } else {
-                "expenses"
-            }
+    }
 
-            if (!dialogView.dialogTitle.text.isNullOrBlank() &&
-                dialogView.dialogAmount.text!!.length > 2 &&
-                dialogView.dialogAmount.text.toString() != "Rp0"
-            ) {
-                if (key == "history") {
-                    val totalIncome = CurrencyFormatter.isAmountValidLong(
-                        requireContext(),
-                        dialogView.dialogAmount.text.toString()
-                    )
-                    val record = Record(
-                        0,
-                        dialogView.dialogTitle.text.toString(),
-                        totalIncome,
-                        selectedDate,
-                        walletId,
-                        isIncome
-                    )
-
-                    val fragment = adapter.getItem(0) as HistoryFragment
-                    fragment.resetOrderIcon()
-
-                    if (totalIncome > 0) viewModel.insertRecord(record)
-                } else {
-                    val totalIncome = CurrencyFormatter.isAmountValid(
-                        requireContext(),
-                        dialogView.dialogAmount.text.toString()
-                    )
-
-                    val debt = Debt(
-                        0,
-                        dialogView.dialogTitle.text.toString(),
-                        totalIncome,
-                        selectedDate,
-                        walletId
-                    )
-
-                    val fragment = adapter.getItem(1) as DebtFragment
-                    fragment.resetOrderIcon()
-
-                    if (totalIncome > 0) viewModel.insertDebt(debt)
-                }
-
-                dialog.dismiss()
-            } else {
-                Toast.makeText(context, R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
-            }
+    private fun populateRecycler() {
+        dataAdapter = MainAdapter(requireContext()) { record, view ->
+            val bundle = Bundle()
+            bundle.putParcelable(RECORD_DATA, record)
+            view.findNavController().navigate(
+                R.id.action_navigation_home_to_addDataActivity,
+                bundle
+            )
         }
-        dialog?.getButton(AlertDialog.BUTTON_NEGATIVE)?.visibility = View.GONE
+
+        binding.history.historyRecycler.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = dataAdapter
+        }
+    }
+
+    private fun getAllRecords() {
+        viewModel.getAllRecords(isNewest, date, calendar.time)?.observe(viewLifecycleOwner, {
+            records = it
+            submitList(records)
+
+            if (records.isNotEmpty()) {
+                binding.history.historyRecycler.VISIBLE()
+                binding.history.historyEmpty.GONE()
+            } else {
+                binding.history.historyRecycler.GONE()
+                binding.history.historyEmpty.VISIBLE()
+            }
+
+            resetOrderIcon()
+        })
+    }
+
+    private fun resetOrderIcon() {
+        isNewest = true
+        setOrderIcon()
+    }
+
+    private fun submitList(records: List<Record>) {
+        val data = records.dropWhile { it.type == 1 }
+        val mappedData = viewModel.mapData(data as ArrayList<Record>)
+        dataAdapter.submitList(mappedData)
+    }
+
+    companion object {
+        const val DEFAULT_WALLET = "def"
+        const val RECORD_DATA = "data"
     }
 }

@@ -3,59 +3,33 @@
     <string name="app_name">Financial Records</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_delete">Delete</string>
-    <string name="dialog_title_balance">Your balance</string>
-    <string name="ex_shopping">ex: Shopping</string>
-    <string name="your_debt">Your debt</string>
 
-    <string name="konversi_excel_ditolak">Give permission to use xls conversion</string>
-    <string name="konversi_tidak_diijinkan">You cannot use conversion feature</string>
-    <string name="lakukan_konversi">Convert to xls?</string>
-    <string name="masukan_judul">Enter a title</string>
-    <string name="masukan_total_uang">Enter amount of money</string>
-    <string name="mulai_konversi">Starting conversion</string>
     <string name="income">Income</string>
     <string name="income_kamu">Your income</string>
     <string name="expenses">Expenses</string>
-    <string name="pengluaran_kamu">Your expenses</string>
+    <string name="your_expense">Your expense</string>
     <string name="attention">Attention</string>
-    <string name="delete_all">Are you sure to delete all data?</string>
     <string name="history">History</string>
-    <string name="saldo">Balance</string>
     <string name="total_balance">Your balance</string>
-    <string name="selesai_konversi">Conversion finished, stored in Download folder</string>
-    <string name="data_empty">Data not found</string>
     <string name="data_success_delete">Data successfully deleted</string>
     <string name="toast_isi_kolom">Fill all column</string>
-    <string name="total_income">Total income</string>
-    <string name="total_expenses">Total expenses</string>
     <string name="rp_0" translatable="false">0</string>
-    <string name="reset">Reset</string>
-    <string name="graph">Graph</string>
-    <string name="ex_1_000_000">ex: 10000</string>
     <string name="ex_100">ex: 100</string>
     <string name="sebuah_tombol_gambar_untuk_menghapus_data">An image button to delete data</string>
-    <string name="tanggal_transaksi">Transaction date:</string>
     <string name="selected_date">No date selected</string>
-    <string name="pilih_date">Select date</string>
     <string name="home">Home</string>
     <string name="discount">Discount Calculator</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
     <string name="current_amount">Amount</string>
     <string name="discount_total">Discount</string>
     <string name="price_after_discount">Price after discount:</string>
     <string name="calculate">Calculate</string>
     <string name="you_save">You saved:</string>
-    <string name="add_image">add_image</string>
-    <string name="add_debt">Add debt</string>
-    <string name="sort_oldest">Sort date (oldest)</string>
-    <string name="sort_newest">Sort date (newest)</string>
+    <string name="sort_oldest">Sort (oldest)</string>
+    <string name="sort_newest">Sort (newest)</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
-    <string name="filter">Filter data</string>
+    <string name="filter">Filter</string>
     <string name="remove_filter">Remove filter</string>
-    <string name="convert_data_to_xls">Convert data to xls</string>
-    <string name="dark_mode">Dark Mode</string>
 
     <string name="enabled">Enable</string>
     <string name="disable">Disable</string>
@@ -63,24 +37,27 @@
 
     <string name="delete_record_confirmation">Delete this record?</string>
     <string name="current_wallet">Current wallet</string>
-    <string name="default_text" translatable="false">Default</string>
-    <string name="change_wallet">Change wallet</string>
     <string name="your_wallet">Your Wallets</string>
     <string name="enter_wallet_name">Enter wallet name</string>
     <string name="delete_wallet_confirmation">Delete this wallet?</string>
     <string name="ex_credit_card">Ex: Credit card</string>
     <string name="max_amount">Maximum amount is 1 Billion!</string>
     <string name="max_discount">Maximum discount is 100!</string>
-    <string name="pages">Pages</string>
     <string name="report">Monthly Report</string>
     <string name="settings">Settings</string>
-    <string name="reset_data_in_wallet">Reset data in wallet</string>
     <string name="highest_income">Highest Income</string>
     <string name="highest_expense">Highest Expense</string>
     <string name="rp" translatable="false">Rp</string>
     <string name="debt">Debt</string>
     <string name="title">Title</string>
     <string name="amount">Amount</string>
-    <string name="description">Description</string>
+    <string name="notes">Notes</string>
     <string name="date">Date</string>
+    <string name="transactions_in_s">Your Transactions in %s</string>
+    <string name="add_update_data">Add/Update Data</string>
+    <string name="save_note">Save Note</string>
+    <string name="update">Update</string>
+    <string name="create">Create</string>
+    <string name="plus_value">+%s</string>
+    <string name="minus_value">-%s</string>
 </resources>

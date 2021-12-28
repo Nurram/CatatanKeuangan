@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nurram.project.pencatatkeuangan.db.daos.RecordDAO
 import com.nurram.project.pencatatkeuangan.db.daos.WalletDao
 
-@Database(entities = [Record::class, Debt::class, Wallet::class], version = 6)
+@Database(entities = [Record::class, Debt::class, Wallet::class], version = 7)
 abstract class RecordDb : RoomDatabase() {
     abstract val recordDao: RecordDAO
     abstract val walletDao: WalletDao
@@ -26,8 +26,9 @@ abstract class RecordDb : RoomDatabase() {
                             application.applicationContext,
                             RecordDb::class.java, "record_db"
                         )
-                            .addMigrations(MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
-                            .fallbackToDestructiveMigration()
+                            .addMigrations(
+                                MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7
+                            )
                             .build()
                     }
                 }
@@ -57,6 +58,14 @@ abstract class RecordDb : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "ALTER TABLE debt_table ADD COLUMN wallet_id TEXT NOT NULL DEFAULT 'def'"
+                )
+            }
+        }
+
+        private val MIGRATION_6_7: Migration = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE record_table ADD COLUMN note TEXT NOT NULL DEFAULT ''"
                 )
             }
         }

@@ -6,7 +6,6 @@
     <color name="colorRed">#E57373</color>
 
     <color name="toolbarBg">#0e1111</color>
-    <color name="headerBg">#0e1111</color>
     <color name="discBg">#0e1111</color>
     <color name="cardText">@android:color/white</color>
     <color name="defaultText">@android:color/darker_gray</color>

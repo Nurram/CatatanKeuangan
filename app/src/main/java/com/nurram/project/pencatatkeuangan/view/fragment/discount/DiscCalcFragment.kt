@@ -2,8 +2,6 @@ package com.nurram.project.pencatatkeuangan.view.fragment.discount
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
-import java.util.*
 
 class DiscCalcFragment : Fragment() {
     private lateinit var binding: FragmentDiscCalcBinding
@@ -34,8 +31,9 @@ class DiscCalcFragment : Fragment() {
 
         binding.apply {
             discountCalculate.setOnClickListener {
-                if(discountValue.text.isNullOrEmpty() || discountAmount.text.isNullOrEmpty()) {
-                    Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT).show()
+                if (discountValue.text.isNullOrEmpty() || discountAmount.text.isNullOrEmpty()) {
+                    Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     val amount = discountAmount.text.toString().toLong()
                     val discount = discountValue.text.toString().toLong()

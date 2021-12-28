@@ -32,23 +32,30 @@ class RecordRepo(
 
     fun getBalance(): LiveData<Long>? = recordDao?.getBalance(walletId)
 
-    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordDao?.getCurrentIncome(walletId, startDate, endDate)
+    fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordDao?.getCurrentIncome(walletId, startDate, endDate)
 
-    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? = recordDao?.getCurrentExpenses(walletId, startDate, endDate)
+    fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordDao?.getCurrentExpenses(walletId, startDate, endDate)
 
-    fun getTotalCurrentExpenses(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getCurrentTotalExpenses(walletId, startDate, endDate)
+    fun getTotalCurrentExpenses(startDate: Date, endDate: Date): LiveData<Long>? =
+        recordDao?.getCurrentTotalExpenses(walletId, startDate, endDate)
 
-    fun getTotalCurrentIncome(startDate: Date, endDate: Date): LiveData<Long>? = recordDao?.getCurrentTotalIncome(walletId, startDate, endDate)
+    fun getTotalCurrentIncome(startDate: Date, endDate: Date): LiveData<Long>? =
+        recordDao?.getCurrentTotalIncome(walletId, startDate, endDate)
 
-    fun getMaxExpenses(startDate: Date, endDate: Date): LiveData<Record>? = recordDao?.getMaxExpense(walletId, startDate, endDate)
+    fun getMaxExpenses(startDate: Date, endDate: Date): LiveData<Record>? =
+        recordDao?.getMaxExpense(walletId, startDate, endDate)
 
-    fun getMaxIncome(startDate: Date, endDate: Date): LiveData<Record>? = recordDao?.getMaxIncome(walletId, startDate, endDate)
+    fun getMaxIncome(startDate: Date, endDate: Date): LiveData<Record>? =
+        recordDao?.getMaxIncome(walletId, startDate, endDate)
 
     suspend fun insertRecord(record: Record) = recordDao?.insert(record)
 
-    suspend fun updateRecord(record: Record) = recordDao?.update(record)
+    suspend fun moveDebtsToRecord(record: List<Record>) =
+        recordDao?.moveDebtsToRecords(walletId, record)
 
-    suspend fun deleteAllRecord() = recordDao?.deleteAll(walletId)
+    suspend fun updateRecord(record: Record) = recordDao?.update(record)
 
     suspend fun deleteRecord(record: Record) = recordDao?.delete(record)
 }

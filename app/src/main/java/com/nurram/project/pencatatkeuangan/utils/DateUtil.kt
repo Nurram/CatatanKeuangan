@@ -15,9 +15,10 @@ class DateUtil {
             return result.format(input)
         }
 
-        fun formatDate2(input: Date): String {
-            val result = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
-            return result.format(input)
+        fun getCurrentMonthName(): String {
+            val cal = Calendar.getInstance()
+            val monthDate = SimpleDateFormat("MMMM", Locale.getDefault())
+            return monthDate.format(cal.time)
         }
 
         fun toDate(string: String): Date {
@@ -35,6 +36,23 @@ class DateUtil {
             cal.time = date
             cal.add(Calendar.MONTH, month)
             return formatDateMonthOnly(cal.time)
+        }
+
+        fun getCurrentMonthAndYearDate(): Date {
+            return toDate(getCurrentMonthAndYear())
+        }
+
+        fun getMaxDateCalendar(): Calendar {
+            val currentMonth = getCurrentMonthAndYear()
+            val date = toDate(currentMonth)
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+            calendar.set(Calendar.HOUR_OF_DAY, 23)
+            calendar.set(Calendar.MINUTE, 59)
+            calendar.set(Calendar.SECOND, 59)
+
+            return calendar
         }
     }
 }

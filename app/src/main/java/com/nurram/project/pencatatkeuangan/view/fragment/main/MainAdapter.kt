@@ -1,7 +1,8 @@
-package com.nurram.project.pencatatkeuangan.view.fragment.history
+package com.nurram.project.pencatatkeuangan.view.fragment.main
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -14,11 +15,13 @@ import com.nurram.project.pencatatkeuangan.databinding.ItemRowBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFormat
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.VISIBLE
+import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
 import java.util.*
 
-class HistoryAdapter(
+class MainAdapter(
     private val context: Context,
-    private val clickUtils: (Record, String) -> Unit,
+    private val clickUtils: (Record, View) -> Unit,
 ) : ListAdapter<Record, RecyclerView.ViewHolder>(DIFF_UTIL) {
     var date: Date? = null
 
@@ -72,35 +75,32 @@ class HistoryAdapter(
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var record: Record
 
-        fun bind(record: Record, clickUtils: (Record, String) -> Unit) {
+        fun bind(record: Record, clickUtils: (Record, View) -> Unit) {
             this.record = record
 
             binding.apply {
                 itemTitle.text = record.judul
-                itemUang.text = convertAndFormat(record.total.toLong())
-                itemDelete.setOnClickListener { clickUtils(record, "delete") }
-                itemUpdate.setOnClickListener { clickUtils(record, "edit") }
-                itemView.setOnClickListener { clickUtils(record, "edit") }
+                itemDesc.text = record.note
+                itemView.setOnClickListener { clickUtils(record, binding.root) }
 
-                itemDelete.setOnClickListener { clickUtils(record, "delete") }
-                itemUpdate.setOnClickListener { clickUtils(record, "edit") }
+                if (record.note.isNotEmpty()) itemDesc.VISIBLE()
 
-                if (record.description == "income") {
-                    itemColor.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.colorAccent
-                        )
-                    )
-                    itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
-                } else {
-                    itemColor.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.colorRed
-                        )
-                    )
-                    itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                when (record.description) {
+                    AddDataActivity.INCOME -> {
+                        itemUang.text =
+                            context.getString(R.string.plus_value, convertAndFormat(record.total))
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                    }
+                    AddDataActivity.EXPENSE -> {
+                        itemUang.text =
+                            context.getString(R.string.minus_value, convertAndFormat(record.total))
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                    }
+                    else -> {
+                        itemUang.text =
+                            context.getString(R.string.minus_value, convertAndFormat(record.total))
+                        itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                    }
                 }
             }
         }

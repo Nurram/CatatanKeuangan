@@ -13,6 +13,9 @@ interface RecordDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: Record)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(record: List<Record>)
+
     @Query("Delete from record_table where wallet_id=:walletId")
     suspend fun deleteAll(walletId: String)
 
@@ -27,6 +30,12 @@ interface RecordDAO {
 
     @Update
     suspend fun update(record: Record)
+
+    @Transaction
+    suspend fun moveDebtsToRecords(walletId: String, records: List<Record>) {
+        deleteAllDebt(walletId)
+        insertAll(records)
+    }
 
     @TypeConverters(DateConverter::class)
     @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date desc")
@@ -53,9 +62,11 @@ interface RecordDAO {
     ): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
-    @Query("select (sub.income - coalesce(sub2.expense, 0)) from " +
-            "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income') sub, " +
-            "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses') sub2")
+    @Query(
+        "select (sub.income - coalesce(sub2.expense, 0)) from " +
+                "(select sum(total) as income from record_table where wallet_id=:walletId and description = 'income') sub, " +
+                "(select sum(total) as expense from record_table where wallet_id=:walletId and description = 'expenses') sub2"
+    )
     fun getBalance(walletId: String): LiveData<Long>
 
     @TypeConverters(DateConverter::class)
@@ -88,32 +99,9 @@ interface RecordDAO {
     @Query("select * from record_table where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate ORDER BY total DESC LIMIT 1")
     fun getMaxExpense(walletId: String, startDate: Date, endDate: Date): LiveData<Record>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDebt(debt: Debt)
-
     @Query("Delete from debt_table where wallet_id=:walletId")
     suspend fun deleteAllDebt(walletId: String)
 
-    @Delete
-    suspend fun deleteDebt(debt: Debt)
-
-    @Update
-    suspend fun updateDebt(debt: Debt)
-
-    @Query("select * from debt_table where wallet_id=:walletId order by date desc")
-    fun getAllDataDebtDesc(walletId: String): LiveData<List<Debt>>
-
     @Query("select * from debt_table where wallet_id=:walletId order by date asc")
     fun getAllDataDebtAsc(walletId: String): LiveData<List<Debt>>
-
-    @TypeConverters(DateConverter::class)
-    @Query("select * from debt_table  where wallet_id=:walletId and date between :startDate and :endDate order by date desc")
-    fun getFilteredDebtDesc(walletId: String, startDate: Date, endDate: Date): LiveData<List<Debt>>
-
-    @TypeConverters(DateConverter::class)
-    @Query("select * from debt_table  where wallet_id=:walletId and date between :startDate and :endDate order by date asc")
-    fun getFilteredDebtAsc(walletId: String, startDate: Date, endDate: Date): LiveData<List<Debt>>
-
-    @Query("select sum(total) from debt_table where wallet_id=:walletId")
-    fun getTotalDebt(walletId: String): LiveData<Long>
 }

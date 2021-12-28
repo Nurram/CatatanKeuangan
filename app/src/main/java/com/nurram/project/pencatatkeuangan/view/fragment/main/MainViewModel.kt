@@ -3,12 +3,12 @@ package com.nurram.project.pencatatkeuangan.view.fragment.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nurram.project.pencatatkeuangan.db.Debt
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.Wallet
 import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -22,7 +22,34 @@ class MainViewModel(
         viewModelScope.launch { walletRepo.insert(Wallet("def", "Default")) }
     }
 
-    fun getWalletById(id: String) = walletRepo.getWalletById(id)
+    fun getAllRecords(isNewest: Boolean, startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        if (isNewest) {
+            recordRepo.getAllRecordsDesc(startDate, endDate)
+        } else {
+            recordRepo.getAllRecordsAsc(startDate, endDate)
+        }
+
+    fun mapData(records: ArrayList<Record>): List<Record> =
+        if (!records.isNullOrEmpty()) {
+            var date = DateUtil.formatDate(records[0].date!!)
+            records.add(0, Record(type = 1, date = records[0].date))
+
+            var i = 0
+            while (i <= records.size - 1) {
+                val formattedDate = DateUtil.formatDate(records[i].date!!)
+
+                if (date != formattedDate) {
+                    date = formattedDate
+                    records.add(i, Record(type = 1, date = records[i].date))
+                } else {
+                    i++
+                }
+            }
+
+            records
+        } else {
+            listOf()
+        }
 
     fun getBalance(): LiveData<Long>? = recordRepo.getBalance()
 
@@ -32,11 +59,29 @@ class MainViewModel(
     fun getCurrentTotalIncome(startDate: Date, endDate: Date): LiveData<Long>? =
         recordRepo.getTotalCurrentIncome(startDate, endDate)
 
-    fun insertRecord(record: Record) = viewModelScope.launch { recordRepo.insertRecord(record) }
+    fun getFilteredRecord(
+        startDate: Date, endDate: Date, isDesc: Boolean
+    ): LiveData<List<Record>>? {
+        val startDateString = DateUtil.formatDate(startDate)
+        val endDateString = DateUtil.formatDate(endDate)
 
-    fun deleteAllRecord() = viewModelScope.launch { recordRepo.deleteAllRecord() }
+        var startDates = startDate
 
-    fun insertDebt(debt: Debt) = viewModelScope.launch { debtRepo.insertDebt(debt) }
+        if (startDateString == endDateString) {
+            val startCalendar = Calendar.getInstance()
+            startCalendar.time = endDate
+            startCalendar.set(Calendar.HOUR_OF_DAY, 0)
+            startCalendar.set(Calendar.MINUTE, 0)
+            startCalendar.set(Calendar.SECOND, 0)
 
-    fun deleteAllDebt() = viewModelScope.launch { debtRepo.deleteAllDebt() }
+            startDates = startCalendar.time
+        }
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endDate
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23)
+
+        val endDates = endCalendar.time
+        return recordRepo.getFilteredRecord(startDates, endDates, isDesc)
+    }
 }
