@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.FragmentDiscCalcBinding
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 
 class DiscCalcFragment : Fragment() {
     private lateinit var binding: FragmentDiscCalcBinding
@@ -27,16 +28,20 @@ class DiscCalcFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val activity = activity as MainActivity
+        activity.hideMenu()
+        activity.setTitle(getString(R.string.discount))
+
         val viewModel = ViewModelProvider(this).get(DiscCalcViewModel::class.java)
 
         binding.apply {
             discountCalculate.setOnClickListener {
-                if (discountValue.text.isNullOrEmpty() || discountAmount.text.isNullOrEmpty()) {
+                if (etDiscount.text.isNullOrEmpty() || etAmount.text.isNullOrEmpty()) {
                     Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val amount = discountAmount.text.toString().toLong()
-                    val discount = discountValue.text.toString().toLong()
+                    val amount = etAmount.text.toString().toLong()
+                    val discount = etDiscount.text.toString().toLong()
 
                     if (amount <= 1000000000) {
                         if (discount <= 100) {

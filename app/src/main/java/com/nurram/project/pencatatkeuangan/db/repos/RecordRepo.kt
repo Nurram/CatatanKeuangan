@@ -35,6 +35,9 @@ class RecordRepo(
     fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? =
         recordDao?.getCurrentIncome(walletId, startDate, endDate)
 
+    fun getAllDebt(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordDao?.getCurrentDebt(walletId, startDate, endDate)
+
     fun getAllExpenses(startDate: Date, endDate: Date): LiveData<List<Record>>? =
         recordDao?.getCurrentExpenses(walletId, startDate, endDate)
 

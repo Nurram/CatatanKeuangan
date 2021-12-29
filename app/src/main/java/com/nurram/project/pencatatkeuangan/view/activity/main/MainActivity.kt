@@ -2,6 +2,7 @@ package com.nurram.project.pencatatkeuangan.view.activity.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityMainBinding
 import com.nurram.project.pencatatkeuangan.db.Record
+import com.nurram.project.pencatatkeuangan.utils.GONE
 import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
 import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
@@ -84,5 +87,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupActionBarWithNavController(navigationController, appBarConfiguration)
+    }
+
+    fun setTitle(title: String) {
+        binding.tvTitle.apply {
+            text = title
+            this.VISIBLE()
+        }
+    }
+
+    fun hideMenu() {
+        binding.apply {
+            tvWallet.GONE()
+            tvWalletDesc.GONE()
+            btnAdd.GONE()
+        }
+    }
+
+    fun showMenu() {
+        binding.apply {
+            tvTitle.GONE()
+            tvWallet.VISIBLE()
+            tvWalletDesc.VISIBLE()
+            btnAdd.VISIBLE()
+        }
     }
 }

@@ -78,6 +78,10 @@ interface RecordDAO {
     fun getCurrentIncome(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
+    @Query("select * from record_table  where wallet_id=:walletId and description = 'debt' and date between :startDate and :endDate order by date desc")
+    fun getCurrentDebt(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
+
+    @TypeConverters(DateConverter::class)
     @Query("select sum(total) from record_table  where wallet_id=:walletId and description = 'expenses' and date between :startDate and :endDate")
     fun getCurrentTotalExpenses(walletId: String, startDate: Date, endDate: Date): LiveData<Long>
 

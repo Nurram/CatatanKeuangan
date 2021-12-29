@@ -12,6 +12,7 @@ import com.nurram.project.pencatatkeuangan.databinding.ItemRowBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.CurrencyFormatter.convertAndFormat
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
+import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
 import java.util.*
 
@@ -66,6 +67,8 @@ class ReportAdapter(
                 itemTitle.text = record.judul
                 itemDesc.text = record.note
                 itemUang.text = convertAndFormat(record.total)
+
+                if (record.note.isNotEmpty()) itemDesc.VISIBLE()
 
                 when (record.description) {
                     AddDataActivity.INCOME -> {

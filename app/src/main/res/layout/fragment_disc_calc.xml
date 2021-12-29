@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/discBg"
         android:orientation="vertical"
+        android:background="@color/bg"
         tools:context=".view.fragment.discount.DiscCalcFragment">
 
     <androidx.cardview.widget.CardView
@@ -29,47 +29,46 @@
                 android:orientation="vertical"
                 android:layout_margin="16dp">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/current_amount"
-                    android:textSize="16sp"
-                    android:textColor="@color/cardText" />
-
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/til_amount"
                     app:prefixText="@string/rp"
-                    app:hintEnabled="false">
+                    app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/discount_amount"
+                        android:id="@+id/et_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="10"
+                        android:hint="@string/amount"
                         android:layout_marginBottom="8dp"
-                        android:paddingStart="4dp"
-                        android:paddingTop="12dp"
-                        android:hint="@string/rp_0"
                         android:background="@android:color/transparent" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/discount_total"
-                    android:textSize="16sp"
-                    android:textColor="@color/cardText" />
+                    android:id="@+id/til_discount"
+                    app:startIconDrawable="@drawable/ic_baseline_auto_awesome_24"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp">
 
-            <EditText
-                    android:id="@+id/discount_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/ex_100"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:layout_marginBottom="24dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_discount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:hint="@string/discount_total"
+                        android:layout_marginBottom="8dp"
+                        android:background="@android:color/transparent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                     android:id="@+id/discount_result"
@@ -98,7 +97,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     android:text="@string/calculate"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:layout_marginTop="32dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

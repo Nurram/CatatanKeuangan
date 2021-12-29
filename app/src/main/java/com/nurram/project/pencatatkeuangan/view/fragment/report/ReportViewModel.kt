@@ -24,6 +24,9 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     fun getAllIncome(startDate: Date, endDate: Date): LiveData<List<Record>>? =
         recordRepo.getAllIncome(startDate, endDate)
 
+    fun getAllDebt(startDate: Date, endDate: Date): LiveData<List<Record>>? =
+        recordRepo.getAllDebt(startDate, endDate)
+
     fun getMaxIncome(startDate: Date, endDate: Date) = recordRepo.getMaxIncome(startDate, endDate)
 
     fun getMaxExpense(startDate: Date, endDate: Date) =

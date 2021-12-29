@@ -17,6 +17,7 @@ import com.nurram.project.pencatatkeuangan.databinding.FragmentMainBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
 
@@ -41,6 +42,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = activity as MainActivity
+        activity.showMenu()
 
         val pref = PrefUtil(requireContext())
         walletId = pref.getStringFromPref(WalletActivity.prefKey, DEFAULT_WALLET)

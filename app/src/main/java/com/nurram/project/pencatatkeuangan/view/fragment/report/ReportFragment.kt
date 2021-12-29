@@ -2,6 +2,7 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,10 @@ import com.nurram.project.pencatatkeuangan.databinding.FragmentReportBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
+import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import java.util.*
 
 class ReportFragment : Fragment() {
@@ -41,10 +45,14 @@ class ReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val activity = activity as MainActivity
+        activity.hideMenu()
+        activity.setTitle(getString(R.string.report))
+
         val pref = PrefUtil(requireContext())
-        val walletId = pref.getStringFromPref(WalletActivity.prefKey, "def")
+        val walletId = pref.getStringFromPref(WalletActivity.prefKey, MainFragment.DEFAULT_WALLET)
         val factory = ViewModelFactory(requireActivity().application, walletId)
-        viewModel = ViewModelProvider(this, factory).get(ReportViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[ReportViewModel::class.java]
         adapter = ReportAdapter(requireContext()) { data, _ -> showDeleteDialog(data) }
         selectedMonth = binding.reportDate.text.toString()
 
@@ -54,26 +62,23 @@ class ReportFragment : Fragment() {
             reportNext.setOnClickListener { moveDate(1) }
         }
 
-        val spinnerAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            arrayOf(getString(R.string.expenses), getString(R.string.income))
-        )
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         binding.apply {
-            graphSpinner.adapter = spinnerAdapter
-            graphSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?, view: View?, position: Int,
-                    id: Long
-                ) {
-                    binding.graphChart.removeAllSeries()
-                    getData(position)
-                }
+            tvIncome.setOnClickListener {
+                binding.graphChart.removeAllSeries()
+                setBtnBg(0)
+                getData(0)
             }
+            tvOutcome.setOnClickListener {
+                binding.graphChart.removeAllSeries()
+                setBtnBg(1)
+                getData(1)
+            }
+            tvDebt.setOnClickListener {
+                binding.graphChart.removeAllSeries()
+                setBtnBg(2)
+                getData(2)
+            }
+
 
             graphRecycler.adapter = adapter
             graphRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -82,7 +87,7 @@ class ReportFragment : Fragment() {
     }
 
     private fun moveDate(month: Int) {
-        binding.graphSpinner.setSelection(0)
+        binding.tvIncome.setBackgroundResource(R.drawable.rounded_primary_rectangle)
         adapter.clearList()
 
         if (selectedMonth.isEmpty()) {
@@ -105,14 +110,22 @@ class ReportFragment : Fragment() {
         calendar.set(Calendar.MINUTE, 59)
         calendar.set(Calendar.SECOND, 59)
 
-        if (position == 0) {
-            viewModel.getAllExpenses(date, calendar.time)?.observe(viewLifecycleOwner, {
-                it?.let { it1 -> setData(it1, "out") }
-            })
-        } else if (position == 1) {
-            viewModel.getAllIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
-                it?.let { it1 -> setData(it1, "in") }
-            })
+        when (position) {
+            0 -> {
+                viewModel.getAllIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
+                    it?.let { it1 -> setData(it1, AddDataActivity.INCOME) }
+                })
+            }
+            1 -> {
+                viewModel.getAllExpenses(date, calendar.time)?.observe(viewLifecycleOwner, {
+                    it?.let { it1 -> setData(it1, AddDataActivity.EXPENSE) }
+                })
+            }
+            else -> {
+                viewModel.getAllDebt(date, calendar.time)?.observe(viewLifecycleOwner, {
+                    it?.let { it1 -> setData(it1, AddDataActivity.DEBT) }
+                })
+            }
         }
 
         viewModel.getMaxIncome(date, calendar.time)?.observe(viewLifecycleOwner, {
@@ -164,12 +177,19 @@ class ReportFragment : Fragment() {
         series.isDrawDataPoints = true
         series.setAnimated(true)
 
-        if (whereFrom == "in") {
-            series.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
-            series.title = getString(R.string.income)
-        } else {
-            series.color = ContextCompat.getColor(requireContext(), R.color.colorRed)
-            series.title = getString(R.string.expenses)
+        when (whereFrom) {
+            AddDataActivity.INCOME -> {
+                series.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+                series.title = getString(R.string.income)
+            }
+            AddDataActivity.EXPENSE -> {
+                series.color = ContextCompat.getColor(requireContext(), R.color.colorRed)
+                series.title = getString(R.string.expenses)
+            }
+            else -> {
+                series.color = ContextCompat.getColor(requireContext(), R.color.colorGreen)
+                series.title = getString(R.string.debt)
+            }
         }
 
         series.setOnDataPointTapListener { _, dataPoint1 ->
@@ -191,6 +211,54 @@ class ReportFragment : Fragment() {
         }
     }
 
+    private fun setBtnBg(position: Int) {
+        binding.apply {
+            when(position) {
+                0 -> {
+                    tvIncome.apply {
+                        setBackgroundResource(R.drawable.rounded_primary_rectangle)
+                        setTextColor(resources.getColor(R.color.colorAccent))
+                    }
+                    tvOutcome.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                    tvDebt.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                }
+                1 -> {
+                    tvIncome.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                    tvOutcome.apply {
+                        setBackgroundResource(R.drawable.rounded_primary_rectangle)
+                        setTextColor(resources.getColor(R.color.colorAccent))
+                    }
+                    tvDebt.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                }
+                else -> {
+                    tvIncome.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                    tvOutcome.apply {
+                        setBackgroundResource(R.drawable.rounded_gray_rectangle)
+                        setTextColor(R.attr.colorControlNormal)
+                    }
+                    tvDebt.apply {
+                        setBackgroundResource(R.drawable.rounded_primary_rectangle)
+                        setTextColor(resources.getColor(R.color.colorAccent))
+                    }
+                }
+            }
+        }
+    }
     private fun showDeleteDialog(record: Record) {
         val dialog = AlertDialog.Builder(requireContext())
         dialog.setTitle(getString(R.string.attention))
@@ -198,7 +266,7 @@ class ReportFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setPositiveButton("Yes") { _, _ ->
             viewModel.deleteRecord(record)
-            binding.graphSpinner.setSelection(0)
+            binding.tvIncome.setBackgroundResource(R.drawable.rounded_primary_rectangle)
             Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
         }
         dialog.setNegativeButton("Cancel") { innerDialog, _ ->
