@@ -10,8 +10,7 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbarBg">
+            android:layout_height="?attr/actionBarSize">
 
         <ImageButton
                 android:id="@+id/report_back"

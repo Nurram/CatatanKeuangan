@@ -5,7 +5,8 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        tools:context=".view.activity.main.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -28,7 +29,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/tv_wallet_desc"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="4dp" />
 
             <TextView
                     android:id="@+id/tv_wallet"
@@ -38,25 +40,31 @@
                     android:textSize="15sp"
                     tools:text="Default"
                     android:drawablePadding="8dp"
-                    android:paddingEnd="8dp"
+                    android:padding="4dp"
                     app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
                     tools:ignore="RtlSymmetry"
+                    android:background="?attr/selectableItemBackground"
                     app:layout_constraintTop_toBottomOf="@+id/tv_wallet_desc"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="4dp" />
+                    app:layout_constraintVertical_bias="0.0" />
 
-            <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_baseline_add_24"
-                    android:id="@+id/iv_add"
+                    android:id="@+id/btn_add"
                     android:scaleType="fitCenter"
+                    android:text="@string/add_data"
+                    android:textColor="?android:textColorPrimary"
+
+                    style="?android:attr/borderlessButtonStyle"
+                    android:drawableEnd="@drawable/ic_baseline_add_24"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_wallet"
                     app:layout_constraintTop_toTopOf="@+id/tv_wallet_desc"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="4dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 

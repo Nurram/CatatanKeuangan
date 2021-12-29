@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity() {
                 val i = Intent(this@MainActivity, WalletActivity::class.java)
                 startActivity(i)
             }
+            btnAdd.setOnClickListener {
+                val i = Intent(this@MainActivity, AddDataActivity::class.java)
+                startActivity(i)
+            }
         }
 
         setupActionBarWithNavController(navigationController, appBarConfiguration)

@@ -53,6 +53,7 @@ class WalletActivity : AppCompatActivity() {
         binding.apply {
             walletRv.adapter = adapter
             walletRv.layoutManager = LinearLayoutManager(this@WalletActivity)
+            btnAdd.setOnClickListener { showAddDataDialog() }
         }
 
         val pref = PrefUtil(this)
