@@ -59,7 +59,7 @@ class WalletActivity : AppCompatActivity() {
         val pref = PrefUtil(this)
         val walletId = pref.getStringFromPref(prefKey, MainFragment.DEFAULT_WALLET)
         val factory = ViewModelFactory(application, walletId)
-        viewModel = ViewModelProvider(this, factory).get(WalletViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[WalletViewModel::class.java]
 
         viewModel.getWallet()?.observe(this, { adapter.submitList(it) })
 
@@ -86,7 +86,7 @@ class WalletActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun showUpdateDataDialog(wallet: Wallet) {
         val dialog = AlertDialog.Builder(this)
         val dialogView = AddWalletDialogBinding.inflate(layoutInflater)

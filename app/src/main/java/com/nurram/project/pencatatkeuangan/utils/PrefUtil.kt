@@ -4,11 +4,12 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class PrefUtil(val context: Context) {
-    private var PRIVATE_MODE = 0
-    private val PREF_NAME = "financial-records"
+
+    private var privateName = 0
+    private val prefName = "financial-records"
 
     private var sharedPref: SharedPreferences =
-        context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        context.getSharedPreferences(prefName, privateName)
 
     fun saveToPref(key: String, value: Int) {
         sharedPref.edit().putInt(key, value).apply()

@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -50,7 +49,14 @@ class ReportFragment : Fragment() {
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, MainFragment.DEFAULT_WALLET)
         val factory = ViewModelFactory(requireActivity().application, walletId)
         viewModel = ViewModelProvider(this, factory)[ReportViewModel::class.java]
-        adapter = ReportAdapter(requireContext()) { data, _ -> showDeleteDialog(data) }
+        adapter = ReportAdapter(requireContext()) { data, view ->
+            val bundle = Bundle()
+            bundle.putParcelable(MainFragment.RECORD_DATA, data)
+            view.findNavController().navigate(
+                R.id.action_navigation_report_to_addDataActivity,
+                bundle
+            )
+        }
         selectedMonth = binding.reportDate.text.toString()
 
         moveDate(0)
@@ -257,20 +263,4 @@ class ReportFragment : Fragment() {
         }
     }
 
-    private fun showDeleteDialog(record: Record) {
-        val dialog = AlertDialog.Builder(requireContext())
-        dialog.setTitle(getString(R.string.attention))
-        dialog.setMessage(R.string.delete_record_confirmation)
-        dialog.setCancelable(true)
-        dialog.setPositiveButton("Yes") { _, _ ->
-            viewModel.deleteRecord(record)
-            binding.tvIncome.setBackgroundResource(R.drawable.rounded_primary_rectangle)
-            Toast.makeText(context, R.string.data_success_delete, Toast.LENGTH_SHORT).show()
-        }
-        dialog.setNegativeButton("Cancel") { innerDialog, _ ->
-            innerDialog.dismiss()
-        }
-
-        dialog.show()
-    }
 }

@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.nurram.project.pencatatkeuangan.utils
 
 import android.view.View

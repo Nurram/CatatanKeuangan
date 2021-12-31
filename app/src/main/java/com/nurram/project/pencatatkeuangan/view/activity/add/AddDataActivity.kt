@@ -1,5 +1,6 @@
 package com.nurram.project.pencatatkeuangan.view.activity.add
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -98,6 +99,7 @@ class AddDataActivity : AppCompatActivity() {
         if (record != null) populateUi(record)
     }
 
+    @SuppressLint("AlwaysShowAction")
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (isUpdate) {
             menu?.add(0, MENU_DELETE, Menu.NONE, getString(R.string.dialog_delete))
@@ -165,7 +167,7 @@ class AddDataActivity : AppCompatActivity() {
             ) {
                 Toast.makeText(
                     this@AddDataActivity,
-                    R.string.toast_isi_kolom,
+                    R.string.fill_all_column,
                     Toast.LENGTH_SHORT
                 ).show()
             } else {

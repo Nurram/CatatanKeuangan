@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLauncherShape">
+        <ignore path="src/main/res/drawable/icon_square.png" />
+    </issue>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/icon_circle.png" />
+        <ignore path="src/main/res/drawable/icon_square.png" />
+        <ignore path="src/main/res/drawable/no_data.png" />
+    </issue>
+</lint>

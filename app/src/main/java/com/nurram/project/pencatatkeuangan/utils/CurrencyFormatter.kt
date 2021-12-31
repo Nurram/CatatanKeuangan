@@ -1,8 +1,7 @@
+@file:Suppress("unused")
+
 package com.nurram.project.pencatatkeuangan.utils
 
-import android.content.Context
-import android.widget.Toast
-import com.nurram.project.pencatatkeuangan.R
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -16,37 +15,5 @@ object CurrencyFormatter {
         format.decimalFormatSymbols = formatRp
         val result = format.format(s)
         return result.substring(0, result.length - 3)
-    }
-
-    fun isAmountValid(context: Context, amount: String): Int {
-        return try {
-            val value = amount.toInt()
-
-            if (value > 1000000000) {
-                throw Exception()
-            }
-
-            value
-        } catch (e: Exception) {
-            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT)
-                .show()
-            0
-        }
-    }
-
-    fun isAmountValidLong(context: Context, amount: String): Long {
-        return try {
-            val value = amount.toLong()
-
-            if (value > 1000000000) {
-                throw Exception()
-            }
-
-            value
-        } catch (e: Exception) {
-            Toast.makeText(context, context.getString(R.string.max_amount), Toast.LENGTH_SHORT)
-                .show()
-            0
-        }
     }
 }

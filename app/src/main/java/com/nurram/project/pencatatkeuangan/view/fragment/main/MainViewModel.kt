@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.Wallet
-import com.nurram.project.pencatatkeuangan.db.repos.DebtRepo
 import com.nurram.project.pencatatkeuangan.db.repos.RecordRepo
 import com.nurram.project.pencatatkeuangan.db.repos.WalletRepo
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
@@ -14,7 +13,6 @@ import java.util.*
 
 class MainViewModel(
     private val recordRepo: RecordRepo,
-    private val debtRepo: DebtRepo,
     private val walletRepo: WalletRepo
 ) : ViewModel() {
 

@@ -17,7 +17,11 @@
             android:id="@+id/navigation_report"
             android:name="com.nurram.project.pencatatkeuangan.view.fragment.report.ReportFragment"
             android:label="@string/report"
-            tools:layout="@layout/fragment_report" />
+            tools:layout="@layout/fragment_report">
+        <action
+                android:id="@+id/action_navigation_report_to_addDataActivity"
+                app:destination="@id/addDataActivity" />
+    </fragment>
     <fragment
             android:id="@+id/navigation_discount"
             android:name="com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment"

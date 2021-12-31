@@ -31,7 +31,7 @@ class ViewModelFactory(
                 AddDataViewModel(recordRepo) as T
             }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(recordRepo, debtRepo, walletRepo) as T
+                MainViewModel(recordRepo, walletRepo) as T
             }
             modelClass.isAssignableFrom(ReportViewModel::class.java) -> {
                 ReportViewModel(recordRepo) as T

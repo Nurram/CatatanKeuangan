@@ -6,7 +6,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/bg"
-        tools:context=".view.fragment.discount.DiscCalcFragment">
+        tools:context=".view.fragment.discount.DiscCalcFragment"
+        tools:ignore="Overdraw">
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

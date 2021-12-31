@@ -48,15 +48,13 @@ class MainFragment : Fragment() {
                             { result ->
                                 records = result
                                 submitList(result)
-                                dataAdapter.notifyDataSetChanged()
-                           })
+                            })
                 } else {
                     viewModel.getFilteredRecord(category!!, isNewest)?.observe(
                         viewLifecycleOwner,
                         { result ->
                             records = result
                             submitList(result)
-                            dataAdapter.notifyDataSetChanged()
                         })
                 }
             }

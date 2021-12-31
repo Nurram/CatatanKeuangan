@@ -18,11 +18,12 @@
             android:requestLegacyExternalStorage="true"
             android:roundIcon="@drawable/icon_circle"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity">
         <activity
                 android:name=".view.activity.filter.FilterActivity"
                 android:exported="false"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait" />
         <activity
                 android:name=".view.activity.notes.NotesActivity"
                 android:exported="false"

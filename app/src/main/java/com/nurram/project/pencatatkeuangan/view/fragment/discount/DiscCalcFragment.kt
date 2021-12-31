@@ -32,12 +32,12 @@ class DiscCalcFragment : Fragment() {
         activity.hideMenu()
         activity.setTitle(getString(R.string.discount))
 
-        val viewModel = ViewModelProvider(this).get(DiscCalcViewModel::class.java)
+        val viewModel = ViewModelProvider(this)[DiscCalcViewModel::class.java]
 
         binding.apply {
             discountCalculate.setOnClickListener {
                 if (etDiscount.text.isNullOrEmpty() || etAmount.text.isNullOrEmpty()) {
-                    Toast.makeText(requireContext(), R.string.toast_isi_kolom, Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), R.string.fill_all_column, Toast.LENGTH_SHORT)
                         .show()
                 } else {
                     val amount = etAmount.text.toString().toLong()

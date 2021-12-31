@@ -1,23 +1,21 @@
 <resources>
     <string name="income">Pemasukan</string>
-    <string name="income_kamu">Pemasukan kamu</string>
+    <string name="your_income">Pemasukan kamu</string>
     <string name="your_expense">Pengeluaran kamu</string>
     <string name="total_balance">Saldo kamu</string>
 
     <string name="dialog_save">Simpan</string>
 
-    <string name="toast_isi_kolom">Isi semua kolom!</string>
+    <string name="fill_all_column">Isi semua kolom!</string>
     <string name="data_success_delete">Data berhasil dihapus</string>
     <string name="app_name">Pencatat Keuangan</string>
     <string name="history">History</string>
 
     <string name="expenses">Pengeluaran</string>
     <string name="attention">Perhatian!</string>
-    <string name="sebuah_tombol_gambar_untuk_menghapus_data">Sebuah tombol gambar untuk menghapus data</string>
-    <string name="selected_date">Tidak ada tanggal yang dipilih</string>
+    <string name="image_button_desc">Sebuah tombol gambar untuk menghapus data</string>
     <string name="home">Home</string>
     <string name="discount">Kalkulator Diskon</string>
-    <string name="current_amount">Harga Awal</string>
     <string name="discount_total">Total Diskon</string>
     <string name="price_after_discount">Harga setelah diskon:</string>
     <string name="calculate">Hitung</string>
@@ -27,7 +25,6 @@
     <string name="start_date">Tanggal Awal</string>
     <string name="end_date">Tanggal Akhir</string>
     <string name="filter">Filter data</string>
-    <string name="remove_filter">Hapus filter</string>
 
     <string name="enabled">Aktif</string>
     <string name="disable">Non-aktif</string>
@@ -44,7 +41,6 @@
     <string name="settings">Pengaturan</string>
     <string name="highest_income">Pemasukan Tertinggi</string>
     <string name="highest_expense">Pengeluaran Tertinggi</string>
-    <string name="ex_100">contoh: 100</string>
     <string name="max_discount">Maksimal diskon adalah 100!</string>
     <string name="debt">Utang</string>
     <string name="title">Judul</string>
@@ -58,4 +54,17 @@
     <string name="create">Buat</string>
     <string name="add_data">Tambah</string>
     <string name="add_wallet">Tambah</string>
+    <string name="export_data_to_excel">Ekspor data ke excel</string>
+    <string name="clear_data">Hapus semua data</string>
+    <string name="permission_denied">Anda harus memberi izin untuk mengakses fitur ini!</string>
+    <string name="convert_confirmation">Apakah anda yakin ingin mengekspor data?</string>
+    <string name="start_export">Memulai ekspor…</string>
+    <string name="data_exported">Data diekspor</string>
+    <string name="delete_all">Apakah anda yakin ingin menghapus semua data?</string>
+    <string name="all">Semua</string>
+    <string name="categories">Kategori</string>
+    <string name="previous_month">Bulan Sebelumnya</string>
+    <string name="next_month">Bulan Sesudahnya</string>
+    <string name="empty_data">Data Kosong</string>
+    <string name="write_your_note_here">Tulis catatan disini</string>
 </resources>

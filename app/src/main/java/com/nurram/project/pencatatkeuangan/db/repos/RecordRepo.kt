@@ -31,13 +31,15 @@ class RecordRepo(
                 category,
                 walletId,
                 DateUtil.subtractDay(startDate, -1),
-                endDate)
+                endDate
+            )
         } else {
             recordDao?.getFilteredRecordWithDateAsc(
                 category,
                 walletId,
                 DateUtil.subtractDay(startDate, -1),
-                endDate)
+                endDate
+            )
         }
 
     fun getFilteredRecord(

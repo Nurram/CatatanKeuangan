@@ -1,7 +1,9 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.report
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +18,10 @@ import com.nurram.project.pencatatkeuangan.utils.VISIBLE
 import com.nurram.project.pencatatkeuangan.view.activity.add.AddDataActivity
 import java.util.*
 
+@SuppressLint("NotifyDataSetChanged")
 class ReportAdapter(
     private val context: Context,
-    private val clickUtils: (Record, String) -> Unit,
+    private val clickUtils: (Record, View) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var datas = arrayListOf<Record>()
     var date: Date? = null
@@ -49,7 +52,7 @@ class ReportAdapter(
 
         if (p0.itemViewType == 0) {
             p0 as ReportHolder
-            p0.bind(data, clickUtils)
+            p0.bind(data)
         } else {
             p0 as DateHolder
             p0.bind(data.date!!)
@@ -60,7 +63,7 @@ class ReportAdapter(
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var record: Record
 
-        fun bind(record: Record, clickUtils: (Record, String) -> Unit) {
+        fun bind(record: Record) {
             this.record = record
 
             binding.apply {
@@ -81,6 +84,8 @@ class ReportAdapter(
                         itemUang.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
                     }
                 }
+
+                itemView.setOnClickListener { clickUtils(record, binding.root) }
             }
         }
     }

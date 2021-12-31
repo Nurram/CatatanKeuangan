@@ -56,7 +56,7 @@
             android:orientation="vertical" />
 
     <TextView
-            android:text="@string/income_kamu"
+            android:text="@string/your_income"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_current_income_desc"

@@ -42,7 +42,6 @@
     <string name="settings">Settings</string>
     <string name="highest_income">Highest Income</string>
     <string name="highest_expense">Highest Expense</string>
-    <string name="rp" translatable="false">Rp</string>
     <string name="debt">Debt</string>
     <string name="title">Title</string>
     <string name="amount">Amount</string>
@@ -53,11 +52,8 @@
     <string name="save_note">Save Note</string>
     <string name="update">Update</string>
     <string name="create">Create</string>
-    <string name="plus_value" translatable="false">+%s</string>
-    <string name="minus_value" translatable="false">-%s</string>
     <string name="add_data">Add Data</string>
     <string name="add_wallet">Add Wallet</string>
-    <string name="dark_mode" translatable="false">Dark Mode</string>
     <string name="export_data_to_excel">Export data to excel</string>
     <string name="clear_data">Clear data</string>
     <string name="permission_denied">You need to give permission to use this feature!</string>
@@ -71,9 +67,4 @@
     <string name="next_month">Next Month</string>
     <string name="empty_data">Empty Data</string>
     <string name="write_your_note_here">Write your note here</string>
-    <string name="filter_image" translatable="false">Filter image</string>
-    <string name="sort_image" translatable="false">Sort image</string>
-    <string name="dark_mode_image" translatable="false">Dark Mode Image</string>
-    <string name="export_image" translatable="false">Export Image</string>
-    <string name="clear_data_image" translatable="false">Clear Data Image</string>
 </resources>
