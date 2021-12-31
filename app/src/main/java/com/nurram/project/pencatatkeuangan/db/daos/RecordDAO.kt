@@ -46,20 +46,30 @@ interface RecordDAO {
     fun getAllDataAsc(walletId: String, startDate: Date, endDate: Date): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
-    @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date desc")
-    fun getFilteredRecordDesc(
+    @Query("select * from record_table where wallet_id=:walletId and description like :category and date between :startDate and :endDate order by date desc")
+    fun getFilteredRecordWithDateDesc(
+        category: String,
         walletId: String,
         startDate: Date,
         endDate: Date
     ): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
-    @Query("select * from record_table where wallet_id=:walletId and date between :startDate and :endDate order by date asc")
-    fun getFilteredRecordAsc(
+    @Query("select * from record_table where wallet_id=:walletId and description like :category and date between :startDate and :endDate order by date asc")
+    fun getFilteredRecordWithDateAsc(
+        category: String,
         walletId: String,
         startDate: Date,
         endDate: Date
     ): LiveData<List<Record>>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and description like :category order by date desc")
+    fun getFilteredRecordDesc(category: String, walletId: String): LiveData<List<Record>>
+
+    @TypeConverters(DateConverter::class)
+    @Query("select * from record_table where wallet_id=:walletId and description like :category order by date asc")
+    fun getFilteredRecordAsc(category: String, walletId: String): LiveData<List<Record>>
 
     @TypeConverters(DateConverter::class)
     @Query(

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +19,7 @@
                 android:src="@drawable/ic_baseline_arrow_back_ios_24"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp" />
 
         <TextView
                 android:id="@+id/report_date"
@@ -37,7 +36,7 @@
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -55,8 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginHorizontal="16dp">
+                    android:layout_margin="16dp">
 
                 <TextView
                         android:id="@+id/tv_income"
@@ -67,7 +65,7 @@
                         android:textColor="@color/colorAccent"
                         android:background="@drawable/rounded_primary_rectangle"
                         android:text="@string/income"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
 
                 <TextView
                         android:id="@+id/tv_outcome"
@@ -78,7 +76,8 @@
                         android:background="@drawable/rounded_gray_rectangle"
                         android:layout_marginHorizontal="16dp"
                         android:text="@string/expenses"
-                        android:textAlignment="center"/>
+                        android:textColor="@color/cardText"
+                        android:textAlignment="center" />
 
                 <TextView
                         android:id="@+id/tv_debt"
@@ -89,141 +88,129 @@
                         android:paddingHorizontal="16dp"
                         android:background="@drawable/rounded_gray_rectangle"
                         android:text="@string/debt"
-                        android:textAlignment="center"/>
+                        android:textColor="@color/cardText"
+                        android:textAlignment="center" />
             </LinearLayout>
-            <androidx.cardview.widget.CardView
+
+            <com.jjoe64.graphview.GraphView
+                    android:id="@+id/graph_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginHorizontal="16dp" />
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="16dp">
 
-                <com.jjoe64.graphview.GraphView
-                        android:id="@+id/graph_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginHorizontal="8dp" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
+                <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:layout_margin="8dp">
 
-                    <RelativeLayout
-                            android:layout_width="0dp"
+                    <TextView
+                            android:id="@+id/income_label"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_margin="8dp">
+                            android:text="@string/highest_income"
+                            android:layout_marginBottom="8dp" />
 
-                        <TextView
-                                android:id="@+id/income_label"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/highest_income"
-                                android:textSize="11sp"
-                                android:layout_marginBottom="8dp" />
-
-                        <TextView
-                                android:id="@+id/income_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Gajian"
-                                android:textColor="@color/cardText"
-                                android:maxLines="2"
-                                android:layout_marginBottom="4dp"
-                                android:layout_below="@+id/income_label" />
-
-                        <TextView
-                                android:id="@+id/income_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Thursday, 09 September 2021"
-                                android:textSize="11sp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_below="@+id/income_title" />
-
-                        <TextView
-                                android:id="@+id/income_total"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Rp1.000.000.000"
-                                android:textColor="@color/colorPrimary"
-                                android:maxLines="2"
-                                android:layout_below="@+id/income_date" />
-                    </RelativeLayout>
-
-                    <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@android:color/darker_gray" />
-
-                    <RelativeLayout
-                            android:layout_width="0dp"
+                    <TextView
+                            android:id="@+id/income_title"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_margin="8dp">
+                            tools:text="Gajian"
+                            android:textColor="@color/cardText"
+                            android:maxLines="2"
+                            android:layout_marginBottom="4dp"
+                            android:layout_below="@+id/income_label" />
 
-                        <TextView
-                                android:id="@+id/expense_label"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/highest_expense"
-                                android:textSize="11sp"
-                                android:layout_marginBottom="8dp" />
+                    <TextView
+                            android:id="@+id/income_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Thursday, 09 September 2021"
+                            android:textSize="11sp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_below="@+id/income_title" />
 
-                        <TextView
-                                android:id="@+id/expense_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Beli Rumah"
-                                android:textColor="@color/cardText"
-                                android:layout_marginBottom="4dp"
-                                android:layout_below="@+id/expense_label" />
+                    <TextView
+                            android:id="@+id/income_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp1.000.000.000"
+                            android:textColor="@color/colorPrimary"
+                            android:maxLines="2"
+                            android:layout_below="@+id/income_date" />
+                </RelativeLayout>
 
-                        <TextView
-                                android:id="@+id/expense_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="09 September 2021"
-                                android:textSize="11sp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_below="@+id/expense_title" />
+                <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp">
 
-                        <TextView
-                                android:id="@+id/expense_total"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Rp1.000.000.000"
-                                android:textColor="@color/colorRed"
-                                android:maxLines="2"
-                                android:layout_below="@+id/expense_date" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    <TextView
+                            android:id="@+id/expense_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/highest_expense"
+                            android:layout_marginBottom="8dp" />
+
+                    <TextView
+                            android:id="@+id/expense_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Beli Rumah"
+                            android:textColor="@color/cardText"
+                            android:layout_marginBottom="4dp"
+                            android:layout_below="@+id/expense_label" />
+
+                    <TextView
+                            android:id="@+id/expense_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="09 September 2021"
+                            android:textSize="11sp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_below="@+id/expense_title" />
+
+                    <TextView
+                            android:id="@+id/expense_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp1.000.000.000"
+                            android:textColor="@color/colorRed"
+                            android:maxLines="2"
+                            android:layout_below="@+id/expense_date" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#e5e5e5" />
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/history"
+                    android:textStyle="bold"
                     android:textColor="@color/defaultText"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginBottom="4dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/graph_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginEnd="8dp" />
 
             <ImageView
                     android:id="@+id/data_empty"

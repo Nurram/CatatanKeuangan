@@ -11,6 +11,7 @@ import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivityViewMo
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.main.MainViewModel
 import com.nurram.project.pencatatkeuangan.view.fragment.report.ReportViewModel
+import com.nurram.project.pencatatkeuangan.view.fragment.setting.SettingViewModel
 
 class ViewModelFactory(
     application: Application,
@@ -34,6 +35,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(ReportViewModel::class.java) -> {
                 ReportViewModel(recordRepo) as T
+            }
+            modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
+                SettingViewModel(recordRepo) as T
             }
             else -> {
                 WalletViewModel(walletRepo) as T

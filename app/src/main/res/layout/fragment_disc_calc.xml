@@ -99,7 +99,7 @@
                     android:text="@string/calculate"
                     android:textColor="@android:color/white"
                     android:padding="12dp"
-                    android:layout_marginTop="32dp"/>
+                    android:layout_marginTop="32dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

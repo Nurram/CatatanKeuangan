@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityAddDataBinding
 import com.nurram.project.pencatatkeuangan.db.Record
@@ -186,6 +188,10 @@ class AddDataActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     private fun deleteRecord(record: Record) {

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".view.activity.dark.DarkOptionsActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/dark_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
-            app:title="Dark Mode"
-            app:titleTextColor="@android:color/white" />
+            app:title="Dark Mode" />
 
     <RadioGroup
             android:layout_width="match_parent"
@@ -43,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
             app:adSize="BANNER"
             app:adUnitId="ca-app-pub-2987316684275669/1002025326" />
 </LinearLayout>

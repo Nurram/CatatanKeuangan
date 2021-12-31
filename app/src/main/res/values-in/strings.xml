@@ -46,4 +46,16 @@
     <string name="highest_expense">Pengeluaran Tertinggi</string>
     <string name="ex_100">contoh: 100</string>
     <string name="max_discount">Maksimal diskon adalah 100!</string>
+    <string name="debt">Utang</string>
+    <string name="title">Judul</string>
+    <string name="amount">Jumlah</string>
+    <string name="notes">Catatan</string>
+    <string name="date">Tanggal</string>
+    <string name="transactions_in_s">Transaksimu di %s</string>
+    <string name="add_update_data">Tambah/Ubah Data</string>
+    <string name="save_note">Simpan Catatan</string>
+    <string name="update">Ubah</string>
+    <string name="create">Buat</string>
+    <string name="add_data">Tambah</string>
+    <string name="add_wallet">Tambah</string>
 </resources>

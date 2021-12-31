@@ -1,13 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".view.fragment.setting.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+            android:id="@+id/ll_dark_mode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="16dp"
+            android:background="?attr/selectableItemBackground">
 
-</FrameLayout>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_dark_mode_24" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/dark_mode"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginStart="16dp"
+                android:gravity="center" />
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+    <LinearLayout
+            android:id="@+id/ll_convert_excel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="16dp"
+            android:background="?attr/selectableItemBackground">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_file_copy_24" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/export_data_to_excel"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginStart="16dp"
+                android:gravity="center" />
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+    <LinearLayout
+            android:id="@+id/ll_delete_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="16dp"
+            android:background="?attr/selectableItemBackground">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_delete_forever_24" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/clear_data"
+                android:textColor="?android:textColorPrimary"
+
+                android:layout_marginStart="16dp"
+                android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>

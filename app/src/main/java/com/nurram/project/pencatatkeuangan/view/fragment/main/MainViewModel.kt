@@ -59,8 +59,8 @@ class MainViewModel(
     fun getCurrentTotalIncome(startDate: Date, endDate: Date): LiveData<Long>? =
         recordRepo.getTotalCurrentIncome(startDate, endDate)
 
-    fun getFilteredRecord(
-        startDate: Date, endDate: Date, isDesc: Boolean
+    fun getFilteredRecordWithDate(
+        category: String, startDate: Date, endDate: Date, isDesc: Boolean
     ): LiveData<List<Record>>? {
         val startDateString = DateUtil.formatDate(startDate)
         val endDateString = DateUtil.formatDate(endDate)
@@ -82,6 +82,9 @@ class MainViewModel(
         endCalendar.set(Calendar.HOUR_OF_DAY, 23)
 
         val endDates = endCalendar.time
-        return recordRepo.getFilteredRecord(startDates, endDates, isDesc)
+        return recordRepo.getFilteredRecordWithDate(category, startDates, endDates, isDesc)
     }
+
+    fun getFilteredRecord(category: String, isDesc: Boolean): LiveData<List<Record>>? =
+        recordRepo.getFilteredRecord(category, isDesc)
 }

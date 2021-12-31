@@ -32,8 +32,9 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
     fun getMaxExpense(startDate: Date, endDate: Date) =
         recordRepo.getMaxExpenses(startDate, endDate)
 
-    fun setGraphData(graphList: List<Record>) {
+    fun setGraphData(list: List<Record>) {
         resetGraph()
+        val graphList = list.reversed()
         var currentDateString =
             if (graphList.isNotEmpty()) DateUtil.formatDate(graphList[0].date!!)
             else ""

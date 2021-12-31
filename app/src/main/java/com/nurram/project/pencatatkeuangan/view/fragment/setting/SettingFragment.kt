@@ -1,60 +1,77 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.setting
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.nurram.project.pencatatkeuangan.R
+import com.nurram.project.pencatatkeuangan.databinding.FragmentSettingBinding
+import com.nurram.project.pencatatkeuangan.utils.PrefUtil
+import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
+import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
+import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var viewModel: SettingViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentSettingBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+    ): View {
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val activity = activity as MainActivity
+        activity.hideMenu()
+        activity.setTitle(getString(R.string.settings))
+
+        val pref = PrefUtil(requireContext())
+        val walletId = pref.getStringFromPref(WalletActivity.prefKey, MainFragment.DEFAULT_WALLET)
+        val factory = ViewModelFactory(requireActivity().application, walletId)
+        viewModel = ViewModelProvider(this, factory)[SettingViewModel::class.java]
+
+        binding.apply {
+            llDarkMode.setOnClickListener {
+                it.findNavController()
+                    .navigate(R.id.action_navigation_setting_to_darkOptionsActivity)
             }
+            llConvertExcel.setOnClickListener {
+                ActivityCompat.requestPermissions(
+                    activity,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1
+                )
+            }
+            llDeleteAll.setOnClickListener { showDeleteDialog() }
+        }
+    }
+
+    private fun showDeleteDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.attention))
+            setMessage(R.string.delete_all)
+            setCancelable(true)
+            setPositiveButton("Yes") { _, _ ->
+                viewModel.deleteAllRecords()
+            }
+            setNegativeButton("Cancel") { innerDialog, _ ->
+                innerDialog.dismiss()
+            }
+            show()
+        }
     }
 }

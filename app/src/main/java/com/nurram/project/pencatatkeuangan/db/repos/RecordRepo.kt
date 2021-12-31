@@ -19,15 +19,25 @@ class RecordRepo(
     fun getAllRecordsAsc(startDate: Date, endDate: Date): LiveData<List<Record>>? =
         recordDao?.getAllDataAsc(walletId, startDate, endDate)
 
-    fun getFilteredRecord(
+    fun getFilteredRecordWithDate(
+        category: String,
         startDate: Date,
         endDate: Date,
         isDesc: Boolean
     ): LiveData<List<Record>>? =
         if (isDesc) {
-            recordDao?.getFilteredRecordDesc(walletId, startDate, endDate)
+            recordDao?.getFilteredRecordWithDateDesc(category, walletId, startDate, endDate)
         } else {
-            recordDao?.getFilteredRecordAsc(walletId, startDate, endDate)
+            recordDao?.getFilteredRecordWithDateAsc(category, walletId, startDate, endDate)
+        }
+
+    fun getFilteredRecord(
+        category: String, isDesc: Boolean
+    ): LiveData<List<Record>>? =
+        if (isDesc) {
+            recordDao?.getFilteredRecordDesc(category, walletId)
+        } else {
+            recordDao?.getFilteredRecordAsc(category, walletId)
         }
 
     fun getBalance(): LiveData<Long>? = recordDao?.getBalance(walletId)
@@ -61,4 +71,6 @@ class RecordRepo(
     suspend fun updateRecord(record: Record) = recordDao?.update(record)
 
     suspend fun deleteRecord(record: Record) = recordDao?.delete(record)
+
+    suspend fun deleteAllRecord() = recordDao?.deleteAll(walletId)
 }

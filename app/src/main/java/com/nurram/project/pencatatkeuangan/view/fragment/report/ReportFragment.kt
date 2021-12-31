@@ -2,12 +2,9 @@ package com.nurram.project.pencatatkeuangan.view.fragment.report
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -213,7 +210,7 @@ class ReportFragment : Fragment() {
 
     private fun setBtnBg(position: Int) {
         binding.apply {
-            when(position) {
+            when (position) {
                 0 -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
@@ -221,17 +218,17 @@ class ReportFragment : Fragment() {
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                 }
                 1 -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
@@ -239,17 +236,17 @@ class ReportFragment : Fragment() {
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                 }
                 else -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(R.attr.colorControlNormal)
+                        setTextColor(resources.getColor(R.color.cardText))
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
@@ -259,6 +256,7 @@ class ReportFragment : Fragment() {
             }
         }
     }
+
     private fun showDeleteDialog(record: Record) {
         val dialog = AlertDialog.Builder(requireContext())
         dialog.setTitle(getString(R.string.attention))

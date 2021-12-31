@@ -1,22 +1,22 @@
 package com.nurram.project.pencatatkeuangan.view.fragment.main
 
-import android.annotation.SuppressLint
-import android.app.DatePickerDialog
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nurram.project.pencatatkeuangan.R
-import com.nurram.project.pencatatkeuangan.databinding.FilterDialogLayoutBinding
 import com.nurram.project.pencatatkeuangan.databinding.FragmentMainBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
+import com.nurram.project.pencatatkeuangan.view.activity.FilterActivity
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
@@ -31,6 +31,42 @@ class MainFragment : Fragment() {
     private val calendar = DateUtil.getMaxDateCalendar()
     private var records = listOf<Record>()
     private var isNewest = true
+
+    private val result =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val category = it.data?.getStringExtra(FilterActivity.CATEGORY)
+                val startDate = it.data?.getSerializableExtra(FilterActivity.START_DATE)
+                val endDate = it.data?.getSerializableExtra(FilterActivity.END_DATE)
+
+                if (startDate != null && endDate != null) {
+                    startDate as Date
+                    endDate as Date
+                    viewModel.getFilteredRecordWithDate(category!!, startDate, endDate, isNewest)
+                        ?.observe(
+                            viewLifecycleOwner,
+                            { result ->
+                                records = result
+                                submitList(result)
+                                dataAdapter.notifyDataSetChanged()
+
+                                binding.history.historyFilterText.text =
+                                    getString(R.string.remove_filter)
+                            })
+                } else {
+                    viewModel.getFilteredRecord(category!!, isNewest)?.observe(
+                        viewLifecycleOwner,
+                        { result ->
+                            records = result
+                            submitList(result)
+                            dataAdapter.notifyDataSetChanged()
+
+                            binding.history.historyFilterText.text =
+                                getString(R.string.remove_filter)
+                        })
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +108,8 @@ class MainFragment : Fragment() {
                     historyFilterText.text = getString(R.string.filter)
                     getAllRecords()
                 } else {
-                    showFilterDialog()
+                    val i = Intent(requireContext(), FilterActivity::class.java)
+                    result.launch(i)
                 }
 
                 isFiltered = !isFiltered
@@ -117,64 +154,6 @@ class MainFragment : Fragment() {
             if (!isNewest) historySortText.text = getString(R.string.sort_oldest)
             else historySortText.text = getString(R.string.sort_newest)
         }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun showFilterDialog() {
-        val dialog = context?.let { AlertDialog.Builder(it) }
-        val dialogView = FilterDialogLayoutBinding.inflate(layoutInflater)
-
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        var startDate: Date? = null
-        var endDate: Date? = null
-
-        dialogView.filterStartDate.setOnClickListener {
-            val datePicker =
-                DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                    val calendar = Calendar.getInstance()
-                    calendar.set(year, monthOfYear, dayOfMonth)
-                    startDate = calendar.time
-                    dialogView.filterStartDate.text = DateUtil.formatDate(calendar.time)
-                }, year, month, day)
-            datePicker.datePicker.minDate = date.time
-            datePicker.datePicker.maxDate = calendar.timeInMillis
-            datePicker.show()
-        }
-
-        dialogView.filterEndDate.setOnClickListener {
-            val datePicker =
-                DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
-                    val calendar = Calendar.getInstance()
-                    calendar.set(year, monthOfYear, dayOfMonth)
-                    endDate = calendar.time
-                    dialogView.filterEndDate.text = DateUtil.formatDate(calendar.time)
-                }, year, month, day)
-            datePicker.datePicker.minDate = date.time
-            datePicker.datePicker.maxDate = calendar.timeInMillis
-            datePicker.show()
-        }
-
-        dialog?.setView(dialogView.root)
-        dialog?.setCancelable(true)
-        dialog?.setPositiveButton(R.string.dialog_save) { _, _ ->
-            if (startDate != null && endDate != null) {
-                viewModel.getFilteredRecord(startDate!!, endDate!!, isNewest)?.observe(
-                    viewLifecycleOwner,
-                    {
-                        records = it
-                        submitList(it)
-                        dataAdapter.notifyDataSetChanged()
-
-                        binding.history.historyFilterText.text = getString(R.string.remove_filter)
-                    })
-            }
-        }
-
-        dialog?.show()
     }
 
     private fun populateRecycler() {

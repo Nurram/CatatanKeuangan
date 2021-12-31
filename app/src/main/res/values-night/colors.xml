@@ -9,5 +9,5 @@
     <color name="cardText">@android:color/white</color>
     <color name="defaultText">@android:color/darker_gray</color>
 
-    <color name="bg">?android:windowBackground</color>
+    <color name="bg">@android:color/transparent</color>
 </resources>
