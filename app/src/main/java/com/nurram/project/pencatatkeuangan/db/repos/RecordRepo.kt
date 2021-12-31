@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.db.RecordDb
+import com.nurram.project.pencatatkeuangan.utils.DateUtil
 import java.util.*
 
 class RecordRepo(
@@ -26,9 +27,17 @@ class RecordRepo(
         isDesc: Boolean
     ): LiveData<List<Record>>? =
         if (isDesc) {
-            recordDao?.getFilteredRecordWithDateDesc(category, walletId, startDate, endDate)
+            recordDao?.getFilteredRecordWithDateDesc(
+                category,
+                walletId,
+                DateUtil.subtractDay(startDate, -1),
+                endDate)
         } else {
-            recordDao?.getFilteredRecordWithDateAsc(category, walletId, startDate, endDate)
+            recordDao?.getFilteredRecordWithDateAsc(
+                category,
+                walletId,
+                DateUtil.subtractDay(startDate, -1),
+                endDate)
         }
 
     fun getFilteredRecord(

@@ -20,7 +20,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".view.activity.FilterActivity"
+                android:name=".view.activity.filter.FilterActivity"
                 android:exported="false"
                 android:screenOrientation="portrait"/>
         <activity

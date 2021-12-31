@@ -1,9 +1,10 @@
-package com.nurram.project.pencatatkeuangan.view.activity
+package com.nurram.project.pencatatkeuangan.view.activity.filter
 
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.nurram.project.pencatatkeuangan.R
@@ -17,7 +18,7 @@ class FilterActivity : AppCompatActivity() {
 
     private val filters = arrayListOf<Any>()
     private var startDate: Date? = null
-    private var endDate: Date? = null
+    private var endDate = Date()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +63,31 @@ class FilterActivity : AppCompatActivity() {
                             etEndDate.setText(DateUtil.formatDate(calendar.time))
                             endDate = calendar.time
                             etEndDate.clearFocus()
+
+                            if (etStartDate.text.isNullOrEmpty()) {
+                                etStartDate.setText(DateUtil.formatDate(calendar.time))
+                                startDate = calendar.time
+                            }
+
                         }, year, month, day)
                     picker.setOnCancelListener { etEndDate.clearFocus() }
+                    startDate?.let { picker.datePicker.minDate = it.time }
                     picker.show()
                 }
             }
+        }
+    }
 
-            btnFilter.setOnClickListener {
-                val category = when (rgCategory.checkedRadioButtonId) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_add_data, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+            else -> {
+                val category = when (binding.rgCategory.checkedRadioButtonId) {
                     R.id.rb_all -> ALL
                     R.id.rb_income -> AddDataActivity.INCOME
                     R.id.rb_expense -> AddDataActivity.EXPENSE
@@ -78,9 +96,9 @@ class FilterActivity : AppCompatActivity() {
                 }
 
                 filters.add(category)
-                if (startDate != null && endDate != null) {
+                if (startDate != null) {
                     filters.add(startDate!!)
-                    filters.add(endDate!!)
+                    filters.add(endDate)
                 }
 
                 val i = Intent()
@@ -90,12 +108,6 @@ class FilterActivity : AppCompatActivity() {
                 setResult(RESULT_OK, i)
                 finish()
             }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
         }
 
         return true

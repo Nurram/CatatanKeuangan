@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.FilterActivity">
+        tools:context=".view.activity.filter.FilterActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:layout_width="0dp"
@@ -118,18 +118,4 @@
                 android:background="@android:color/transparent" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-            android:text="@string/filter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_filter"
-            android:padding="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

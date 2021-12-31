@@ -38,6 +38,14 @@ class DateUtil {
             return formatDateMonthOnly(cal.time)
         }
 
+        fun subtractDay(date: Date, day: Int): Date {
+            val cal = GregorianCalendar()
+            cal.time = date
+            cal.add(Calendar.DAY_OF_MONTH, day)
+
+            return cal.time
+        }
+
         fun getCurrentMonthAndYearDate(): Date {
             return toDate(getCurrentMonthAndYear())
         }

@@ -16,7 +16,7 @@ import com.nurram.project.pencatatkeuangan.databinding.FragmentMainBinding
 import com.nurram.project.pencatatkeuangan.db.Record
 import com.nurram.project.pencatatkeuangan.utils.*
 import com.nurram.project.pencatatkeuangan.view.ViewModelFactory
-import com.nurram.project.pencatatkeuangan.view.activity.FilterActivity
+import com.nurram.project.pencatatkeuangan.view.activity.filter.FilterActivity
 import com.nurram.project.pencatatkeuangan.view.activity.main.MainActivity
 import com.nurram.project.pencatatkeuangan.view.activity.wallet.WalletActivity
 import java.util.*
@@ -49,10 +49,7 @@ class MainFragment : Fragment() {
                                 records = result
                                 submitList(result)
                                 dataAdapter.notifyDataSetChanged()
-
-                                binding.history.historyFilterText.text =
-                                    getString(R.string.remove_filter)
-                            })
+                           })
                 } else {
                     viewModel.getFilteredRecord(category!!, isNewest)?.observe(
                         viewLifecycleOwner,
@@ -60,9 +57,6 @@ class MainFragment : Fragment() {
                             records = result
                             submitList(result)
                             dataAdapter.notifyDataSetChanged()
-
-                            binding.history.historyFilterText.text =
-                                getString(R.string.remove_filter)
                         })
                 }
             }
@@ -102,17 +96,9 @@ class MainFragment : Fragment() {
                 setOrderIcon()
             }
 
-            var isFiltered = false
             historyFilter.setOnClickListener {
-                if (isFiltered) {
-                    historyFilterText.text = getString(R.string.filter)
-                    getAllRecords()
-                } else {
-                    val i = Intent(requireContext(), FilterActivity::class.java)
-                    result.launch(i)
-                }
-
-                isFiltered = !isFiltered
+                val i = Intent(requireContext(), FilterActivity::class.java)
+                result.launch(i)
             }
         }
 
