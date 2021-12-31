@@ -7,6 +7,8 @@ import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.nurram.project.pencatatkeuangan.R
 import com.nurram.project.pencatatkeuangan.databinding.ActivityFilterBinding
 import com.nurram.project.pencatatkeuangan.utils.DateUtil
@@ -76,6 +78,10 @@ class FilterActivity : AppCompatActivity() {
                 }
             }
         }
+
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
