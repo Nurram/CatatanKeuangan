@@ -12,8 +12,8 @@ android {
         applicationId "com.nurram.project.pencatatkeuangan"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 26
-        versionName "3"
+        versionCode 23
+        versionName "2.8"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
