@@ -44,5 +44,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:adSize="BANNER"
-            app:adUnitId="ca-app-pub-2987316684275669/1002025326" />
+            app:adUnitId="@string/BANNER_ID" />
 </LinearLayout>

@@ -73,5 +73,8 @@
     <string name="dark_mode_image" translatable="false">Dark Mode Image</string>
     <string name="export_image" translatable="false">Export Image</string>
     <string name="clear_data_image" translatable="false">Clear Data Image</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="APP_ID" translatable="false">ca-app-pub-2987316684275669~6011139654</string>
+    <string name="BANNER_ID" translatable="false">ca-app-pub-2987316684275669/1002025326</string>
+    <string name="INTERSTESIAL_ID" translatable="false">ca-app-pub-2987316684275669/2123233986</string>
 </resources>
