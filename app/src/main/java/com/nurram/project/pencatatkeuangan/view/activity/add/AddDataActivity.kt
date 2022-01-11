@@ -97,6 +97,10 @@ class AddDataActivity : AppCompatActivity() {
 
         val record = intent.getParcelableExtra<Record>(MainFragment.RECORD_DATA)
         if (record != null) populateUi(record)
+
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     @SuppressLint("AlwaysShowAction")
@@ -190,10 +194,6 @@ class AddDataActivity : AppCompatActivity() {
                 finish()
             }
         }
-
-        MobileAds.initialize(this) { }
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
     }
 
     private fun deleteRecord(record: Record) {

@@ -15,7 +15,7 @@
             android:background="?android:colorBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/adView">
 
         <TextView
                 android:id="@+id/tv_title"
@@ -82,7 +82,7 @@
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/adView" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="0dp"
@@ -91,7 +91,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/adView">
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/coordinatorLayout">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_add"
@@ -118,8 +119,8 @@
             android:layout_gravity="center_horizontal"
             app:adSize="BANNER"
             app:adUnitId="@string/BANNER_ID"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         InterstitialAd.load(
             this,
-            getString(R.string.INTERSTESIAL_ID),
+            getString(R.string.INTERSTISIAL_ID),
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
