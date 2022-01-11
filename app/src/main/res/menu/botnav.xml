@@ -9,6 +9,11 @@
             android:title="@string/report"
             android:id="@+id/navigation_report"
             android:icon="@drawable/ic_timeline" />
+
+    <item
+            android:id="@+id/placeholder"
+            android:title="" />
+
     <item
             android:title="@string/discount"
             android:id="@+id/navigation_discount"

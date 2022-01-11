@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 val i = Intent(this@MainActivity, WalletActivity::class.java)
                 startActivity(i)
             }
-            btnAdd.setOnClickListener {
+            fabAdd.setOnClickListener {
                 val i = Intent(this@MainActivity, AddDataActivity::class.java)
                 startActivity(i)
             }
@@ -229,7 +230,6 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             tvWallet.GONE()
             tvWalletDesc.GONE()
-            btnAdd.GONE()
         }
     }
 
@@ -238,7 +238,6 @@ class MainActivity : AppCompatActivity() {
             tvTitle.GONE()
             tvWallet.VISIBLE()
             tvWalletDesc.VISIBLE()
-            btnAdd.VISIBLE()
         }
     }
 }

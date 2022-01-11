@@ -132,11 +132,8 @@ class MainFragment : Fragment() {
 
     private fun setOrderIcon() {
         binding.history.apply {
-            if (!isNewest) historySortImage.rotationX = 180.0.toFloat()
-            else historySortImage.rotationX = 0.toFloat()
-
-            if (!isNewest) historySortText.text = getString(R.string.sort_oldest)
-            else historySortText.text = getString(R.string.sort_newest)
+            if (!isNewest) historySort.rotationX = 180.0.toFloat()
+            else historySort.rotationX = 0.toFloat()
         }
     }
 

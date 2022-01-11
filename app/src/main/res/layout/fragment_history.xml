@@ -7,73 +7,36 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false">
+            android:layout_marginStart="16dp">
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/tv_transaction_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="bold"
+                android:text="@string/transactions_in_s" />
+
+        <ImageView
                 android:id="@+id/history_sort"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground">
+                android:src="@drawable/ic_baseline_sort_24"
+                android:contentDescription="@string/sort_image"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground"/>
 
-            <TextView
-                    android:id="@+id/history_sort_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sort_newest"
-                    android:layout_marginEnd="8dp" />
-
-            <ImageView
-                    android:id="@+id/history_sort_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_sort_24"
-                    android:contentDescription="@string/sort_image" />
-        </LinearLayout>
-
-        <LinearLayout
+        <ImageView
                 android:id="@+id/history_filter"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground">
-
-            <TextView
-                    android:id="@+id/history_filter_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter"
-                    android:layout_marginEnd="8dp" />
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_outline_filter_alt_24"
-                    android:contentDescription="@string/filter_image" />
-        </LinearLayout>
+                android:src="@drawable/ic_outline_filter_alt_24"
+                android:contentDescription="@string/filter_image"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground"/>
     </LinearLayout>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="8dp"
-            android:background="#e5e5e5" />
-
-    <TextView
-            android:id="@+id/tv_transaction_month"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/transactions_in_s" />
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/history_recycler"
             android:layout_width="match_parent"
