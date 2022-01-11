@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val navigationController = navigationFragment.navController
         val appBarConfiguration = AppBarConfiguration.Builder(
             R.id.navigation_home,
-            R.id.navigation_report,
+            R.id.navigation_container_report,
             R.id.navigation_discount,
             R.id.navigation_setting
         ).build()

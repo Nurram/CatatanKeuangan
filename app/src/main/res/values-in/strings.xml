@@ -20,8 +20,6 @@
     <string name="price_after_discount">Harga setelah diskon:</string>
     <string name="calculate">Hitung</string>
     <string name="you_save">Kamu telah menghemat:</string>
-    <string name="sort_oldest">Urutkan (terlama)</string>
-    <string name="sort_newest">Urutkan (terbaru)</string>
     <string name="start_date">Tanggal Awal</string>
     <string name="end_date">Tanggal Akhir</string>
     <string name="filter">Filter data</string>
@@ -52,7 +50,6 @@
     <string name="save_note">Simpan Catatan</string>
     <string name="update">Ubah</string>
     <string name="create">Buat</string>
-    <string name="add_data">Tambah</string>
     <string name="add_wallet">Tambah</string>
     <string name="export_data_to_excel">Ekspor data ke excel</string>
     <string name="clear_data">Hapus semua data</string>

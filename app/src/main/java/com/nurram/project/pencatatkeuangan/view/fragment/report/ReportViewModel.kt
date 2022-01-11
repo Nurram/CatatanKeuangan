@@ -98,5 +98,4 @@ class ReportViewModel(private val recordRepo: RecordRepo) : ViewModel() {
         } else {
             listOf()
         }
-
 }

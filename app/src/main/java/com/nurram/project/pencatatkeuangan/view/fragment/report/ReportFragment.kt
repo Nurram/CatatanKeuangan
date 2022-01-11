@@ -24,17 +24,26 @@ import com.nurram.project.pencatatkeuangan.view.fragment.main.MainFragment
 import java.util.*
 
 class ReportFragment : Fragment() {
-    private lateinit var binding: FragmentReportBinding
+    private var _binding: FragmentReportBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var adapter: ReportAdapter
     private lateinit var viewModel: ReportViewModel
 
-    private var selectedMonth = ""
+    private var currentPosition = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            currentPosition = it.getInt(POSITION)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentReportBinding.inflate(inflater, container, false)
+        _binding = FragmentReportBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,23 +57,18 @@ class ReportFragment : Fragment() {
         val pref = PrefUtil(requireContext())
         val walletId = pref.getStringFromPref(WalletActivity.prefKey, MainFragment.DEFAULT_WALLET)
         val factory = ViewModelFactory(requireActivity().application, walletId)
-        viewModel = ViewModelProvider(this, factory)[ReportViewModel::class.java]
-        adapter = ReportAdapter(requireContext()) { data, view ->
+        viewModel = ViewModelProvider(requireActivity(), factory)[ReportViewModel::class.java]
+
+        adapter = ReportAdapter(requireContext()) { data, clickView ->
             val bundle = Bundle()
             bundle.putParcelable(MainFragment.RECORD_DATA, data)
-            view.findNavController().navigate(
+            clickView.findNavController().navigate(
                 R.id.action_navigation_report_to_addDataActivity,
                 bundle
             )
         }
-        selectedMonth = binding.reportDate.text.toString()
 
-        moveDate(0)
-        binding.apply {
-            reportBack.setOnClickListener { moveDate(-1) }
-            reportNext.setOnClickListener { moveDate(1) }
-        }
-
+        getData(0)
         binding.apply {
             tvIncome.setOnClickListener {
                 binding.graphChart.removeAllSeries()
@@ -89,23 +93,14 @@ class ReportFragment : Fragment() {
         }
     }
 
-    private fun moveDate(month: Int) {
-        binding.tvIncome.setBackgroundResource(R.drawable.rounded_primary_rectangle)
-        adapter.clearList()
-
-        if (selectedMonth.isEmpty()) {
-            val currentMonth = DateUtil.getCurrentMonthAndYear()
-            binding.reportDate.text = DateUtil.subtractMonth(DateUtil.toDate(currentMonth), month)
-        } else {
-            binding.reportDate.text = DateUtil.subtractMonth(DateUtil.toDate(selectedMonth), month)
-        }
-
-        selectedMonth = binding.reportDate.text.toString()
-        getData(0)
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun getData(position: Int) {
-        val date = DateUtil.toDate(selectedMonth)
+        val currentDate = DateUtil.getCurrentMonthAndYear()
+        val date = DateUtil.subtractMonthAsDate(DateUtil.toDate(currentDate), currentPosition)
         val calendar = Calendar.getInstance()
         calendar.time = date
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
@@ -220,46 +215,57 @@ class ReportFragment : Fragment() {
                 0 -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
-                        setTextColor(resources.getColor(R.color.colorAccent))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                 }
                 1 -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
-                        setTextColor(resources.getColor(R.color.colorAccent))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                 }
                 else -> {
                     tvIncome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                     tvOutcome.apply {
                         setBackgroundResource(R.drawable.rounded_gray_rectangle)
-                        setTextColor(resources.getColor(R.color.cardText))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.cardText))
                     }
                     tvDebt.apply {
                         setBackgroundResource(R.drawable.rounded_primary_rectangle)
-                        setTextColor(resources.getColor(R.color.colorAccent))
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        const val POSITION = "position"
+
+        @JvmStatic
+        fun newInstance(position: Int) = ReportFragment().apply {
+            val bundle = Bundle()
+            bundle.putInt(POSITION, position)
+            arguments = bundle
         }
     }
 

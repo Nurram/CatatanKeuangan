@@ -7,40 +7,6 @@
         android:background="@color/bg"
         tools:context=".view.fragment.report.ReportFragment">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?android:windowBackground">
-
-        <ImageButton
-                android:id="@+id/report_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp"
-                android:layout_marginStart="16dp"
-                android:contentDescription="@string/previous_month" />
-
-        <TextView
-                android:id="@+id/report_date"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                tools:text="September 2021" />
-
-        <ImageButton
-                android:id="@+id/report_next"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/next_month" />
-    </LinearLayout>
-
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_outline_home_24" />
     <item
             android:title="@string/report"
-            android:id="@+id/navigation_report"
+            android:id="@+id/navigation_container_report"
             android:icon="@drawable/ic_timeline" />
 
     <item

@@ -46,4 +46,13 @@
             android:name="com.nurram.project.pencatatkeuangan.view.activity.dark.DarkOptionsActivity"
             android:label="@string/dark_mode"
             tools:layout="@layout/activity_dark_options" />
+    <fragment
+            android:id="@+id/navigation_container_report"
+            android:name="com.nurram.project.pencatatkeuangan.view.fragment.container.ReportContainerFragment"
+            android:label="fragment_report_container"
+            tools:layout="@layout/fragment_report_container">
+        <action
+                android:id="@+id/action_reportContainerFragment_to_navigation_report"
+                app:destination="@id/navigation_report" />
+    </fragment>
 </navigation>
