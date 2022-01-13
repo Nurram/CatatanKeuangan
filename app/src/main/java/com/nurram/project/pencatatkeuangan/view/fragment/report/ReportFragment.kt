@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jjoe64.graphview.LegendRenderer
@@ -63,7 +64,7 @@ class ReportFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(MainFragment.RECORD_DATA, data)
             clickView.findNavController().navigate(
-                R.id.action_navigation_report_to_addDataActivity,
+                R.id.action_navigation_container_report_to_addDataActivity,
                 bundle
             )
         }

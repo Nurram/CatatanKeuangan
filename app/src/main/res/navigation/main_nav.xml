@@ -14,15 +14,6 @@
                 app:destination="@id/addDataActivity" />
     </fragment>
     <fragment
-            android:id="@+id/navigation_report"
-            android:name="com.nurram.project.pencatatkeuangan.view.fragment.report.ReportFragment"
-            android:label="@string/report"
-            tools:layout="@layout/fragment_report">
-        <action
-                android:id="@+id/action_navigation_report_to_addDataActivity"
-                app:destination="@id/addDataActivity" />
-    </fragment>
-    <fragment
             android:id="@+id/navigation_discount"
             android:name="com.nurram.project.pencatatkeuangan.view.fragment.discount.DiscCalcFragment"
             android:label="@string/discount"
@@ -52,7 +43,7 @@
             android:label="fragment_report_container"
             tools:layout="@layout/fragment_report_container">
         <action
-                android:id="@+id/action_reportContainerFragment_to_navigation_report"
-                app:destination="@id/navigation_report" />
+                android:id="@+id/action_navigation_container_report_to_addDataActivity"
+                app:destination="@id/addDataActivity" />
     </fragment>
 </navigation>
