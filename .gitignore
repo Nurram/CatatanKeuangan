@@ -13,3 +13,7 @@
 .externalNativeBuild
 
 ./app/src/main/res/values/strings.xml
+/caches/
+/daemon/
+/native/
+/wrapper/dists/
